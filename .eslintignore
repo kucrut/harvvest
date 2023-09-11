@@ -1,0 +1,4 @@
+/build*
+/.pnpm/*
+/.svelte-kit/
+*.json
