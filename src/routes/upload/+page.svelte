@@ -1,6 +1,9 @@
 <script>
 	import { page } from '$app/stores';
 
+	/** @type {import('./$types').ActionData} */
+	export let form;
+
 	/** @type {string} */
 	let alt = '';
 	/** @type {string} */
@@ -57,7 +60,11 @@
 <div class="wrap">
 	<h1>Hello, {$page.data.user.name}!</h1>
 
-	<form action="/upload" method="POST">
+	{#if form?.error}
+		<p><strong>Error:</strong> {form.message}</p>
+	{/if}
+
+	<form method="POST">
 		{#if src}
 			<div class="thumbnail">
 				<img {alt} {src} />
