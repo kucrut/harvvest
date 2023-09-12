@@ -17,6 +17,8 @@ export function logout( cookies ) {
 /**
  * Log in to WordPress via REST API
  *
+ * TODO: https://developer.wordpress.org/rest-api/using-the-rest-api/discovery/
+ *
  * @param {string} url      WordPress URL.
  * @param {string} username Username or email.
  * @param {string} password Password.
