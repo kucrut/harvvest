@@ -5,7 +5,7 @@
 	export let form;
 
 	/** @type {string} */
-	let alt = '';
+	let alt_text = '';
 	/** @type {string} */
 	let caption = '';
 	/** @type {string|undefined} */
@@ -64,16 +64,20 @@
 		<p><strong>Error:</strong> {form.message}</p>
 	{/if}
 
-	<form method="POST">
+	{#if form?.success && form?.image_link}
+		<p><strong>Success!</strong> File uploaded to {form.image_link}</p>
+	{/if}
+
+	<form enctype="multipart/form-data" method="POST">
 		{#if src}
 			<div class="thumbnail">
-				<img {alt} {src} />
+				<img alt={alt_text} {src} />
 			</div>
 			<button type="button" on:click={clear_file}>Remove</button>
 		{/if}
 		<p><input required accept="image/*" type="file" id="file" name="file" on:change={handle_input_change} bind:this={input} /></p>
-		<p><label>Title <input required type="text" name="title" bind:value={title} /></label></p>
-		<p><label>Alt text <input required type="text" name="alt" bind:value={alt} /></label></p>
+		<p><label>Title <input type="text" name="title" bind:value={title} /></label></p>
+		<p><label>Alt text <input required type="text" name="alt_text" bind:value={alt_text} /></label></p>
 		<p><label>Caption <input required type="text" name="caption" bind:value={caption} /></label></p>
 		<p><button type="submit">Upload</button></p>
 	</form>
