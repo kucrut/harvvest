@@ -57,14 +57,14 @@
 <div class="wrap">
 	<h1>Hello, {$page.data.user.name}!</h1>
 
-	<form action="?/upload" method="POST">
+	<form action="/upload" method="POST">
 		{#if src}
 			<div class="thumbnail">
 				<img {alt} {src} />
 			</div>
 			<button type="button" on:click={clear_file}>Remove</button>
 		{/if}
-		<p><input required type="file" id="file" accept="image/*" on:change={handle_input_change} bind:this={input} /></p>
+		<p><input required accept="image/*" type="file" id="file" name="file" on:change={handle_input_change} bind:this={input} /></p>
 		<p><label>Title <input required type="text" name="title" bind:value={title} /></label></p>
 		<p><label>Alt text <input required type="text" name="alt" bind:value={alt} /></label></p>
 		<p><label>Caption <input required type="text" name="caption" bind:value={caption} /></label></p>
