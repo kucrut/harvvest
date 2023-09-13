@@ -23,7 +23,7 @@ export const actions = {
 			typeof username !== 'string' || ! username
 		) {
 			return fail( 400, {
-				invalid: true,
+				error: true,
 				message: 'All fields are required.',
 			} );
 		}
