@@ -4,7 +4,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user: import( './types' ).User;
+			user?: import( './types' ).User;
 		}
 		// interface PageData {}
 		// interface Platform {}
