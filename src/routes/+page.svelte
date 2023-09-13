@@ -80,12 +80,14 @@
 
 	<form enctype="multipart/form-data" method="POST">
 		<FormWrap>
-			{#if src}
-				<div class="thumbnail">
-					<img alt={alt_text} {src} />
-				</div>
-				<button type="button" on:click={clear_file}>Remove</button>
-			{/if}
+			<svelte:fragment slot="before">
+				{#if src}
+					<div class="gap-y-4 grid max-w-md place-items-center">
+						<img {src} alt={alt_text} class="block rounded" />
+						<button class="btn variant-ringed" type="button" on:click={clear_file}>Remove</button>
+					</div>
+				{/if}
+			</svelte:fragment>
 			<input required accept="image/*" type="file" id="file" name="file" on:change={handle_input_change} bind:this={input} />
 			<label class="label">
 				<span>Alternative text</span>
@@ -107,16 +109,3 @@
 		</FormWrap>
 	</form>
 </div>
-
-<style>
-	/* TODO: Move this to tailwind */
-	.thumbnail {
-		width: 25rem;
-		max-width: 99%;
-	}
-
-	img {
-		max-width: 100%;
-		height: auto !important;
-	}
-</style>
