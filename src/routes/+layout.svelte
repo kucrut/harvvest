@@ -6,7 +6,7 @@
 
 
 <AppShell>
-	<AppBar slot="header" slotDefault="place-self-center" slotTrail="place-content-end">
+	<AppBar gridColumns="grid-cols-[1fr_auto_1fr]" slot="header" slotDefault="place-self-center" slotTrail="place-content-end">
 		<!-- TODO -->
 		<svelte:fragment slot="lead"><span /></svelte:fragment>
 		<h1 class="h2">Photo Harvest</h1>
