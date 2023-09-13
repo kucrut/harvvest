@@ -1,5 +1,7 @@
 <script>
+	import { fade } from 'svelte/transition';
 	import { page } from '$app/stores';
+	import Toast from '$lib/components/toast.svelte';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
@@ -8,12 +10,16 @@
 	let alt_text = '';
 	/** @type {string} */
 	let caption = '';
+	/** @type {string} */
+	let description = '';
 	/** @type {string|undefined} */
 	let src;
 	/** @type {HTMLInputElement} */
 	let input;
 	/** @type {string} */
 	let title = '';
+
+	let should_show_success_message = true;
 
 	/**
 	 * Create data URI for image source
@@ -57,38 +63,54 @@
 	<title>Photo Harvest</title>
 </svelte:head>
 
-<div class="wrap">
-	<h1>Hello, {$page.data.user.name}!</h1>
+<div class="p-4 md:p-10 space-y-4">
+	<h1 class="h3 italic text-center">Hello, <strong>{$page.data.user.name}!</strong></h1>
 
 	{#if form?.error}
+		<!-- TODO: Toast -->
 		<p><strong>Error:</strong> {form.message}</p>
 	{/if}
 
-	{#if form?.success && form?.image_link}
-		<p><strong>Success!</strong> File uploaded to {form.image_link}</p>
+	{#if form?.success && form?.image_link && should_show_success_message }
+		<Toast on:click={() => ( should_show_success_message = false )}>
+			<h2 class="h3" slot="title">Success!</h2>
+			<p slot="message">File uploaded to <a class="underline hover:no-underline" href={form.image_link} target="_blank">{form.image_link}</a></p>
+		</Toast>
 	{/if}
 
 	<form enctype="multipart/form-data" method="POST">
-		{#if src}
-			<div class="thumbnail">
-				<img alt={alt_text} {src} />
+		<div class="flex justify-center items-center mx-auto transition-[width] duration-200 w-full">
+			<div class="card p-4 w-full text-token space-y-4">
+			{#if src}
+				<div class="thumbnail">
+					<img alt={alt_text} {src} />
+				</div>
+				<button type="button" on:click={clear_file}>Remove</button>
+			{/if}
+			<input required accept="image/*" type="file" id="file" name="file" on:change={handle_input_change} bind:this={input} />
+			<label class="label">
+				<span>Alternative text</span>
+				<textarea required class="textarea" name="alt_text" bind:value={alt_text} />
+			</label>
+			<label class="label">
+				<span>Title</span>
+				<input class="input" type="text" name="title" bind:value={title} />
+			</label>
+			<label class="label">
+				<span>Caption</span>
+				<input required class="input" type="text" name="caption" bind:value={caption} />
+			</label>
+			<label class="label">
+				<span>Description</span>
+				<textarea class="textarea" name="description" bind:value={description} />
+			</label>
+			<p><button class="btn variant-filled" type="submit">Upload</button></p>
 			</div>
-			<button type="button" on:click={clear_file}>Remove</button>
-		{/if}
-		<p><input required accept="image/*" type="file" id="file" name="file" on:change={handle_input_change} bind:this={input} /></p>
-		<p><label>Title <input type="text" name="title" bind:value={title} /></label></p>
-		<p><label>Alt text <input required type="text" name="alt_text" bind:value={alt_text} /></label></p>
-		<p><label>Caption <input required type="text" name="caption" bind:value={caption} /></label></p>
-		<p><button type="submit">Upload</button></p>
+		</div>
 	</form>
 </div>
 
 <style>
-	.wrap {
-		display: grid;
-		place-items: center;
-	}
-
 	.thumbnail {
 		width: 25rem;
 		max-width: 99%;
