@@ -13,7 +13,7 @@
 		<svelte:fragment slot="trail">
 			{#if $page.data.user}
 				<form action="/logout" method="POST">
-					<button type="submit">Log Out</button>
+					<button class="btn variant-ghost" type="submit">Log Out</button>
 				</form>
 			{/if}
 		</svelte:fragment>
