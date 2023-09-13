@@ -39,6 +39,7 @@ export async function wp_login( url, username, password ) {
 			},
 		} );
 
+		// TODO: Improve this!
 		if ( ! response.ok ) {
 			/** @type {string} */
 			let message;
