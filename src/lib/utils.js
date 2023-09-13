@@ -42,7 +42,7 @@ export async function wp_login( url, username, password ) {
 			return new Error( 'Link header not found.' );
 		}
 
-		const match = link_header.match( /^<(.*)>; rel="https:\/\/api.w.org\/"$/ );
+		const match = link_header.match( /^<(.*)>; rel="https:\/\/api.w.org\/"/ );
 
 		if ( ! match ) {
 			return new Error( 'Could not find REST API URL from Link header.' );
