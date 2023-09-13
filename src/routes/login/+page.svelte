@@ -1,6 +1,10 @@
 <script>
+	import Toast from '$lib/components/toast.svelte';
+
 	/** @type {import('./$types').ActionData}*/
 	export let form;
+
+	export let should_show_error_message = true;
 </script>
 
 <svelte:head>
@@ -10,8 +14,11 @@
 <div class="p-4 md:p-10 space-y-4">
 	<h1 class="h3 text-center">Log In</h1>
 
-	{#if form?.invalid}
-		<p class="error">Username and password is required.</p>
+	{#if form?.invalid && should_show_error_message}
+		<Toast type="error" on:click={() => ( should_show_error_message = false )}>
+			<h2 class="h3" slot="title">Error</h2>
+			<p slot="message">All fields are required.</p>
+		</Toast>
 	{/if}
 
 	{#if form?.error}
