@@ -12,7 +12,7 @@
 	</div>
 	<div class="alert-actions">
 		<slot name="actions">
-			<button class="btn-icon variant-filled" on:click><i class="fa-solid fa-xmark"></i></button>
+			<button class="btn variant-soft" on:click>Dismiss</button>
 		</slot>
 	</div>
 </aside>
