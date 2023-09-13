@@ -17,8 +17,6 @@ export function logout( cookies ) {
 /**
  * Log in to WordPress via REST API
  *
- * TODO: https://developer.wordpress.org/rest-api/using-the-rest-api/discovery/
- *
  * @param {string} url      WordPress URL.
  * @param {string} username Username or email.
  * @param {string} password Password.
@@ -26,8 +24,41 @@ export function logout( cookies ) {
  * @return {Promise<import('$types').Session|Error>} User or error object.
  */
 export async function wp_login( url, username, password ) {
+	/** @type {string} */
+	let api_url;
+
 	try {
-		const response = await fetch( `${ url }/wp-json/jwt-auth/v1/token`, {
+		const response = await fetch( url, {
+			method: 'HEAD',
+		} );
+
+		if ( ! response.ok ) {
+			return new Error( response.statusText );
+		}
+
+		const link_header = response.headers.get( 'Link' );
+
+		if ( ! link_header ) {
+			return new Error( 'Link header not found.' );
+		}
+
+		const match = link_header.match( /^<(.*)>; rel="https:\/\/api.w.org\/"$/ );
+
+		if ( ! match ) {
+			return new Error( 'Could not find REST API URL from Link header.' );
+		}
+
+		api_url = match[ 1 ].replace( /\/$/, '' );
+	} catch ( err ) {
+		if ( err instanceof Error ) {
+			return err;
+		}
+
+		return new Error( 'Unknown error occured.' );
+	}
+
+	try {
+		const response = await fetch( `${ api_url }/jwt-auth/v1/token`, {
 			method: 'POST',
 			body: JSON.stringify( {
 				username,
@@ -61,7 +92,7 @@ export async function wp_login( url, username, password ) {
 			email: data.user_email,
 			name: data.user_display_name || data.user_nicename,
 			token: data.token,
-			url: `${ url }/wp-json`,
+			url: api_url,
 		};
 	} catch ( err ) {
 		if ( err instanceof Error ) {
