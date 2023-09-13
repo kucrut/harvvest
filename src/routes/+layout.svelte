@@ -1,23 +1,22 @@
 <script>
 	import { page } from '$app/stores';
-	import { AppShell } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
 	import '../app.postcss';
 </script>
 
 
 <AppShell>
-    <nav slot="header">
-        <!-- TODO: Don't show on login page. -->
-        {#if ! $page.data.user}
-            <a href="/login">Log In</a>
-        {/if}
-
-        {#if $page.data.user}
-            <form action="/logout" method="POST">
-                <button type="submit">Log Out</button>
-            </form>
-        {/if}
-    </nav>
+	<AppBar slot="header" slotDefault="place-self-center" slotTrail="place-content-end">
+		<svelte:fragment slot="lead">(icon)</svelte:fragment>
+		<h1 class="h2">Photo Harvest</h1>
+		<svelte:fragment slot="trail">
+			{#if $page.data.user}
+				<form action="/logout" method="POST">
+					<button type="submit">Log Out</button>
+				</form>
+			{/if}
+		</svelte:fragment>
+	</AppBar>
 
 	<slot />
 </AppShell>
