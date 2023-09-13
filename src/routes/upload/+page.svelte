@@ -110,6 +110,7 @@
 </div>
 
 <style>
+	/* TODO: Move this to tailwind */
 	.thumbnail {
 		width: 25rem;
 		max-width: 99%;
