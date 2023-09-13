@@ -1,5 +1,6 @@
 <script>
-	import Toast from '$lib/components/toast.svelte';
+	import FormWrap from '$lib/components/form-wrap.svelte';
+import Toast from '$lib/components/toast.svelte';
 
 	/** @type {import('./$types').ActionData}*/
 	export let form;
@@ -22,25 +23,23 @@
 	{/if}
 
 	<form method="POST">
-		<div class="flex justify-center items-center mx-auto transition-[width] duration-200 w-full">
-			<div class="card p-4 w-full text-token space-y-4">
-				<label class="label">
-					<span>WordPress URL</span>
-					<input required class="input" id="url" name="url" type="url" />
-				</label>
+		<FormWrap>
+			<label class="label">
+				<span>WordPress URL</span>
+				<input required class="input" id="url" name="url" type="url" />
+			</label>
 
-				<label class="label">
-					<span>Username or email</span>
-					<input required class="input" id="username" name="username" type="text" />
-				</label>
+			<label class="label">
+				<span>Username or email</span>
+				<input required class="input" id="username" name="username" type="text" />
+			</label>
 
-				<label class="label">
-					<span>Password</span>
-					<input required class="input" id="password" name="password" type="password" />
-				</label>
+			<label class="label">
+				<span>Password</span>
+				<input required class="input" id="password" name="password" type="password" />
+			</label>
 
-				<p><button class="btn variant-filled" type="submit">Log In</button></p>
-			</div>
-		</div>
+			<p><button class="btn variant-filled" type="submit">Log In</button></p>
+		</FormWrap>
 	</form>
 </div>
