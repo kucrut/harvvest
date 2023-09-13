@@ -18,12 +18,9 @@ export const actions = {
 		const username = data.get( 'username' );
 
 		if (
-			typeof password !== 'string' ||
-			typeof url !== 'string' ||
-			typeof username !== 'string' ||
-			! url ||
-			! username ||
-			! password
+			typeof password !== 'string' || ! password ||
+			typeof url !== 'string' || ! url ||
+			typeof username !== 'string' || ! username
 		) {
 			return fail( 400, { invalid: true } );
 		}
