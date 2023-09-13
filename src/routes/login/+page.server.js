@@ -25,6 +25,8 @@ export const actions = {
 			return fail( 400, { invalid: true } );
 		}
 
+		// TODO: Validate URL
+
 		const auth = await wp_login( url, username, password );
 
 		if ( auth instanceof Error ) {
