@@ -1,4 +1,6 @@
 <script>
+	import { afterUpdate } from 'svelte';
+	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import Toast from '$lib/components/toast.svelte';
@@ -12,12 +14,13 @@
 	let caption = '';
 	/** @type {string} */
 	let description = '';
-	/** @type {string|undefined} */
-	let src;
-	/** @type {HTMLInputElement} */
-	let input;
 	/** @type {string} */
 	let title = '';
+
+	/** @type {FileList|undefined} */
+	let files;
+	/** @type {string|undefined} */
+	let src;
 
 	let should_show_success_message = true;
 
@@ -43,20 +46,9 @@
 		} );
 	}
 
-	async function handle_input_change() {
-		if ( ! input.value || ! input.files ) {
-			src = undefined;
-
-			return;
-		}
-
-		src = await create_data_uri( input.files[ 0 ] );
-	}
-
-	function clear_file() {
-		input.value = '';
-		handle_input_change();
-	}
+	afterUpdate( async () => {
+		src = files?.length ? await create_data_uri( files[ 0 ] ) : undefined;
+	} );
 </script>
 
 <svelte:head>
@@ -80,15 +72,16 @@
 
 	<form enctype="multipart/form-data" method="POST">
 		<FormWrap>
-			<svelte:fragment slot="before">
-				{#if src}
-					<div class="gap-y-4 grid max-w-md place-items-center">
-						<img {src} alt={alt_text} class="block rounded" />
-						<button class="btn variant-ringed" type="button" on:click={clear_file}>Remove</button>
-					</div>
-				{/if}
-			</svelte:fragment>
-			<input required accept="image/*" type="file" id="file" name="file" on:change={handle_input_change} bind:this={input} />
+			<FileDropzone required accept="image/*" type="file" id="file" name="file" bind:files>
+				<svelte:fragment slot="lead">
+					{#if src}
+						<div class="gap-y-4 grid max-w-md place-items-center">
+							<img {src} alt={alt_text} class="block rounded" />
+						</div>
+					{/if}
+				</svelte:fragment>
+				<p slot="message">Click to upload an image or drag and drop it here.</p>
+			</FileDropzone>
 			<label class="label">
 				<span>Alternative text</span>
 				<textarea required class="textarea" name="alt_text" bind:value={alt_text} />
