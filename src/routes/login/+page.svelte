@@ -7,23 +7,8 @@
 	<title>Log In - Photo Harvest</title>
 </svelte:head>
 
-<h1>Log In</h1>
-
-<form action="?/login" method="POST">
-	<div>
-		<label for="url">URL</label>
-		<input required id="url" name="url" type="url" />
-	</div>
-
-	<div>
-		<label for="username">Username</label>
-		<input required id="username" name="username" type="text" />
-	</div>
-
-	<div>
-		<label for="password">Password</label>
-		<input required id="password" name="password" type="password" />
-	</div>
+<div class="p-4 md:p-10 space-y-4">
+	<h1 class="h3 text-center">Log In</h1>
 
 	{#if form?.invalid}
 		<p class="error">Username and password is required.</p>
@@ -33,6 +18,26 @@
 		<p class="error">{ form?.message || 'You have entered the wrong credentials.'}</p>
 	{/if}
 
-	<button type="submit">Log in</button>
-</form>
+	<form action="?/login" method="POST">
+		<div class="flex justify-center items-center mx-auto transition-[width] duration-200 w-full">
+			<div class="card p-4 w-full text-token space-y-4">
+				<label class="label">
+					<span>URL</span>
+					<input required class="input" id="url" name="url" type="url" />
+				</label>
 
+				<label class="label">
+					<span>Username</span>
+					<input required class="input" id="username" name="username" type="text" />
+				</label>
+
+				<label class="label">
+					<span>Password</span>
+					<input required class="input" id="password" name="password" type="password" />
+				</label>
+
+				<p><button class="btn variant-filled" type="submit">Log In</button></p>
+			</div>
+		</div>
+	</form>
+</div>
