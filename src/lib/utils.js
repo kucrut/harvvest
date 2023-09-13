@@ -123,13 +123,20 @@ export async function wp_upload( api_url, token, data ) {
 			},
 		} );
 
-		const result = await response.json();
 
-		if ( ! response.ok ) {
-			throw new Error( result?.message || response.statusText );
+		if ( response.ok ) {
+			const result = await response.json();
+			return result.guid.rendered;
 		}
 
-		return result.guid.rendered;
+		const content_type = response.headers.get( 'Content-Type' );
+
+		if ( content_type?.includes( 'text/plain' ) ) {
+			throw new Error( await response.text() );
+		}
+
+		const json = await response.json();
+		throw new Error( json.message );
 	} catch ( err ) {
 		if ( err instanceof Error ) {
 			return err;
