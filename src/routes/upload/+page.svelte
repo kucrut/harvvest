@@ -1,5 +1,4 @@
 <script>
-	import { fade } from 'svelte/transition';
 	import { page } from '$app/stores';
 	import Toast from '$lib/components/toast.svelte';
 
@@ -81,30 +80,30 @@
 	<form enctype="multipart/form-data" method="POST">
 		<div class="flex justify-center items-center mx-auto transition-[width] duration-200 w-full">
 			<div class="card p-4 w-full text-token space-y-4">
-			{#if src}
-				<div class="thumbnail">
-					<img alt={alt_text} {src} />
-				</div>
-				<button type="button" on:click={clear_file}>Remove</button>
-			{/if}
-			<input required accept="image/*" type="file" id="file" name="file" on:change={handle_input_change} bind:this={input} />
-			<label class="label">
-				<span>Alternative text</span>
-				<textarea required class="textarea" name="alt_text" bind:value={alt_text} />
-			</label>
-			<label class="label">
-				<span>Title</span>
-				<input class="input" type="text" name="title" bind:value={title} />
-			</label>
-			<label class="label">
-				<span>Caption</span>
-				<input required class="input" type="text" name="caption" bind:value={caption} />
-			</label>
-			<label class="label">
-				<span>Description</span>
-				<textarea class="textarea" name="description" bind:value={description} />
-			</label>
-			<p><button class="btn variant-filled" type="submit">Upload</button></p>
+				{#if src}
+					<div class="thumbnail">
+						<img alt={alt_text} {src} />
+					</div>
+					<button type="button" on:click={clear_file}>Remove</button>
+				{/if}
+				<input required accept="image/*" type="file" id="file" name="file" on:change={handle_input_change} bind:this={input} />
+				<label class="label">
+					<span>Alternative text</span>
+					<textarea required class="textarea" name="alt_text" bind:value={alt_text} />
+				</label>
+				<label class="label">
+					<span>Title</span>
+					<input class="input" type="text" name="title" bind:value={title} />
+				</label>
+				<label class="label">
+					<span>Caption</span>
+					<input required class="input" type="text" name="caption" bind:value={caption} />
+				</label>
+				<label class="label">
+					<span>Description</span>
+					<textarea class="textarea" name="description" bind:value={description} />
+				</label>
+				<p><button class="btn variant-filled" type="submit">Upload</button></p>
 			</div>
 		</div>
 	</form>
