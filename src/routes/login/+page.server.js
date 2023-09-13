@@ -10,7 +10,7 @@ export const load = async ( { locals } ) => {
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-	login: async ( { cookies, request } ) => {
+	default: async ( { cookies, request } ) => {
 		const data = await request.formData();
 
 		const password = data.get( 'password' );
