@@ -22,7 +22,10 @@ export const actions = {
 			typeof url !== 'string' || ! url ||
 			typeof username !== 'string' || ! username
 		) {
-			return fail( 400, { invalid: true } );
+			return fail( 400, {
+				invalid: true,
+				message: 'All fields are required.',
+			} );
 		}
 
 		// TODO: Validate URL
