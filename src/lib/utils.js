@@ -107,15 +107,15 @@ export async function wp_login( url, username, password ) {
 /**
  * Upload image to WordPress
  *
- * @param {string}   url   WordPress URL.
- * @param {string}   token Auth token.
- * @param {FormData} data  Form data.
+ * @param {string}   api_url WordPress API URL.
+ * @param {string}   token   Auth token.
+ * @param {FormData} data    Form data.
  *
  * @return {Promise<string|Error>} Uploaded image link or error object.
  */
-export async function wp_upload( url, token, data ) {
+export async function wp_upload( api_url, token, data ) {
 	try {
-		const response = await fetch( `${ url }/wp/v2/media`, {
+		const response = await fetch( `${ api_url }/wp/v2/media`, {
 			body: data,
 			method: 'POST',
 			headers: {
