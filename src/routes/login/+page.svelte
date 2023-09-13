@@ -21,10 +21,6 @@
 		</Toast>
 	{/if}
 
-	{#if form?.error}
-		<p class="error">{ form?.message || 'You have entered the wrong credentials.'}</p>
-	{/if}
-
 	<form method="POST">
 		<div class="flex justify-center items-center mx-auto transition-[width] duration-200 w-full">
 			<div class="card p-4 w-full text-token space-y-4">
