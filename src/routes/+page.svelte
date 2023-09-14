@@ -57,6 +57,7 @@
 
 <div class="p-4 md:p-10 space-y-4">
 	<h1 class="h3 italic text-center">Hello, <strong>{$page.data.user.name}!</strong></h1>
+	<p class="text-center">You are logged in to <span class="font-mono">{$page.data.user.url}</span>.</p>
 
 	{#if form?.error}
 		<!-- TODO: Toast -->
