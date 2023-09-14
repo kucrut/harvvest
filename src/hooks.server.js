@@ -3,8 +3,8 @@ export const handle = async ( { event, resolve } ) => {
 
 	if ( session ) {
 		// TODO: Validate.
-		const { name } = JSON.parse( session );
-		event.locals.user = { name };
+		const { email, name, url } = JSON.parse( session );
+		event.locals.user = { email, name, url };
 	}
 
 	return await resolve( event );
