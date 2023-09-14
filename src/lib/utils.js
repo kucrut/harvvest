@@ -124,7 +124,6 @@ export async function wp_upload( api_url, token, data ) {
 			},
 		} );
 
-
 		if ( response.ok ) {
 			const result = await response.json();
 			return result.guid.rendered;
@@ -132,10 +131,11 @@ export async function wp_upload( api_url, token, data ) {
 
 		const content_type = response.headers.get( 'Content-Type' );
 
-		if ( content_type?.includes( 'text/plain' ) ) {
+		if ( content_type?.startsWith( 'text/' ) ) {
 			throw new Error( await response.text() );
 		}
 
+		// TODO: Validate.
 		const json = await response.json();
 		throw new Error( json.message );
 	} catch ( err ) {
