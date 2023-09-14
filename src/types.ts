@@ -4,6 +4,7 @@ export interface User {
 }
 
 export interface Session extends User {
+	api_url: string;
 	token: string;
 	url: string;
 }
