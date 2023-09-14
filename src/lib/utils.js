@@ -89,10 +89,11 @@ export async function wp_login( url, username, password ) {
 		const data = await response.json();
 
 		return {
+			api_url,
+			url,
 			email: data.user_email,
 			name: data.user_display_name || data.user_nicename,
 			token: data.token,
-			url: api_url,
 		};
 	} catch ( err ) {
 		if ( err instanceof Error ) {
