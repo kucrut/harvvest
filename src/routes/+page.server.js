@@ -39,8 +39,8 @@ export const actions = {
 		}
 
 		// TODO: Validate.
-		const { token, url } = JSON.parse( session );
-		const result = await wp_upload( url, token, data );
+		const { token, api_url } = JSON.parse( session );
+		const result = await wp_upload( api_url, token, data );
 
 		if ( typeof result === 'string' ) {
 			return { success: true, image_link: result };
