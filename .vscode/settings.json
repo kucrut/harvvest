@@ -5,14 +5,5 @@
 		"source.fixAll.eslint": true,
 		"source.organizeImports": false
 	},
-	"eslint.validate": [
-		"html",
-		"javascript",
-		"json",
-		"jsonc",
-		"markdown",
-		"svelte",
-		"typescript",
-		"yaml"
-	]
+	"eslint.validate": [ "html", "javascript", "json", "jsonc", "markdown", "svelte", "typescript", "yaml" ]
 }

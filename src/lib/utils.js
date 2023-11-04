@@ -104,7 +104,6 @@ export async function wp_login( url, username, password ) {
 	}
 }
 
-
 /**
  * Upload image to WordPress
  *
@@ -120,7 +119,7 @@ export async function wp_upload( api_url, token, data ) {
 			body: data,
 			method: 'POST',
 			headers: {
-				'Authorization': `Bearer ${ token }`,
+				Authorization: `Bearer ${ token }`,
 			},
 		} );
 
@@ -146,4 +145,3 @@ export async function wp_upload( api_url, token, data ) {
 		return new Error( 'Unknown error occured.' );
 	}
 }
-
