@@ -1,6 +1,6 @@
 <script>
 	import FormWrap from '$lib/components/form-wrap.svelte';
-import Toast from '$lib/components/toast.svelte';
+	import Toast from '$lib/components/toast.svelte';
 
 	/** @type {import('./$types').ActionData}*/
 	export let form;
