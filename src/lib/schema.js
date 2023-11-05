@@ -15,6 +15,15 @@ export const session_schema = user_schema.extend( {
 
 /** @typedef {z.infer<session_schema>} Session */
 
+export const valid_token_response_schema = z.object( {
+	code: z.string().refine( val => val === 'jwt_auth_valid_token' ),
+	data: z.object( {
+		status: z.number().refine( val => val === 200 ),
+	} ),
+} );
+
+/** @typedef {z.infer<valid_token_response_schema>} ValidToken */
+
 const wp_item_string = z.object( {
 	raw: z.string(),
 	rendered: z.string(),
