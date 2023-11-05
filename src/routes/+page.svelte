@@ -23,7 +23,8 @@
 	/** @type {string|undefined} */
 	let src;
 
-	let should_show_error_message = true;
+	let error_message = form?.error ? form.message : '';
+
 	let should_show_success_message = true;
 
 	afterUpdate( async () => {
@@ -35,6 +36,7 @@
 			const uri = await create_data_uri( files[ 0 ] );
 			src = uri;
 		} catch ( error ) {
+			error_message = error instanceof Error ? error.message : 'Failed to create preview image.';
 			src = undefined;
 		}
 	} );
@@ -52,14 +54,15 @@
 		>.
 	</p>
 
-	{#if form?.error && should_show_error_message}
-		<Toast on:click={() => ( should_show_error_message = false )}>
+	{#if error_message}
+		<Toast on:click={() => ( error_message = '' )}>
 			<h2 class="h3" slot="title">Error</h2>
-			<p slot="message">{form.message}</p>
+			<p slot="message">{error_message}</p>
 		</Toast>
 	{/if}
 
 	{#if form?.success && form?.image_link && should_show_success_message}
+		<!-- TODO: a11y announce? -->
 		<Toast on:click={() => ( should_show_success_message = false )}>
 			<h2 class="h3" slot="title">Success!</h2>
 			<p slot="message">
@@ -72,7 +75,7 @@
 
 	<form enctype="multipart/form-data" method="POST">
 		<FormWrap>
-			<FileDropzone required accept="image/*" type="file" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
+			<FileDropzone required type="file" accept="image/*" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
 				<svelte:fragment slot="lead">
 					{#if src}
 						<div class="gap-y-4 grid max-w-md place-items-center">
