@@ -18,7 +18,8 @@
 	{#if form?.error && should_show_error_message}
 		<Toast type="error" on:click={() => ( should_show_error_message = false )}>
 			<h2 class="h3" slot="title">Error</h2>
-			<p slot="message">{form.message}</p>
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+			<p slot="message">{@html form.message}</p>
 		</Toast>
 	{/if}
 
