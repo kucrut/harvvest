@@ -14,3 +14,12 @@ export const session_schema = user_schema.extend( {
 } );
 
 /** @typedef {z.infer<session_schema>} Session */
+
+export const wp_user_schema = z.object( {
+	user_email: z.string().email(),
+	user_display_name: z.string(),
+	user_nicename: z.string(),
+	token: z.string(),
+} );
+
+/** @typedef {z.infer<wp_user_schema>} WP_User */
