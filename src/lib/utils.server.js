@@ -114,13 +114,13 @@ export async function wp_login( url, username, password ) {
 	} );
 
 	if ( ! head_response.ok ) {
-		throw new Error( head_response.statusText );
+		throw new Error( `HEAD request failed: ${ head_response.statusText }` );
 	}
 
 	const link_header = head_response.headers.get( 'Link' );
 
 	if ( ! link_header ) {
-		throw new Error( `Link header not found.` );
+		throw new Error( `Link header not found` );
 	}
 
 	const match = link_header.match( /^<(.*)>; rel="https:\/\/api.w.org\/"/ );
