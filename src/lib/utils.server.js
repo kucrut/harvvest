@@ -64,7 +64,7 @@ export function validate_session( session_cookie ) {
  * @param {string} username Username or email.
  * @param {string} password Password.
  *
- * @return {Promise<import('$types').Session>} User object.
+ * @return {Promise<import('./schema').Session>} User object.
  */
 export async function wp_login( url, username, password ) {
 	const head_response = await fetch( url, {
