@@ -132,6 +132,8 @@ export async function wp_login( url, username, password ) {
  *
  * @todo Handle video uploads.
  *
+ * @throws {Error|typeof ZodError} Error object.
+ *
  * @param {string}   api_url WordPress API URL.
  * @param {string}   token   Auth token.
  * @param {FormData} data    Form data.
@@ -150,12 +152,8 @@ export async function wp_upload( api_url, token, data ) {
 	if ( response.ok ) {
 		const result = await response.json();
 
-		try {
-			const media = wp_media_item_schema.parse( result );
-			return media.source_url;
-		} catch ( error ) {
-			throw new Error( get_error_message( error, 'Unexpected upload result from server.', true ) );
-		}
+		const media = wp_media_item_schema.parse( result );
+		return media.source_url;
 	}
 
 	const content_type = response.headers.get( 'Content-Type' );
