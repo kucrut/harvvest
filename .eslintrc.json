@@ -28,12 +28,6 @@
 			"rules": {
 				"@typescript-eslint/explicit-function-return-type": "error"
 			}
-		},
-		{
-			"files": [ "src/scripts/critical.js" ],
-			"rules": {
-				"wrap-iife": "off"
-			}
 		}
 	],
 	"parserOptions": {
