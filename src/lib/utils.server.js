@@ -3,6 +3,18 @@ import { session_schema, wp_media_item_schema, wp_rest_error_schema, wp_user_sch
 import { ZodError } from 'zod';
 
 /**
+ * Delete session cookies
+ *
+ * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
+ */
+export function delete_session_cookies( cookies ) {
+	cookies.set( 'session', '', {
+		path: '/',
+		expires: new Date( 0 ),
+	} );
+}
+
+/**
  * Get error message
  *
  * @param {unknown}  error    Error object, whatever.
