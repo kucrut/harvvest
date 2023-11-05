@@ -22,6 +22,7 @@
 	/** @type {string|undefined} */
 	let src;
 
+	let should_show_error_message = true;
 	let should_show_success_message = true;
 
 	/**
@@ -57,23 +58,33 @@
 
 <div class="p-4 md:p-10 space-y-4">
 	<h1 class="h3 italic text-center">Hello, <strong>{$page.data.user.name}!</strong></h1>
-	<p class="text-center">You are logged in to <a class="underline hover:no-underline" href={$page.data.user.url} target="_blank">{$page.data.user.url}</a>.</p>
+	<p class="text-center">
+		You are logged in to <a class="underline hover:no-underline" href={$page.data.user.url} target="_blank"
+			>{$page.data.user.url}</a
+		>.
+	</p>
 
-	{#if form?.error}
-		<!-- TODO: Toast -->
-		<p><strong>Error:</strong> {form.message}</p>
+	{#if form?.error && should_show_error_message}
+		<Toast on:click={() => ( should_show_error_message = false )}>
+			<h2 class="h3" slot="title">Error</h2>
+			<p slot="message">{form.message}</p>
+		</Toast>
 	{/if}
 
-	{#if form?.success && form?.image_link && should_show_success_message }
+	{#if form?.success && form?.image_link && should_show_success_message}
 		<Toast on:click={() => ( should_show_success_message = false )}>
 			<h2 class="h3" slot="title">Success!</h2>
-			<p slot="message">File uploaded to <a class="underline hover:no-underline" href={form.image_link} target="_blank">{form.image_link}</a></p>
+			<p slot="message">
+				File uploaded to <a class="underline hover:no-underline" href={form.image_link} target="_blank"
+					>{form.image_link}</a
+				>
+			</p>
 		</Toast>
 	{/if}
 
 	<form enctype="multipart/form-data" method="POST">
 		<FormWrap>
-			<FileDropzone required accept="image/*" type="file" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
+			<FileDropzone required type="file" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
 				<svelte:fragment slot="lead">
 					{#if src}
 						<div class="gap-y-4 grid max-w-md place-items-center">
