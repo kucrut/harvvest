@@ -1,5 +1,6 @@
 import { wp_login } from '$lib/utils';
 import { fail, redirect } from '@sveltejs/kit';
+import { ZodError } from 'zod';
 
 /** @type {import('./$types').PageServerLoad} */
 export const load = async ( { locals } ) => {
@@ -31,24 +32,30 @@ export const actions = {
 			} );
 		}
 
-		// TODO: Validate URL
+		try {
+			const auth = await wp_login( url, username, password );
 
-		const auth = await wp_login( url, username, password );
-
-		if ( auth instanceof Error ) {
-			return fail( 500, {
-				error: true,
-				message: auth.message,
+			cookies.set( 'session', JSON.stringify( auth ), {
+				httpOnly: true,
+				maxAge: 60 * 60 * 24 * 7,
+				path: '/',
+				sameSite: 'strict',
+				secure: process.env.NODE_ENV === 'production',
 			} );
-		}
+		} catch ( error ) {
+			/** @type {string} */
+			let message;
 
-		cookies.set( 'session', JSON.stringify( auth ), {
-			httpOnly: true,
-			maxAge: 60 * 60 * 24 * 7,
-			path: '/',
-			sameSite: 'strict',
-			secure: process.env.NODE_ENV === 'production',
-		} );
+			if ( error instanceof Error || error instanceof ZodError ) {
+				message = error.message;
+			} else {
+				message = 'Unknown error occured while trying to log in.';
+				// eslint-disable-next-line no-console
+				console.error( error );
+			}
+
+			return fail( 500, { error: true, message } );
+		}
 
 		throw redirect( 302, '/' );
 	},
