@@ -154,18 +154,7 @@ export async function wp_upload( api_url, token, data ) {
 			const media = wp_media_item_schema.parse( result );
 			return media.source_url;
 		} catch ( error ) {
-			/** @type {string} */
-			let message;
-
-			if ( error instanceof Error || error instanceof ZodError ) {
-				message = error.message;
-			} else {
-				message = 'Unexpected upload result from server.';
-				// eslint-disable-next-line no-console
-				console.error( error );
-			}
-
-			throw new Error( message );
+			throw new Error( get_error_message( error, 'Unexpected upload result from server.', true ) );
 		}
 	}
 
