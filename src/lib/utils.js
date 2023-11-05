@@ -88,6 +88,8 @@ export async function wp_login( url, username, password ) {
 /**
  * Upload image to WordPress
  *
+ * @todo Handle video uploads.
+ *
  * @param {string}   api_url WordPress API URL.
  * @param {string}   token   Auth token.
  * @param {FormData} data    Form data.
@@ -105,6 +107,7 @@ export async function wp_upload( api_url, token, data ) {
 
 	if ( response.ok ) {
 		const result = await response.json();
+		// TODO: Validate.
 		return result.guid.rendered;
 	}
 
