@@ -1,5 +1,6 @@
-import { logout, wp_upload } from '$lib/utils';
 import { fail, redirect } from '@sveltejs/kit';
+import { logout, wp_upload } from '$lib/utils';
+import { session_schema } from '$lib/schema';
 
 /** @type {import('./$types').PageServerLoad} */
 export const load = async ( { locals } ) => {
@@ -11,15 +12,25 @@ export const load = async ( { locals } ) => {
 /** @type {import('./$types').Actions} */
 export const actions = {
 	default: async ( { cookies, request } ) => {
-		const session = cookies.get( 'session' );
-
-		if ( typeof session !== 'string' || session === '' ) {
+		const force_logout = () => {
 			logout( cookies );
+		};
+
+		const session_str = cookies.get( 'session' );
+
+		if ( typeof session_str !== 'string' || session_str === '' ) {
+			force_logout();
+			return;
+		}
+
+		const session = session_schema.safeParse( JSON.parse( session_str ) );
+
+		if ( ! session.success ) {
+			force_logout();
 			return;
 		}
 
 		const data = await request.formData();
-
 		const file = data.get( 'file' );
 
 		if ( ! ( file instanceof File ) ) {
@@ -38,8 +49,7 @@ export const actions = {
 			return fail( 400, { error: true, message: 'Please provide a caption for the image.' } );
 		}
 
-		// TODO: Validate.
-		const { token, api_url } = JSON.parse( session );
+		const { token, api_url } = session.data;
 		const result = await wp_upload( api_url, token, data );
 
 		if ( typeof result === 'string' ) {
