@@ -6,7 +6,7 @@ declare global {
 	namespace App {
 		// interface Error {}
 		interface Locals {
-			user?: import('./types').User;
+			user?: import('./lib/schema.js').User;
 		}
 		// interface PageData {}
 		// interface Platform {}
