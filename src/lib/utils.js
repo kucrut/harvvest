@@ -12,11 +12,14 @@ export function create_data_uri( file ) {
 	const reader = new FileReader();
 
 	return new Promise( ( resolve, reject ) => {
-		reader.onload = e => {
-			if ( typeof e.target?.result === 'string' ) {
-				resolve( e.target?.result );
+		reader.onerror = error => reject( error );
+
+		/** @param {ProgressEvent<FileReader>} event */
+		reader.onload = event => {
+			if ( typeof event.target?.result === 'string' ) {
+				resolve( event.target.result );
 			} else {
-				reject( 'Moo' );
+				reject( 'Failed to create data URL from selected file.' );
 			}
 		};
 
