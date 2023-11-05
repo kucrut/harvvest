@@ -1,4 +1,5 @@
 <script>
+	import { enhance } from '$app/forms';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import Toast from '$lib/components/toast.svelte';
 
@@ -23,7 +24,7 @@
 		</Toast>
 	{/if}
 
-	<form method="POST">
+	<form method="POST" use:enhance>
 		<FormWrap>
 			<label class="label">
 				<span>WordPress URL</span>
