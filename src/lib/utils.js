@@ -21,87 +21,67 @@ export function logout( cookies ) {
  * @param {string} username Username or email.
  * @param {string} password Password.
  *
- * @return {Promise<import('$types').Session|Error>} User or error object.
+ * @return {Promise<import('$types').Session>} User object.
  */
 export async function wp_login( url, username, password ) {
-	/** @type {string} */
-	let api_url;
+	const head_response = await fetch( url, {
+		method: 'HEAD',
+	} );
 
-	try {
-		const response = await fetch( url, {
-			method: 'HEAD',
-		} );
-
-		if ( ! response.ok ) {
-			return new Error( response.statusText );
-		}
-
-		const link_header = response.headers.get( 'Link' );
-
-		if ( ! link_header ) {
-			return new Error( 'Link header not found.' );
-		}
-
-		const match = link_header.match( /^<(.*)>; rel="https:\/\/api.w.org\/"/ );
-
-		if ( ! match ) {
-			return new Error( 'Could not find REST API URL from Link header.' );
-		}
-
-		api_url = match[ 1 ].replace( /\/$/, '' );
-	} catch ( err ) {
-		if ( err instanceof Error ) {
-			return err;
-		}
-
-		return new Error( 'Unknown error occured.' );
+	if ( ! head_response.ok ) {
+		throw new Error( head_response.statusText );
 	}
 
-	try {
-		const response = await fetch( `${ api_url }/jwt-auth/v1/token`, {
-			method: 'POST',
-			body: JSON.stringify( {
-				username,
-				password,
-			} ),
-			headers: {
-				'Content-Type': 'application/json',
-				'Accept': 'application/json',
-			},
-		} );
+	const link_header = head_response.headers.get( 'Link' );
 
-		// TODO: Improve this!
-		if ( ! response.ok ) {
-			/** @type {string} */
-			let message;
-
-			if ( response.status === 403 ) {
-				const result = await response.json();
-				message = result.message;
-			} else {
-				message = response.statusText;
-			}
-
-			throw new Error( message );
-		}
-
-		// TODO: Validate.
-		const data = await response.json();
-
-		return {
-			api_url,
-			url,
-			email: data.user_email,
-			name: data.user_display_name || data.user_nicename,
-			token: data.token,
-		};
-	} catch ( err ) {
-		if ( err instanceof Error ) {
-			return err;
-		}
-
-		return new Error( 'Unknown error occured.' );
+	if ( ! link_header ) {
+		throw new Error( 'Link header not found.' );
 	}
+
+	const match = link_header.match( /^<(.*)>; rel="https:\/\/api.w.org\/"/ );
+
+	if ( ! match ) {
+		throw new Error( 'Could not find REST API URL from Link header.' );
+	}
+
+	const api_url = match[ 1 ].replace( /\/$/, '' );
+
+	const login_response = await fetch( `${ api_url }/jwt-auth/v1/token`, {
+		method: 'POST',
+		body: JSON.stringify( {
+			username,
+			password,
+		} ),
+		headers: {
+			'Content-Type': 'application/json',
+			'Accept': 'application/json',
+		},
+	} );
+
+	if ( ! login_response.ok ) {
+		/** @type {string} */
+		let message;
+
+		if ( login_response.status === 403 ) {
+			const result = await login_response.json();
+			message = result.message;
+		} else {
+			message = login_response.statusText;
+		}
+
+		throw new Error( message );
+	}
+
+	// TODO: Validate.
+	const data = await login_response.json();
+
+	return {
+		api_url,
+		url,
+		email: data.user_email,
+		name: data.user_display_name || data.user_nicename,
+		token: data.token,
+	};
 }
 
 /**
