@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { session_schema, wp_media_item_schema, wp_user_schema } from './schema';
+import { session_schema, wp_media_item_schema, wp_rest_error_schema, wp_user_schema } from './schema';
 import { ZodError } from 'zod';
 
 /**
@@ -162,7 +162,9 @@ export async function wp_upload( api_url, token, data ) {
 		throw new Error( await response.text() );
 	}
 
-	// TODO: Validate.
 	const json = await response.json();
-	throw new Error( json.message );
+	const error = wp_rest_error_schema.safeParse( json );
+	const message = error.success ? error.data.message : 'Unexpected response from server. Please consult the logs.';
+
+	throw new Error( message );
 }
