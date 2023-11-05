@@ -1,11 +1,16 @@
-export const handle = async ( { event, resolve } ) => {
-	const session = event.cookies.get( 'session' );
+import { validate_session } from '$lib/utils';
 
-	if ( session ) {
-		// TODO: Validate.
-		const { email, name, url } = JSON.parse( session );
-		event.locals.user = { email, name, url };
+export const handle = async ( { event, resolve } ) => {
+	const session_cookie = event.cookies.get( 'session' );
+
+	if ( ! session_cookie ) {
+		return await resolve( event );
 	}
+
+	try {
+		const { email, name, url } = validate_session( session_cookie );
+		event.locals.user = { email, name, url };
+	} catch {}
 
 	return await resolve( event );
 };
