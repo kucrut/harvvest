@@ -47,11 +47,7 @@ export function get_error_message( error, fallback, dump = false ) {
  * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  */
 export function logout( cookies ) {
-	cookies.set( 'session', '', {
-		path: '/',
-		expires: new Date( 0 ),
-	} );
-
+	delete_session_cookies( cookies );
 	throw redirect( 302, '/login' );
 }
 
