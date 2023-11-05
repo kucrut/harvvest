@@ -47,7 +47,7 @@ export function logout( cookies ) {
  * Validate session
  *
  * @param {string} session_cookie Session cookie value.
- * @throws {import('z').ZodError} Zod error.
+ * @throws {typeof ZodError} Zod error.
  * @return {import('./schema').Session} Session object.
  */
 export function validate_session( session_cookie ) {
