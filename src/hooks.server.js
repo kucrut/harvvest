@@ -1,4 +1,4 @@
-import { validate_session } from '$lib/utils.server.js';
+import { delete_session_cookies, validate_session } from '$lib/utils.server.js';
 
 export const handle = async ( { event, resolve } ) => {
 	const session_cookie = event.cookies.get( 'session' );
@@ -10,7 +10,9 @@ export const handle = async ( { event, resolve } ) => {
 	try {
 		const { email, name, url } = validate_session( session_cookie );
 		event.locals.user = { email, name, url };
-	} catch {}
+	} catch {
+		delete_session_cookies( event.cookies );
+	}
 
 	return await resolve( event );
 };
