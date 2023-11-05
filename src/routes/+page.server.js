@@ -1,5 +1,5 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { logout, wp_upload } from '$lib/utils';
+import { get_error_message, logout, wp_upload } from '$lib/utils';
 import { session_schema } from '$lib/schema';
 
 /** @type {import('./$types').PageServerLoad} */
@@ -49,16 +49,24 @@ export const actions = {
 			return fail( 400, { error: true, message: 'Please provide a caption for the image.' } );
 		}
 
-		const { token, api_url } = session.data;
-		const result = await wp_upload( api_url, token, data );
+		try {
+			const result = await wp_upload( session.data.api_url, session.data.token, data );
 
-		if ( typeof result === 'string' ) {
-			return { success: true, image_link: result };
+			return {
+				success: true,
+				image_link: result,
+			};
+		} catch ( error ) {
+			const message = get_error_message(
+				error,
+				'Unexpected upload result from server. Please consult the logs.',
+				true,
+			);
+
+			return fail( 500, {
+				message,
+				error: true,
+			} );
 		}
-
-		return fail( 500, {
-			error: true,
-			message: result.message,
-		} );
 	},
 };
