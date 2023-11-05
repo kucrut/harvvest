@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { logout } from '$lib/utils';
+import { logout } from '$lib/utils.server.js';
 
 export const load = async () => {
 	throw redirect( 302, '/' );

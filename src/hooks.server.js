@@ -1,4 +1,4 @@
-import { validate_session } from '$lib/utils';
+import { validate_session } from '$lib/utils.server.js';
 
 export const handle = async ( { event, resolve } ) => {
 	const session_cookie = event.cookies.get( 'session' );
