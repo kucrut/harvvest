@@ -1,4 +1,4 @@
-import { wp_login } from '$lib/utils';
+import { wp_login } from '$lib/utils.server.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { ZodError } from 'zod';
 
