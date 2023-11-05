@@ -36,13 +36,13 @@ export async function wp_login( url, username, password ) {
 	const link_header = head_response.headers.get( 'Link' );
 
 	if ( ! link_header ) {
-		throw new Error( 'Link header not found.' );
+		throw new Error( `Link header not found.` );
 	}
 
 	const match = link_header.match( /^<(.*)>; rel="https:\/\/api.w.org\/"/ );
 
 	if ( ! match ) {
-		throw new Error( 'Could not find REST API URL from Link header.' );
+		throw new Error( `Could not find WP REST API URL from Link header. Are you sure it's a WordPress site?` );
 	}
 
 	const api_url = match[ 1 ].replace( /\/$/, '' );
