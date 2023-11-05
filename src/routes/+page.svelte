@@ -72,7 +72,7 @@
 
 	<form enctype="multipart/form-data" method="POST">
 		<FormWrap>
-			<FileDropzone required type="file" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
+			<FileDropzone required accept="image/*" type="file" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
 				<svelte:fragment slot="lead">
 					{#if src}
 						<div class="gap-y-4 grid max-w-md place-items-center">
