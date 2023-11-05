@@ -1,4 +1,5 @@
 import { redirect } from '@sveltejs/kit';
+import { wp_user_schema } from './schema';
 
 /**
  * Log out
@@ -72,15 +73,15 @@ export async function wp_login( url, username, password ) {
 		throw new Error( message );
 	}
 
-	// TODO: Validate.
 	const data = await login_response.json();
+	const user = await wp_user_schema.parseAsync( data );
 
 	return {
 		api_url,
 		url,
-		email: data.user_email,
-		name: data.user_display_name || data.user_nicename,
-		token: data.token,
+		email: user.user_email,
+		name: user.user_display_name || user.user_nicename,
+		token: user.token,
 	};
 }
 
