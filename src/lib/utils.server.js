@@ -1,5 +1,11 @@
 import { redirect } from '@sveltejs/kit';
-import { session_schema, wp_media_item_schema, wp_rest_error_schema, wp_user_schema } from './schema';
+import {
+	session_schema,
+	valid_token_response_schema,
+	wp_media_item_schema,
+	wp_rest_error_schema,
+	wp_user_schema,
+} from './schema';
 import { ZodError } from 'zod';
 
 /**
@@ -63,6 +69,34 @@ export function validate_session( session_cookie ) {
 	const session = session_schema.parse( json );
 
 	return session;
+}
+
+/**
+ * Validate token
+ *
+ * @param {import('./schema').Session} session Session object.
+ * @throws {Error|typeof ZodError}
+ * @return {Promise<import('./schema').ValidToken>} Valid token response.
+ */
+export async function validate_token( session ) {
+	const response = await fetch( `${ session.api_url }/jwt-auth/v1/token/validate`, {
+		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${ session.token }`,
+		},
+	} );
+
+	if ( ! response.ok ) {
+		const json = await response.json();
+		const wp_error = wp_rest_error_schema.safeParse( json );
+
+		throw new Error( wp_error.success ? wp_error.data.message : response.statusText );
+	}
+
+	const data = await response.json();
+	const result = valid_token_response_schema.parse( data );
+
+	return result;
 }
 
 /**
