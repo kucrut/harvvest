@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { wp_user_schema } from './schema';
+import { session_schema, wp_user_schema } from './schema';
 
 /**
  * Log out
@@ -13,6 +13,20 @@ export function logout( cookies ) {
 	} );
 
 	throw redirect( 302, '/login' );
+}
+
+/**
+ * Validate session
+ *
+ * @param {string} session_cookie Session cookie value.
+ * @throws {import('z').ZodError} Zod error.
+ * @return {import('./schema').Session} Session object.
+ */
+export function validate_session( session_cookie ) {
+	const json = JSON.parse( session_cookie );
+	const session = session_schema.parse( json );
+
+	return session;
 }
 
 /**
