@@ -1,5 +1,6 @@
 <script>
 	import { afterUpdate } from 'svelte';
+	import { create_data_uri } from '$lib/utils.js';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import FormWrap from '$lib/components/form-wrap.svelte';
@@ -25,30 +26,17 @@
 	let should_show_error_message = true;
 	let should_show_success_message = true;
 
-	/**
-	 * Create data URI for image source
-	 *
-	 * @param {File} file File object.
-	 * @return {Promise<string>} Data URI.
-	 */
-	function create_data_uri( file ) {
-		const reader = new FileReader();
-
-		return new Promise( ( resolve, reject ) => {
-			reader.onload = e => {
-				if ( typeof e.target?.result === 'string' ) {
-					resolve( e.target?.result );
-				} else {
-					reject( 'Moo' );
-				}
-			};
-
-			reader.readAsDataURL( file );
-		} );
-	}
-
 	afterUpdate( async () => {
-		src = files?.length ? await create_data_uri( files[ 0 ] ) : undefined;
+		if ( ! files?.length ) {
+			return;
+		}
+
+		try {
+			const uri = await create_data_uri( files[ 0 ] );
+			src = uri;
+		} catch ( error ) {
+			src = undefined;
+		}
 	} );
 </script>
 
