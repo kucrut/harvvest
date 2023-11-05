@@ -1,5 +1,6 @@
 import { redirect } from '@sveltejs/kit';
-import { session_schema, wp_user_schema } from './schema';
+import { session_schema, wp_media_item_schema, wp_user_schema } from './schema';
+import { ZodError } from 'zod';
 
 /**
  * Log out
@@ -121,8 +122,24 @@ export async function wp_upload( api_url, token, data ) {
 
 	if ( response.ok ) {
 		const result = await response.json();
-		// TODO: Validate.
-		return result.guid.rendered;
+
+		try {
+			const media = wp_media_item_schema.parse( result );
+			return media.source_url;
+		} catch ( error ) {
+			/** @type {string} */
+			let message;
+
+			if ( error instanceof Error || error instanceof ZodError ) {
+				message = error.message;
+			} else {
+				message = 'Unexpected upload result from server.';
+				// eslint-disable-next-line no-console
+				console.error( error );
+			}
+
+			throw new Error( message );
+		}
 	}
 
 	const content_type = response.headers.get( 'Content-Type' );
