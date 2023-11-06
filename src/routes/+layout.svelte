@@ -1,12 +1,13 @@
 <script>
 	import { page } from '$app/stores';
-	import { AppBar, AppShell, initializeStores } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, Toast, initializeStores } from '@skeletonlabs/skeleton';
 	import '../app.postcss';
 
 	initializeStores();
 </script>
 
 <AppShell>
+	<Toast />
 	<AppBar
 		gridColumns="grid-cols-[1fr_auto_1fr]"
 		slot="header"
