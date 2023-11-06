@@ -1,13 +1,13 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
+	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import FormWrap from '$lib/components/form-wrap.svelte';
-	import Toast from '$lib/components/toast.svelte';
 
 	/** @type {import('./$types').ActionData}*/
 	export let form;
 
-	$: error_message = form?.error ? form?.message : undefined;
+	const toast_store = getToastStore();
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
@@ -19,6 +19,16 @@
 			await applyAction( result );
 		};
 	};
+
+	$: {
+		if ( form?.error && form?.message ) {
+			toast_store.trigger( {
+				background: 'variant-ghost-error',
+				hoverable: true,
+				message: form.message,
+			} );
+		}
+	}
 </script>
 
 <svelte:head>
@@ -27,14 +37,6 @@
 
 <div class="p-4 md:p-10 space-y-4">
 	<h1 class="h3 text-center">Log In</h1>
-
-	{#if error_message}
-		<Toast type="error" on:click={() => ( error_message = undefined )}>
-			<h2 class="h3" slot="title">Error</h2>
-			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-			<p slot="message">{@html error_message}</p>
-		</Toast>
-	{/if}
 
 	<form method="POST" use:enhance={handle_submit}>
 		<FormWrap>
