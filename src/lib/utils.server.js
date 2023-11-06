@@ -1,12 +1,6 @@
 import { handle_wp_rest_response } from './utils';
 import { redirect } from '@sveltejs/kit';
-import {
-	session_schema,
-	valid_token_response_schema,
-	wp_media_item_schema,
-	wp_rest_error_schema,
-	wp_user_schema,
-} from './schema';
+import { session_schema, valid_token_response_schema, wp_media_item_schema, wp_user_schema } from './schema';
 
 /**
  * Delete session cookies
@@ -59,17 +53,14 @@ export async function validate_token( session ) {
 		},
 	} );
 
-	if ( ! response.ok ) {
-		const json = await response.json();
-		const wp_error = wp_rest_error_schema.safeParse( json );
+	/** @type {import('$types').HandleResponse<import('./schema').ValidToken>} */
+	const handle = async data => {
+		const result = valid_token_response_schema.parse( data );
 
-		throw new Error( wp_error.success ? wp_error.data.message : response.statusText );
-	}
+		return result;
+	};
 
-	const data = await response.json();
-	const result = valid_token_response_schema.parse( data );
-
-	return result;
+	return handle_wp_rest_response( response, handle );
 }
 
 /**
