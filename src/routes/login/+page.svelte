@@ -1,24 +1,22 @@
 <script>
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 	import { goto } from '$app/navigation';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import Toast from '$lib/components/toast.svelte';
 
 	/** @type {import('./$types').ActionData}*/
 	export let form;
-	let error_message = form?.error || '';
+
+	$: error_message = form?.error ? form?.message : undefined;
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
-		return ( { result } ) => {
+		return async ( { result } ) => {
 			if ( result.type === 'redirect' ) {
 				goto( result.location, { invalidateAll: true } );
-				return;
 			}
 
-			if ( result.type === 'failure' ) {
-				error_message = result.data?.message;
-			}
+			await applyAction( result );
 		};
 	};
 </script>
@@ -31,7 +29,7 @@
 	<h1 class="h3 text-center">Log In</h1>
 
 	{#if error_message}
-		<Toast type="error" on:click={() => ( error_message = '' )}>
+		<Toast type="error" on:click={() => ( error_message = undefined )}>
 			<h2 class="h3" slot="title">Error</h2>
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			<p slot="message">{@html error_message}</p>
