@@ -1,7 +1,7 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { create_data_uri } from '$lib/utils.js';
-	import { enhance } from '$app/forms';
+	import { applyAction, enhance } from '$app/forms';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import FormWrap from '$lib/components/form-wrap.svelte';
@@ -24,7 +24,7 @@
 	/** @type {string|undefined} */
 	let preview_src;
 
-	let error_message = form?.error ? form.message : '';
+	$: error_message = form?.error ? form.message : undefined;
 	let last_selected_file = '';
 	let should_show_success_message = true;
 
@@ -35,14 +35,12 @@
 
 	/** @type {import('./$types').SubmitFunction}*/
 	const handle_submit = () => {
-		return ( { result, update } ) => {
-			const success = result.type === 'success';
+		return async ( { result } ) => {
+			await applyAction( result );
 
-			if ( success ) {
+			if ( result.type === 'success' ) {
 				files = undefined;
 			}
-
-			update( { reset: success, invalidateAll: success } );
 		};
 	};
 
@@ -85,7 +83,7 @@
 	</p>
 
 	{#if error_message}
-		<Toast on:click={() => ( error_message = '' )}>
+		<Toast on:click={() => ( error_message = undefined )}>
 			<h2 class="h3" slot="title">Error</h2>
 			<p slot="message">{error_message}</p>
 		</Toast>
