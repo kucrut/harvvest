@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  zod:
+    specifier: ^3.22.4
+    version: 3.22.4
+
 devDependencies:
   '@skeletonlabs/skeleton':
     specifier: ^2.1.0
@@ -77,9 +82,6 @@ devDependencies:
   vite:
     specifier: ^4.4.2
     version: 4.5.0
-  zod:
-    specifier: ^3.22.4
-    version: 3.22.4
 
 packages:
 
@@ -6216,4 +6218,4 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
-    dev: true
+    dev: false
