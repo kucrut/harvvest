@@ -21,10 +21,9 @@
 	/** @type {FileList|undefined} */
 	let files;
 	/** @type {string|undefined} */
-	let src;
+	let preview_src;
 
 	let error_message = form?.error ? form.message : '';
-
 	let should_show_success_message = true;
 
 	afterUpdate( async () => {
@@ -34,10 +33,10 @@
 
 		try {
 			const uri = await create_data_uri( files[ 0 ] );
-			src = uri;
+			preview_src = uri;
 		} catch ( error ) {
 			error_message = error instanceof Error ? error.message : 'Failed to create preview image.';
-			src = undefined;
+			preview_src = undefined;
 		}
 	} );
 </script>
@@ -77,9 +76,9 @@
 		<FormWrap>
 			<FileDropzone required type="file" accept="image/*" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
 				<svelte:fragment slot="lead">
-					{#if src}
+					{#if preview_src}
 						<div class="gap-y-4 grid max-w-md place-items-center">
-							<img {src} alt={alt_text} class="block rounded" />
+							<img src={preview_src} alt={alt_text} class="block rounded" />
 						</div>
 					{/if}
 				</svelte:fragment>
