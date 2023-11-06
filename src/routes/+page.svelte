@@ -1,11 +1,11 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { create_data_uri } from '$lib/utils.js';
+	import { enhance } from '$app/forms';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import Toast from '$lib/components/toast.svelte';
-	import { enhance } from '$app/forms';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
