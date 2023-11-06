@@ -24,10 +24,11 @@
 	let preview_src;
 
 	let error_message = form?.error ? form.message : '';
+	let last_selected_file = '';
 	let should_show_success_message = true;
 
 	afterUpdate( async () => {
-		if ( ! files?.length ) {
+		if ( ! files?.length || last_selected_file === files[ 0 ].name ) {
 			return;
 		}
 
@@ -37,6 +38,8 @@
 		} catch ( error ) {
 			error_message = error instanceof Error ? error.message : 'Failed to create preview image.';
 			preview_src = undefined;
+		} finally {
+			last_selected_file = `${ files[ 0 ].name }${ files[ 0 ].name }${ files[ 0 ].size }${ files[ 0 ].lastModified }`;
 		}
 	} );
 </script>
