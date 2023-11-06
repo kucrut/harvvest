@@ -1,4 +1,4 @@
-import { wp_login } from '$lib/utils.server.js';
+import { get_session_cookie_options, wp_login } from '$lib/utils.server.js';
 import { fail, redirect } from '@sveltejs/kit';
 import { ZodError } from 'zod';
 
@@ -35,13 +35,7 @@ export const actions = {
 		try {
 			const auth = await wp_login( url, username, password );
 
-			cookies.set( 'session', JSON.stringify( auth ), {
-				httpOnly: true,
-				maxAge: 60 * 60 * 24 * 7,
-				path: '/',
-				sameSite: 'strict',
-				secure: process.env.NODE_ENV === 'production',
-			} );
+			cookies.set( 'session', JSON.stringify( auth ), get_session_cookie_options() );
 		} catch ( error ) {
 			/** @type {string} */
 			let message;
