@@ -1,3 +1,4 @@
+import { handle_wp_rest_response } from './utils';
 import { redirect } from '@sveltejs/kit';
 import {
 	session_schema,
@@ -163,22 +164,12 @@ export async function wp_upload( api_url, token, data ) {
 		},
 	} );
 
-	if ( response.ok ) {
-		const result = await response.json();
+	/** @type {import('$types').HandleResponse<string>} */
+	const handler = async json => {
+		const media = wp_media_item_schema.parse( json );
 
-		const media = wp_media_item_schema.parse( result );
 		return media.source_url;
-	}
+	};
 
-	const content_type = response.headers.get( 'Content-Type' );
-
-	if ( content_type?.startsWith( 'text/' ) ) {
-		throw new Error( await response.text() );
-	}
-
-	const json = await response.json();
-	const error = wp_rest_error_schema.safeParse( json );
-	const message = error.success ? error.data.message : 'Unexpected response from server. Please consult the logs.';
-
-	throw new Error( message );
+	return handle_wp_rest_response( response, handler );
 }
