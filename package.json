@@ -15,7 +15,6 @@
 		"lint:js:fix": "eslint --fix --ext .cjs,.html,.js,.svelte,.ts ."
 	},
 	"dependencies": {
-		"dotenv": "^16.3.1",
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
