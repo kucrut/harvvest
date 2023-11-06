@@ -5,6 +5,7 @@
 	import { page } from '$app/stores';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import Toast from '$lib/components/toast.svelte';
+	import { enhance } from '$app/forms';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
@@ -27,8 +28,35 @@
 	let last_selected_file = '';
 	let should_show_success_message = true;
 
+	/** @param {File} file */
+	const generate_file_id = file => {
+		return `${ file.name }${ file.name }${ file.size }${ file.lastModified }`;
+	};
+
+	/** @type {import('./$types').SubmitFunction}*/
+	const handle_submit = () => {
+		return ( { result, update } ) => {
+			const success = result.type === 'success';
+
+			if ( success ) {
+				files = undefined;
+			}
+
+			update( { reset: success, invalidateAll: success } );
+		};
+	};
+
 	afterUpdate( async () => {
-		if ( ! files?.length || last_selected_file === files[ 0 ].name ) {
+		if ( ! files?.length ) {
+			last_selected_file = '';
+			preview_src = undefined;
+
+			return;
+		}
+
+		const file_id = generate_file_id( files[ 0 ] );
+
+		if ( last_selected_file === file_id ) {
 			return;
 		}
 
@@ -39,7 +67,7 @@
 			error_message = error instanceof Error ? error.message : 'Failed to create preview image.';
 			preview_src = undefined;
 		} finally {
-			last_selected_file = `${ files[ 0 ].name }${ files[ 0 ].name }${ files[ 0 ].size }${ files[ 0 ].lastModified }`;
+			last_selected_file = file_id;
 		}
 	} );
 </script>
@@ -75,7 +103,7 @@
 		</Toast>
 	{/if}
 
-	<form enctype="multipart/form-data" method="POST">
+	<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 		<FormWrap>
 			<FileDropzone required type="file" accept="image/*" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
 				<svelte:fragment slot="lead">
