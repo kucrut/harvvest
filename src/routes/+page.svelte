@@ -1,14 +1,15 @@
 <script>
 	import { afterUpdate } from 'svelte';
-	import { create_data_uri } from '$lib/utils.js';
 	import { applyAction, enhance } from '$app/forms';
-	import { FileDropzone } from '@skeletonlabs/skeleton';
+	import { create_data_uri } from '$lib/utils.js';
+	import { FileDropzone, getToastStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import FormWrap from '$lib/components/form-wrap.svelte';
-	import Toast from '$lib/components/toast.svelte';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
+
+	const toast_store = getToastStore();
 
 	/** @type {string} */
 	let alt_text = '';
@@ -23,10 +24,7 @@
 	let files;
 	/** @type {string|undefined} */
 	let preview_src;
-
-	$: error_message = form?.error ? form.message : undefined;
 	let last_selected_file = '';
-	let should_show_success_message = true;
 
 	/** @param {File} file */
 	const generate_file_id = file => {
@@ -43,6 +41,24 @@
 			}
 		};
 	};
+
+	$: {
+		if ( form?.success ) {
+			toast_store.trigger( {
+				background: 'variant-ghost-success',
+				hoverable: true,
+				message: `File uploaded to ${ form.image_link }`,
+			} );
+		}
+
+		if ( form?.error && form?.message ) {
+			toast_store.trigger( {
+				background: 'variant-ghost-error',
+				hoverable: true,
+				message: form.message,
+			} );
+		}
+	}
 
 	afterUpdate( async () => {
 		if ( ! files?.length ) {
@@ -62,8 +78,14 @@
 			const uri = await create_data_uri( files[ 0 ] );
 			preview_src = uri;
 		} catch ( error ) {
-			error_message = error instanceof Error ? error.message : 'Failed to create preview image.';
 			preview_src = undefined;
+
+			const message = error instanceof Error ? error.message : 'Failed to create preview image.';
+			toast_store.trigger( {
+				message,
+				background: 'variant-ghost-error',
+				hoverable: true,
+			} );
 		} finally {
 			last_selected_file = file_id;
 		}
@@ -81,25 +103,6 @@
 			>{$page.data.user.url}</a
 		>.
 	</p>
-
-	{#if error_message}
-		<Toast on:click={() => ( error_message = undefined )}>
-			<h2 class="h3" slot="title">Error</h2>
-			<p slot="message">{error_message}</p>
-		</Toast>
-	{/if}
-
-	{#if form?.success && form?.image_link && should_show_success_message}
-		<!-- TODO: a11y announce? -->
-		<Toast on:click={() => ( should_show_success_message = false )}>
-			<h2 class="h3" slot="title">Success!</h2>
-			<p slot="message" class="success-message">
-				File uploaded to <a class="underline hover:no-underline" href={form.image_link} target="_blank"
-					>{form.image_link}</a
-				>
-			</p>
-		</Toast>
-	{/if}
 
 	<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 		<FormWrap>
@@ -133,9 +136,3 @@
 		</FormWrap>
 	</form>
 </div>
-
-<style>
-	.success-message a::after {
-		content: '\00a0\2b00';
-	}
-</style>
