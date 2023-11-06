@@ -1,7 +1,9 @@
 <script>
 	import { page } from '$app/stores';
-	import { AppBar, AppShell } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, initializeStores } from '@skeletonlabs/skeleton';
 	import '../app.postcss';
+
+	initializeStores();
 </script>
 
 <AppShell>
