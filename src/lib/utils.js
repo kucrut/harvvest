@@ -1,3 +1,5 @@
+import { ZodError } from 'zod';
+
 /**
  * Create data URI for image source
  *
@@ -25,4 +27,31 @@ export function create_data_uri( file ) {
 
 		reader.readAsDataURL( file );
 	} );
+}
+
+/**
+ * Get error message
+ *
+ * @param {unknown}  error    Error object, whatever.
+ * @param {string}   fallback Fallback message if the error is unrecognized.
+ * @param {boolean=} dump     Wheter to dump error if the error is unrecognized. (Defaults to false).
+ *
+ * @return {string} Error message.
+ */
+export function get_error_message( error, fallback, dump = false ) {
+	/** @type {string} */
+	let message;
+
+	if ( error instanceof Error || error instanceof ZodError ) {
+		message = error.message;
+	} else {
+		message = fallback;
+
+		if ( dump ) {
+			// eslint-disable-next-line no-console
+			console.error( error );
+		}
+	}
+
+	return message;
 }

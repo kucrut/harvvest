@@ -6,7 +6,6 @@ import {
 	wp_rest_error_schema,
 	wp_user_schema,
 } from './schema';
-import { ZodError } from 'zod';
 
 /**
  * Delete session cookies
@@ -18,33 +17,6 @@ export function delete_session_cookies( cookies ) {
 		path: '/',
 		expires: new Date( 0 ),
 	} );
-}
-
-/**
- * Get error message
- *
- * @param {unknown}  error    Error object, whatever.
- * @param {string}   fallback Fallback message if the error is unrecognized.
- * @param {boolean=} dump     Wheter to dump error if the error is unrecognized. (Defaults to false).
- *
- * @return {string} Error message.
- */
-export function get_error_message( error, fallback, dump = false ) {
-	/** @type {string} */
-	let message;
-
-	if ( error instanceof Error || error instanceof ZodError ) {
-		message = error.message;
-	} else {
-		message = fallback;
-
-		if ( dump ) {
-			// eslint-disable-next-line no-console
-			console.error( error );
-		}
-	}
-
-	return message;
 }
 
 /**
@@ -61,7 +33,7 @@ export function logout( cookies ) {
  * Validate session
  *
  * @param {string} session_cookie Session cookie value.
- * @throws {typeof ZodError} Zod error.
+ * @throws {typeof import('zod').ZodError} Zod error.
  * @return {import('./schema').Session} Session object.
  */
 export function validate_session( session_cookie ) {
@@ -75,7 +47,7 @@ export function validate_session( session_cookie ) {
  * Validate token
  *
  * @param {import('./schema').Session} session Session object.
- * @throws {Error|typeof ZodError}
+ * @throws {Error|typeof import('zod').ZodError}
  * @return {Promise<import('./schema').ValidToken>} Valid token response.
  */
 export async function validate_token( session ) {
@@ -174,7 +146,7 @@ export async function wp_login( url, username, password ) {
  *
  * @todo Handle video uploads.
  *
- * @throws {Error|typeof ZodError} Error object.
+ * @throws {Error|typeof import('zod').ZodError} Error object.
  *
  * @param {string}   api_url WordPress API URL.
  * @param {string}   token   Auth token.

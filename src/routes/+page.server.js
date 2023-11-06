@@ -1,5 +1,6 @@
 import { fail, redirect } from '@sveltejs/kit';
-import { get_error_message, logout, wp_upload } from '$lib/utils.server.js';
+import { get_error_message } from '$lib/utils';
+import { logout, wp_upload } from '$lib/utils.server.js';
 import { session_schema } from '$lib/schema';
 
 /** @type {import('./$types').PageServerLoad} */
