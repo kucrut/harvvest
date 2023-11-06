@@ -1,16 +1,27 @@
 import { vitePreprocess } from '@sveltejs/kit/vite';
-import adapter from '@sveltejs/adapter-node';
+import adapter_auto from '@sveltejs/adapter-auto';
+import adapter_node from '@sveltejs/adapter-node';
+
+/** @type {import('@sveltejs/kit').Adapter} */
+let adapter;
+
+switch ( process.env.ADAPTER ) {
+	case 'node':
+		adapter = adapter_node( {
+			out: process.env.BUILD_OUT_DIR || 'build',
+			polyfill: false,
+		} );
+		break;
+
+	default:
+		adapter = adapter_auto();
+		break;
+}
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
 	kit: {
-		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
-		// If your environment is not supported or you settled on a specific environment, switch out the adapter.
-		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
-		adapter: adapter( {
-			out: process.env.BUILD_OUT_DIR || 'build',
-			polyfill: false,
-		} ),
+		adapter,
 		alias: {
 			$types: 'src/types.ts',
 		},
