@@ -8,10 +8,22 @@ import { session_schema, valid_token_response_schema, wp_media_item_schema, wp_u
  * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  */
 export function delete_session_cookies( cookies ) {
-	cookies.set( 'session', '', {
+	cookies.delete( 'session', get_session_cookie_options() );
+}
+
+/**
+ * Get session cookie options
+ *
+ * @return {import('cookie').CookieSerializeOptions} Cookie options.
+ */
+export function get_session_cookie_options() {
+	return {
+		httpOnly: true,
+		maxAge: 60 * 60 * 24 * 7,
 		path: '/',
-		expires: new Date( 0 ),
-	} );
+		sameSite: 'strict',
+		secure: process.env.NODE_ENV === 'production',
+	};
 }
 
 /**
