@@ -116,30 +116,20 @@ export async function wp_login( url, username, password ) {
 		},
 	} );
 
-	if ( ! login_response.ok ) {
-		/** @type {string} */
-		let message;
+	/** @type {import('$types').HandleResponse<import('./schema').Session>} */
+	const handle = async data => {
+		const user = await wp_user_schema.parseAsync( data );
 
-		if ( login_response.status === 403 ) {
-			const result = await login_response.json();
-			message = result.message;
-		} else {
-			message = login_response.statusText;
-		}
-
-		throw new Error( message );
-	}
-
-	const data = await login_response.json();
-	const user = await wp_user_schema.parseAsync( data );
-
-	return {
-		api_url,
-		url,
-		email: user.user_email,
-		name: user.user_display_name || user.user_nicename,
-		token: user.token,
+		return {
+			api_url,
+			url,
+			email: user.user_email,
+			name: user.user_display_name || user.user_nicename,
+			token: user.token,
+		};
 	};
+
+	return handle_wp_rest_response( login_response, handle );
 }
 
 /**
