@@ -95,7 +95,7 @@
 		<!-- TODO: a11y announce? -->
 		<Toast on:click={() => ( should_show_success_message = false )}>
 			<h2 class="h3" slot="title">Success!</h2>
-			<p slot="message">
+			<p slot="message" class="success-message">
 				File uploaded to <a class="underline hover:no-underline" href={form.image_link} target="_blank"
 					>{form.image_link}</a
 				>
@@ -135,3 +135,9 @@
 		</FormWrap>
 	</form>
 </div>
+
+<style>
+	.success-message a::after {
+		content: '\00a0\2b00';
+	}
+</style>
