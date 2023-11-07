@@ -1,7 +1,7 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { applyAction, enhance } from '$app/forms';
-	import { create_data_uri } from '$lib/utils.js';
+	import { create_data_uri, generate_file_id } from '$lib/utils.js';
 	import { FileDropzone, getToastStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import FormWrap from '$lib/components/form-wrap.svelte';
@@ -26,11 +26,6 @@
 	let last_selected_file = '';
 	/** @type {string|undefined} */
 	let preview_src;
-
-	/** @param {File} file */
-	const generate_file_id = file => {
-		return `${ file.name }${ file.name }${ file.size }${ file.lastModified }`;
-	};
 
 	/** @type {import('./$types').SubmitFunction}*/
 	const handle_submit = () => {

@@ -31,6 +31,16 @@ export function create_data_uri( file ) {
 }
 
 /**
+ * Generate file ID
+ *
+ * @param {File} file File object.
+ * @return {string} File ID.
+ */
+export function generate_file_id( file ) {
+	return `${ file.name }${ file.name }${ file.size }${ file.lastModified }`;
+}
+
+/**
  * Get error message
  *
  * @param {unknown}  error    Error object, whatever.
