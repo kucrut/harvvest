@@ -8,15 +8,18 @@
 	export let form;
 
 	const toast_store = getToastStore();
+	let is_submitting = false;
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
+		is_submitting = true;
 		return async ( { result } ) => {
 			if ( result.type === 'redirect' ) {
 				goto( result.location, { invalidateAll: true } );
 			}
 
 			await applyAction( result );
+			is_submitting = false;
 		};
 	};
 
@@ -42,20 +45,20 @@
 		<FormWrap>
 			<label class="label">
 				<span>WordPress URL</span>
-				<input required class="input" id="url" name="url" type="url" />
+				<input required class="input" disabled={is_submitting} id="url" name="url" type="url" />
 			</label>
 
 			<label class="label">
 				<span>Username or email</span>
-				<input required class="input" id="username" name="username" type="text" />
+				<input required class="input" disabled={is_submitting} id="username" name="username" type="text" />
 			</label>
 
 			<label class="label">
 				<span>Password</span>
-				<input required class="input" id="password" name="password" type="password" />
+				<input required class="input" disabled={is_submitting} id="password" name="password" type="password" />
 			</label>
 
-			<p><button class="btn variant-filled" type="submit">Log In</button></p>
+			<p><button class="btn variant-filled" disabled={is_submitting} type="submit">Log In</button></p>
 		</FormWrap>
 	</form>
 </div>
