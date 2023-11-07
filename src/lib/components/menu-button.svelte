@@ -1,4 +1,17 @@
-<button
+<script>
+	import { getDrawerStore } from '@skeletonlabs/skeleton';
+
+	const drawer_store = getDrawerStore();
+	/** @type {import('@skeletonlabs/skeleton').DrawerSettings} */
+	const drawer_settings = {
+		bgDrawer: 'bg-surface-50',
+		id: 'app-menu',
+		rounded: 'rounded-tr-md rounded-br-md rounded-bl-none rounded-tl-none',
+		width: 'max',
+	};
+</script>
+
+<button on:click={() => drawer_store.open( drawer_settings )}
 	><svg
 		xmlns="http://www.w3.org/2000/svg"
 		fill="none"
