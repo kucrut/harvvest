@@ -4,8 +4,8 @@
 </script>
 
 <aside class="p-4 grid grid-flow-row h-full">
-	<nav class="list-nav space-y-2 text-sm">
-		<h1 class="font-semibold">Photo Harvest</h1>
+	<nav class="list-nav space-y-4">
+		<h1 class="font-semibold h3">Photo Harvest</h1>
 		<ul>
 			<li>
 				<a href="https://gitlab.com/kucrut/photo-harvest">
@@ -25,7 +25,7 @@
 	</nav>
 
 	{#if $page.data.user}
-		<div class="flex items-center content-center gap-2 self-end place-self-end border-t border-t-surface-200 pt-4">
+		<div class="flex items-center content-center gap-2 place-self-end border-t border-t-surface-200 pt-4 w-full">
 			<Avatar src={$page.data.user.avatar_url} rounded="rounded-md" width="w-10" />
 			<span
 				><span class="font-semibold">{$page.data.user.name}</span><br />
