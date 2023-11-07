@@ -17,7 +17,7 @@
 	<Avatar src={user.avatar_url} rounded="rounded-md" width="w-8" />
 </button>
 
-<div class="card w-48 p-2 shadow-xl space-y-2 !mx-0" data-popup="user_menu">
+<div class="card p-2 rounded-md shadow-xl space-y-2 w-48 !mx-0" data-popup="user_menu">
 	<p class="px-4 py-2">
 		Hello, <span class="font-semibold">{user.name}</span>!<br />
 		<a class="italic text-xs underline" href={user.url} target="_blank">{user.url}</a>
