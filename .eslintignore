@@ -1,4 +1,5 @@
 /build*
+/docker/*
 /.pnpm/*
 /.svelte-kit/
 *.json

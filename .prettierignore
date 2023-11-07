@@ -1,6 +1,7 @@
 /.pnpm/*
 /.svelte-kit/**
 /build*
+/docker/*
 /node_modules/**
 CHANGELOG.md
 pnpm-lock.yaml
