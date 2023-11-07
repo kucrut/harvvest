@@ -1,20 +1,10 @@
 <script>
-	import {
-		AppBar,
-		AppShell,
-		Drawer,
-		Toast,
-		getDrawerStore,
-		initializeStores,
-		storePopup,
-	} from '@skeletonlabs/skeleton';
-	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
+	import { AppBar, AppShell, Drawer, Toast, getDrawerStore, initializeStores } from '@skeletonlabs/skeleton';
 	import AppMenu from '$lib/components/app-menu.svelte';
 	import AppMenuButton from '$lib/components/app-menu-button.svelte';
 	import '../app.postcss';
 
 	initializeStores();
-	storePopup.set( { computePosition, autoUpdate, offset, shift, flip, arrow } );
 
 	const drawer_store = getDrawerStore();
 </script>
