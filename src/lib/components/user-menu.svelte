@@ -30,5 +30,4 @@
 			</form>
 		</li>
 	</ul>
-	<div class="arrow bg-surface-100-800-token" />
 </div>
