@@ -4,6 +4,7 @@
 	import { create_data_uri, generate_file_id } from '$lib/utils.js';
 	import { FileDropzone, getToastStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
 	import TextField from '$lib/components/text-field.svelte';
@@ -90,7 +91,7 @@
 </svelte:head>
 
 {#if $page.data.user}
-	<div class="p-4 md:p-10 space-y-4">
+	<ContentWrap>
 		<!-- TODO: Add intro text -->
 		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 			<FormWrap>
@@ -120,5 +121,5 @@
 				<SubmitField {is_submitting}>Upload</SubmitField>
 			</FormWrap>
 		</form>
-	</div>
+	</ContentWrap>
 {/if}

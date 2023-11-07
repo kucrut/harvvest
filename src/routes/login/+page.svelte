@@ -2,6 +2,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
+	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
 	import TextField from '$lib/components/text-field.svelte';
@@ -40,7 +41,7 @@
 	<title>Log In - Photo Harvest</title>
 </svelte:head>
 
-<div class="p-4 md:p-10 space-y-4">
+<ContentWrap>
 	<h1 class="h3 text-center">Log In</h1>
 
 	<form method="POST" use:enhance={handle_submit}>
@@ -51,4 +52,4 @@
 			<SubmitField {is_submitting}>Log In</SubmitField>
 		</FormWrap>
 	</form>
-</div>
+</ContentWrap>
