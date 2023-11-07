@@ -99,7 +99,6 @@
 					required
 					accept="image/*"
 					disabled={is_submitting}
-					id="file"
 					name="file"
 					slotLead="mb-4 empty:mb-0"
 					type="file"

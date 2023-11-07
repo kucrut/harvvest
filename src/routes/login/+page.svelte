@@ -46,7 +46,7 @@
 
 	<form method="POST" use:enhance={handle_submit}>
 		<FormWrap>
-			<TextField required disabled={is_submitting} id="url" label="WordPress URL" name="url" type="url" />
+			<TextField required disabled={is_submitting} label="WordPress URL" name="url" type="url" />
 			<TextField required disabled={is_submitting} label="Username or email" name="username" type="text" />
 			<TextField required disabled={is_submitting} label="Password" name="password" type="password" />
 			<SubmitField {is_submitting}>Log In</SubmitField>
