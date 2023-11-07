@@ -8,7 +8,9 @@ declare global {
 		interface Locals {
 			user?: import('./lib/schema.js').User;
 		}
-		// interface PageData {}
+		interface PageData {
+			user?: import('./lib/schema.js').User;
+		}
 		// interface Platform {}
 	}
 }
