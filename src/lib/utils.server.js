@@ -84,14 +84,14 @@ export async function validate_token( session ) {
 /**
  * Log in to WordPress via REST API
  *
- * @param {string} url      WordPress URL.
+ * @param {string} wp_url   WordPress URL.
  * @param {string} username Username or email.
  * @param {string} password Password.
  *
  * @return {Promise<import('./schema').Session>} User object.
  */
-export async function wp_login( url, username, password ) {
-	const head_response = await fetch( url, {
+export async function wp_login( wp_url, username, password ) {
+	const head_response = await fetch( wp_url, {
 		method: 'HEAD',
 	} );
 
@@ -138,7 +138,7 @@ export async function wp_login( url, username, password ) {
 		return {
 			api_url,
 			name,
-			url,
+			wp_url,
 			avatar_url: avatar_urls[ avatar_size ],
 			token: login_data.token,
 		};

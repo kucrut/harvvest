@@ -4,7 +4,7 @@ export const user_schema = z.object( {
 	avatar_url: z.string().url(),
 	email: z.string().email().optional(),
 	name: z.string(),
-	url: z.string().url(),
+	wp_url: z.string().url(),
 } );
 
 /** @typedef {z.infer<user_schema>} User */
