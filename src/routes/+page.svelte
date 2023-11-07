@@ -22,9 +22,10 @@
 
 	/** @type {FileList|undefined} */
 	let files;
+	let is_submitting = false;
+	let last_selected_file = '';
 	/** @type {string|undefined} */
 	let preview_src;
-	let last_selected_file = '';
 
 	/** @param {File} file */
 	const generate_file_id = file => {
@@ -33,8 +34,11 @@
 
 	/** @type {import('./$types').SubmitFunction}*/
 	const handle_submit = () => {
+		is_submitting = true;
+
 		return async ( { result } ) => {
 			await applyAction( result );
+			is_submitting = false;
 
 			if ( result.type === 'success' ) {
 				files = undefined;
@@ -101,7 +105,16 @@
 		<!-- TODO: Add intro text -->
 		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 			<FormWrap>
-				<FileDropzone required type="file" accept="image/*" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
+				<FileDropzone
+					required
+					accept="image/*"
+					disabled={is_submitting}
+					id="file"
+					name="file"
+					slotLead="mb-4 empty:mb-0"
+					type="file"
+					bind:files
+				>
 					<svelte:fragment slot="lead">
 						{#if preview_src}
 							<div class="gap-y-4 grid max-w-md place-items-center">
@@ -113,21 +126,21 @@
 				</FileDropzone>
 				<label class="label">
 					<span>Alternative text</span>
-					<textarea required class="textarea" name="alt_text" bind:value={alt_text} />
+					<textarea required class="textarea" disabled={is_submitting} name="alt_text" bind:value={alt_text} />
 				</label>
 				<label class="label">
 					<span>Title</span>
-					<input class="input" type="text" name="title" bind:value={title} />
+					<input class="input" disabled={is_submitting} type="text" name="title" bind:value={title} />
 				</label>
 				<label class="label">
 					<span>Caption</span>
-					<input required class="input" type="text" name="caption" bind:value={caption} />
+					<input required class="input" disabled={is_submitting} type="text" name="caption" bind:value={caption} />
 				</label>
 				<label class="label">
 					<span>Description</span>
-					<textarea class="textarea" name="description" bind:value={description} />
+					<textarea class="textarea" disabled={is_submitting} name="description" bind:value={description} />
 				</label>
-				<p><button class="btn variant-filled" type="submit">Upload</button></p>
+				<p><button class="btn variant-filled" disabled={is_submitting} type="submit">Upload</button></p>
 			</FormWrap>
 		</form>
 	</div>
