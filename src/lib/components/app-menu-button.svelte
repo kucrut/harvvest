@@ -7,7 +7,7 @@
 		bgDrawer: 'bg-surface-50',
 		id: 'app-menu',
 		rounded: 'rounded-tr-md rounded-br-md rounded-bl-none rounded-tl-none',
-		width: 'max',
+		regionDrawer: 'sm:w-11/12 md:w-auto',
 	};
 </script>
 
