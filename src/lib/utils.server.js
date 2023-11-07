@@ -127,14 +127,14 @@ export async function wp_login( url, username, password ) {
 
 	/** @type {import('$types').HandleResponse<import('./schema').Session>} */
 	const handle = async data => {
-		const user = await wp_login_data_schema.parseAsync( data );
+		const login_data = await wp_login_data_schema.parseAsync( data );
 
 		return {
 			api_url,
 			url,
-			email: user.user_email,
-			name: user.user_display_name || user.user_nicename,
-			token: user.token,
+			email: login_data.user_email,
+			name: login_data.user_display_name || login_data.user_nicename,
+			token: login_data.token,
 		};
 	};
 
