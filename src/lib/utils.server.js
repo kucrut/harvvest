@@ -1,6 +1,6 @@
 import { handle_wp_rest_response } from './utils';
 import { redirect } from '@sveltejs/kit';
-import { session_schema, valid_token_response_schema, wp_media_item_schema, wp_user_schema } from './schema';
+import { session_schema, valid_token_response_schema, wp_login_data_schema, wp_media_item_schema } from './schema';
 
 /**
  * Delete session cookies
@@ -121,7 +121,7 @@ export async function wp_login( url, username, password ) {
 
 	/** @type {import('$types').HandleResponse<import('./schema').Session>} */
 	const handle = async data => {
-		const user = await wp_user_schema.parseAsync( data );
+		const user = await wp_login_data_schema.parseAsync( data );
 
 		return {
 			api_url,
