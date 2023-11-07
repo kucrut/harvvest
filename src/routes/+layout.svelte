@@ -1,9 +1,12 @@
 <script>
-	import { AppBar, AppShell, Avatar, Toast, initializeStores } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, Toast, initializeStores, storePopup } from '@skeletonlabs/skeleton';
+	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import { page } from '$app/stores';
+	import UserMenu from '$lib/components/user-menu.svelte';
 	import '../app.postcss';
 
 	initializeStores();
+	storePopup.set( { computePosition, autoUpdate, offset, shift, flip, arrow } );
 </script>
 
 <AppShell>
@@ -19,10 +22,7 @@
 		<h1 class="h2">Photo Harvest</h1>
 		<svelte:fragment slot="trail">
 			{#if $page.data.user}
-				<Avatar src={$page.data.user.avatar_url} rounded="rounded-md" width="w-8" />
-				<!--form action="/logout" method="POST">
-					<button class="btn variant-ghost" type="submit">Log Out</button>
-				</form-->
+				<UserMenu user={$page.data.user} />
 			{/if}
 		</svelte:fragment>
 	</AppBar>
