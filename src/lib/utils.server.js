@@ -1,6 +1,12 @@
 import { handle_wp_rest_response } from './utils';
 import { redirect } from '@sveltejs/kit';
-import { session_schema, valid_token_response_schema, wp_login_data_schema, wp_media_item_schema } from './schema';
+import {
+	session_schema,
+	valid_token_response_schema,
+	wp_login_data_schema,
+	wp_media_item_schema,
+	wp_user_schema,
+} from './schema';
 
 /**
  * Delete session cookies
@@ -162,6 +168,34 @@ export async function wp_upload( api_url, token, data ) {
 		const media = wp_media_item_schema.parse( json );
 
 		return media.source_url;
+	};
+
+	return handle_wp_rest_response( response, handler );
+}
+
+/**
+ * Fetch WordPress user data
+ *
+ * @throws {Error|typeof import('zod').ZodError} Error object.
+ *
+ * @param {string} api_url WordPress API URL.
+ * @param {string} token   Auth token.
+ *
+ * @return {Promise<import('./schema').WP_User>} User data.
+ */
+export async function wp_user( api_url, token ) {
+	const response = await fetch( `${ api_url }/wp/v2/users/me`, {
+		method: 'POST',
+		headers: {
+			Authorization: `Bearer ${ token }`,
+		},
+	} );
+
+	/** @type {import('$types').HandleResponse<import('./schema').WP_User>} */
+	const handler = async json => {
+		const user = wp_user_schema.parse( json );
+
+		return user;
 	};
 
 	return handle_wp_rest_response( response, handler );
