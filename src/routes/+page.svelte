@@ -6,6 +6,7 @@
 	import { page } from '$app/stores';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
+	import TextField from '$lib/components/text-field.svelte';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
@@ -112,22 +113,10 @@
 					</svelte:fragment>
 					<p slot="message">Click to upload an image or drag and drop it here.</p>
 				</FileDropzone>
-				<label class="label">
-					<span>Alternative text</span>
-					<textarea required class="textarea" disabled={is_submitting} name="alt_text" />
-				</label>
-				<label class="label">
-					<span>Title</span>
-					<input class="input" disabled={is_submitting} type="text" name="title" />
-				</label>
-				<label class="label">
-					<span>Caption</span>
-					<input required class="input" disabled={is_submitting} type="text" name="caption" />
-				</label>
-				<label class="label">
-					<span>Description</span>
-					<textarea class="textarea" disabled={is_submitting} name="description" />
-				</label>
+				<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
+				<TextField disabled={is_submitting} label="Title" name="title" />
+				<TextField required disabled={is_submitting} label="Caption" name="caption" />
+				<TextField multiline disabled={is_submitting} label="Description" name="description" />
 				<SubmitField {is_submitting}>Upload</SubmitField>
 			</FormWrap>
 		</form>
