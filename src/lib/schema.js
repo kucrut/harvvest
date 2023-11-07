@@ -66,3 +66,24 @@ export const wp_rest_error_schema = z.object( {
 } );
 
 /** @typedef {z.infer<wp_rest_error_schema>} WP_Rest_Error */
+
+const wp_link_item_schema = z.array( z.object( { href: z.string().url() } ) );
+
+const wp_links_schema = z.object( {
+	self: wp_link_item_schema,
+	collection: wp_link_item_schema,
+} );
+
+export const wp_user_schema = z.object( {
+	avatar_urls: z.record( z.string().url() ),
+	description: z.string(),
+	id: z.number().min( 1 ),
+	link: z.string().url(),
+	meta: z.record( z.any() ).optional(),
+	name: z.string().min( 1 ),
+	slug: z.string(),
+	url: z.string().url(),
+	_links: wp_links_schema,
+} );
+
+/** @typedef {z.infer<wp_user_schema>} WP_User */
