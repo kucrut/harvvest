@@ -128,12 +128,18 @@ export async function wp_login( url, username, password ) {
 	/** @type {import('$types').HandleResponse<import('./schema').Session>} */
 	const handle = async data => {
 		const login_data = await wp_login_data_schema.parseAsync( data );
+		const { avatar_urls, name } = await wp_user( api_url, login_data.token );
+
+		const avatar_size = Object.keys( avatar_urls )
+			.map( s => Number( s ) )
+			.sort( ( a, b ) => b - a )[ 0 ]
+			.toString();
 
 		return {
 			api_url,
+			name,
 			url,
-			email: login_data.user_email,
-			name: login_data.user_display_name || login_data.user_nicename,
+			avatar_url: avatar_urls[ avatar_size ],
 			token: login_data.token,
 		};
 	};
