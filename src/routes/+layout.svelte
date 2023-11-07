@@ -1,6 +1,6 @@
 <script>
+	import { AppBar, AppShell, Avatar, Toast, initializeStores } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
-	import { AppBar, AppShell, Toast, initializeStores } from '@skeletonlabs/skeleton';
 	import '../app.postcss';
 
 	initializeStores();
@@ -19,9 +19,10 @@
 		<h1 class="h2">Photo Harvest</h1>
 		<svelte:fragment slot="trail">
 			{#if $page.data.user}
-				<form action="/logout" method="POST">
+				<Avatar src={$page.data.user.avatar_url} rounded="rounded-md" width="w-8" />
+				<!--form action="/logout" method="POST">
 					<button class="btn variant-ghost" type="submit">Log Out</button>
-				</form>
+				</form-->
 			{/if}
 		</svelte:fragment>
 	</AppBar>
