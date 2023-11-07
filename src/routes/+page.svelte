@@ -11,15 +11,6 @@
 
 	const toast_store = getToastStore();
 
-	/** @type {string} */
-	let alt_text = '';
-	/** @type {string} */
-	let caption = '';
-	/** @type {string} */
-	let description = '';
-	/** @type {string} */
-	let title = '';
-
 	/** @type {FileList|undefined} */
 	let files;
 	let is_submitting = false;
@@ -113,7 +104,7 @@
 					<svelte:fragment slot="lead">
 						{#if preview_src}
 							<div class="gap-y-4 grid max-w-md place-items-center">
-								<img src={preview_src} alt={alt_text} class="block rounded" />
+								<img alt="" class="block rounded" src={preview_src} />
 							</div>
 						{/if}
 					</svelte:fragment>
@@ -121,19 +112,19 @@
 				</FileDropzone>
 				<label class="label">
 					<span>Alternative text</span>
-					<textarea required class="textarea" disabled={is_submitting} name="alt_text" bind:value={alt_text} />
+					<textarea required class="textarea" disabled={is_submitting} name="alt_text" />
 				</label>
 				<label class="label">
 					<span>Title</span>
-					<input class="input" disabled={is_submitting} type="text" name="title" bind:value={title} />
+					<input class="input" disabled={is_submitting} type="text" name="title" />
 				</label>
 				<label class="label">
 					<span>Caption</span>
-					<input required class="input" disabled={is_submitting} type="text" name="caption" bind:value={caption} />
+					<input required class="input" disabled={is_submitting} type="text" name="caption" />
 				</label>
 				<label class="label">
 					<span>Description</span>
-					<textarea class="textarea" disabled={is_submitting} name="description" bind:value={description} />
+					<textarea class="textarea" disabled={is_submitting} name="description" />
 				</label>
 				<p><button class="btn variant-filled" disabled={is_submitting} type="submit">Upload</button></p>
 			</FormWrap>
