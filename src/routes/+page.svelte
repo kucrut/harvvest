@@ -117,7 +117,7 @@
 				<TextField disabled={is_submitting} label="Title" name="title" />
 				<TextField required disabled={is_submitting} label="Caption" name="caption" />
 				<TextField multiline disabled={is_submitting} label="Description" name="description" />
-				<SubmitField {is_submitting}>Upload</SubmitField>
+				<SubmitField {is_submitting} label="Upload"></SubmitField>
 			</FormWrap>
 		</form>
 	</ContentWrap>
