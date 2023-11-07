@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 export const user_schema = z.object( {
+	avatar_url: z.string().url(),
 	email: z.string().email().optional(),
 	name: z.string(),
 	url: z.string().url(),
