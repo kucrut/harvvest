@@ -19,7 +19,7 @@
 	let preview_src;
 
 	/** @type {import('./$types').SubmitFunction}*/
-	const handle_submit = () => {
+	const handle_submit = ( { formElement } ) => {
 		is_submitting = true;
 
 		return async ( { result } ) => {
@@ -27,6 +27,7 @@
 			is_submitting = false;
 
 			if ( result.type === 'success' ) {
+				formElement.reset();
 				files = undefined;
 			}
 		};
