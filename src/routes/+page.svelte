@@ -18,8 +18,7 @@
 	let files;
 	let is_submitting = false;
 	let last_selected_file = '';
-	/** @type {string|undefined} */
-	let preview_src;
+	let preview_src = '';
 
 	/** @type {import('./$types').SubmitFunction}*/
 	const handle_submit = ( { formElement } ) => {
@@ -57,7 +56,7 @@
 	afterUpdate( async () => {
 		if ( ! files?.length ) {
 			last_selected_file = '';
-			preview_src = undefined;
+			preview_src = '';
 
 			return;
 		}
@@ -72,7 +71,7 @@
 			const uri = await create_data_uri( files[ 0 ] );
 			preview_src = uri;
 		} catch ( error ) {
-			preview_src = undefined;
+			preview_src = '';
 
 			const message = error instanceof Error ? error.message : 'Failed to create preview image.';
 			toast_store.trigger( {
