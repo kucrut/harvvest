@@ -3,7 +3,7 @@
 	import { getToastStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import FormWrap from '$lib/components/form-wrap.svelte';
-	import Spinner from '$lib/components/spinner.svelte';
+	import SubmitField from '$lib/components/submit-field.svelte';
 
 	/** @type {import('./$types').ActionData}*/
 	export let form;
@@ -59,14 +59,7 @@
 				<input required class="input" disabled={is_submitting} id="password" name="password" type="password" />
 			</label>
 
-			<p>
-				<button class="btn variant-filled" disabled={is_submitting} type="submit">
-					{#if is_submitting}
-						<Spinner />
-					{/if}
-					Log In
-				</button>
-			</p>
+			<SubmitField {is_submitting}>Log In</SubmitField>
 		</FormWrap>
 	</form>
 </div>
