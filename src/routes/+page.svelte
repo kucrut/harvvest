@@ -112,7 +112,7 @@
 							</div>
 						{/if}
 					</svelte:fragment>
-					<p slot="message">Click to upload an image or drag and drop it here.</p>
+					<p slot="message">Click to select an image or drag and drop it here.</p>
 				</FileDropzone>
 				<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
 				<TextField disabled={is_submitting} label="Title" name="title" />
