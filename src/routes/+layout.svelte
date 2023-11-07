@@ -10,7 +10,7 @@
 	} from '@skeletonlabs/skeleton';
 	import { computePosition, autoUpdate, offset, shift, flip, arrow } from '@floating-ui/dom';
 	import AppMenu from '$lib/components/app-menu.svelte';
-	import MenuButton from '$lib/components/menu-button.svelte';
+	import AppMenuButton from '$lib/components/app-menu-button.svelte';
 	import '../app.postcss';
 
 	initializeStores();
@@ -33,9 +33,7 @@
 		slotDefault="place-self-center"
 		slotTrail="place-content-end"
 	>
-		<svelte:fragment slot="lead">
-			<MenuButton />
-		</svelte:fragment>
+		<svelte:fragment slot="lead"><AppMenuButton /></svelte:fragment>
 		<h1 class="h2">Photo Harvest</h1>
 		<svelte:fragment slot="trail"><span /></svelte:fragment>
 	</AppBar>
