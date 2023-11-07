@@ -1,5 +1,6 @@
 import { delete_session_cookies, validate_session, validate_token } from '$lib/utils.server.js';
 
+/** @type {import('@sveltejs/kit').Handle} */
 export const handle = async ( { event, resolve } ) => {
 	const session_cookie = event.cookies.get( 'session' );
 
