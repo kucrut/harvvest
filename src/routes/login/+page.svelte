@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
+	import TextField from '$lib/components/text-field.svelte';
 
 	/** @type {import('./$types').ActionData}*/
 	export let form;
@@ -44,21 +45,9 @@
 
 	<form method="POST" use:enhance={handle_submit}>
 		<FormWrap>
-			<label class="label">
-				<span>WordPress URL</span>
-				<input required class="input" disabled={is_submitting} id="url" name="url" type="url" />
-			</label>
-
-			<label class="label">
-				<span>Username or email</span>
-				<input required class="input" disabled={is_submitting} id="username" name="username" type="text" />
-			</label>
-
-			<label class="label">
-				<span>Password</span>
-				<input required class="input" disabled={is_submitting} id="password" name="password" type="password" />
-			</label>
-
+			<TextField required disabled={is_submitting} id="url" label="WordPress URL" name="url" type="url" />
+			<TextField required disabled={is_submitting} label="Username or email" name="username" type="text" />
+			<TextField required disabled={is_submitting} label="Password" name="password" type="password" />
 			<SubmitField {is_submitting}>Log In</SubmitField>
 		</FormWrap>
 	</form>
