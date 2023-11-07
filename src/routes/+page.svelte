@@ -5,6 +5,7 @@
 	import { FileDropzone, getToastStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import FormWrap from '$lib/components/form-wrap.svelte';
+	import Spinner from '$lib/components/spinner.svelte';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
@@ -127,7 +128,12 @@
 					<span>Description</span>
 					<textarea class="textarea" disabled={is_submitting} name="description" />
 				</label>
-				<p><button class="btn variant-filled" disabled={is_submitting} type="submit">Upload</button></p>
+				<p class="flex items-center gap-4">
+					<button class="btn variant-filled" disabled={is_submitting} type="submit"> Upload </button>
+					{#if is_submitting}
+						<Spinner />
+					{/if}
+				</p>
 			</FormWrap>
 		</form>
 	</div>
