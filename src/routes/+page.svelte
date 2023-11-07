@@ -96,43 +96,44 @@
 	<title>Photo Harvest</title>
 </svelte:head>
 
-<div class="p-4 md:p-10 space-y-4">
-	<h1 class="h3 italic text-center">Hello, <strong>{$page.data.user.name}!</strong></h1>
-	<span>{$page.data.user.avatar_url}</span>
-	<p class="text-center">
-		You are logged in to
-		<a class="underline hover:no-underline" href={$page.data.user.url} target="_blank">{$page.data.user.url}</a>.
-	</p>
+{#if $page.data.user}
+	<div class="p-4 md:p-10 space-y-4">
+		<h1 class="h3 italic text-center">Hello, <strong>{$page.data.user.name}!</strong></h1>
+		<p class="text-center">
+			You are logged in to
+			<a class="underline hover:no-underline" href={$page.data.user.url} target="_blank">{$page.data.user.url}</a>.
+		</p>
 
-	<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
-		<FormWrap>
-			<FileDropzone required type="file" accept="image/*" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
-				<svelte:fragment slot="lead">
-					{#if preview_src}
-						<div class="gap-y-4 grid max-w-md place-items-center">
-							<img src={preview_src} alt={alt_text} class="block rounded" />
-						</div>
-					{/if}
-				</svelte:fragment>
-				<p slot="message">Click to upload an image or drag and drop it here.</p>
-			</FileDropzone>
-			<label class="label">
-				<span>Alternative text</span>
-				<textarea required class="textarea" name="alt_text" bind:value={alt_text} />
-			</label>
-			<label class="label">
-				<span>Title</span>
-				<input class="input" type="text" name="title" bind:value={title} />
-			</label>
-			<label class="label">
-				<span>Caption</span>
-				<input required class="input" type="text" name="caption" bind:value={caption} />
-			</label>
-			<label class="label">
-				<span>Description</span>
-				<textarea class="textarea" name="description" bind:value={description} />
-			</label>
-			<p><button class="btn variant-filled" type="submit">Upload</button></p>
-		</FormWrap>
-	</form>
-</div>
+		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
+			<FormWrap>
+				<FileDropzone required type="file" accept="image/*" id="file" name="file" slotLead="mb-4 empty:mb-0" bind:files>
+					<svelte:fragment slot="lead">
+						{#if preview_src}
+							<div class="gap-y-4 grid max-w-md place-items-center">
+								<img src={preview_src} alt={alt_text} class="block rounded" />
+							</div>
+						{/if}
+					</svelte:fragment>
+					<p slot="message">Click to upload an image or drag and drop it here.</p>
+				</FileDropzone>
+				<label class="label">
+					<span>Alternative text</span>
+					<textarea required class="textarea" name="alt_text" bind:value={alt_text} />
+				</label>
+				<label class="label">
+					<span>Title</span>
+					<input class="input" type="text" name="title" bind:value={title} />
+				</label>
+				<label class="label">
+					<span>Caption</span>
+					<input required class="input" type="text" name="caption" bind:value={caption} />
+				</label>
+				<label class="label">
+					<span>Description</span>
+					<textarea class="textarea" name="description" bind:value={description} />
+				</label>
+				<p><button class="btn variant-filled" type="submit">Upload</button></p>
+			</FormWrap>
+		</form>
+	</div>
+{/if}
