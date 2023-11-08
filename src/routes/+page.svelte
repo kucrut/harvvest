@@ -65,10 +65,13 @@
 		}
 
 		const file_id = generate_file_id( files[ 0 ] );
+		const toast_id = 'upload-preview-error';
 
 		if ( last_selected_file === file_id ) {
 			return;
 		}
+
+		toast_store.remove( toast_id );
 
 		try {
 			const uri = await create_data_uri( files[ 0 ] );
@@ -77,7 +80,7 @@
 			preview_src = '';
 
 			toast_store.add( {
-				id: 'upload-preview-error',
+				id: toast_id,
 				message: error instanceof Error ? error.message : 'Failed to create preview image.',
 				type: 'error',
 			} );
