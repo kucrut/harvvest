@@ -11,10 +11,18 @@
 
 	/** @type {number} */
 	let removal_delay;
+	/** @type {number|undefined} */
+	let timeout_id;
+
+	const cancel_removal = () => {
+		if ( removal_delay ) {
+			window.clearTimeout( timeout_id );
+		}
+	};
 
 	const schedule_removal = () => {
 		if ( removal_delay ) {
-			window.setTimeout( remove, removal_delay );
+			timeout_id = window.setTimeout( remove, removal_delay );
 		}
 	};
 
@@ -23,12 +31,18 @@
 			return;
 		}
 
-		removal_delay = typeof item.autohide === 'number' ? item.autohide : 10000;
+		removal_delay = typeof item.autohide === 'number' ? item.autohide : 3000;
 		schedule_removal();
 	} );
 </script>
 
-<div role="alertdialog" aria-live="polite" transition:slide|local={{ duration: 200 }}>
+<div
+	aria-live="polite"
+	role="alertdialog"
+	transition:slide|local={{ duration: 200 }}
+	on:mouseenter={cancel_removal}
+	on:mouseleave={schedule_removal}
+>
 	<div
 		class="toast flex justify-between items-center pointer-events-auto max-w-[640px] p-4 space-x-4 rounded-container-token shadow-lg variant-ghost-{item.type}"
 	>
