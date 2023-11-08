@@ -23,6 +23,8 @@
 	let last_selected_file = '';
 	let preview_src = '';
 
+	let title = '';
+
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement } ) => {
 		toast_store.remove( toast_error_id );
@@ -119,7 +121,7 @@
 				</FileDropzone>
 				<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
 				<TextField required disabled={is_submitting} label="Caption" name="caption" />
-				<TextField disabled={is_submitting} label="Title" name="title" />
+				<TextField disabled={is_submitting} label="Title" name="title" bind:value={title} />
 				<TextField multiline disabled={is_submitting} label="Description" name="description" />
 				<SubmitField {is_submitting} label="Upload"></SubmitField>
 			</FormWrap>
