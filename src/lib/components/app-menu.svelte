@@ -29,7 +29,8 @@
 			<Avatar src={$page.data.user.avatar_url} rounded="rounded-md" width="w-10" />
 			<span
 				><span class="font-semibold">{$page.data.user.name}</span><br />
-				<a class="italic text-xs underline" href={$page.data.user.wp_url} target="_blank">{$page.data.user.wp_url}</a
+				<a class="italic text-xs after:content-['_↗']" href={$page.data.user.wp_url} target="_blank"
+					><span class="underline">{$page.data.user.wp_url}</span></a
 				></span
 			>
 			<form action="/logout" method="POST" class="ml-auto pl-6">
