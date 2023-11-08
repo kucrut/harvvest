@@ -2,25 +2,26 @@
 	import { afterUpdate } from 'svelte';
 	import { applyAction, enhance } from '$app/forms';
 	import { create_data_uri, generate_file_id } from '$lib/utils.js';
-	import { FileDropzone, getToastStore } from '@skeletonlabs/skeleton';
+	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
+	import Snackbar from '$lib/components/snackbar.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
-
-	const toast_store = getToastStore();
 
 	/** @type {FileList|undefined} */
 	let files;
 	let is_submitting = false;
 	let last_selected_file = '';
 	let preview_src = '';
+	/** @type {import('$types').Toast|undefined} */
+	let toast;
 
-	/** @type {import('./$types').SubmitFunction}*/
+	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement } ) => {
 		is_submitting = true;
 
@@ -37,19 +38,15 @@
 
 	$: {
 		if ( form?.success ) {
-			toast_store.trigger( {
-				background: 'variant-ghost-success',
-				hoverable: true,
+			toast = {
 				message: `File uploaded to ${ form.image_link }`,
-			} );
-		}
-
-		if ( form?.error && form?.message ) {
-			toast_store.trigger( {
-				background: 'variant-ghost-error',
-				hoverable: true,
+				type: 'success',
+			};
+		} else if ( form?.error && form.message ) {
+			toast = {
 				message: form.message,
-			} );
+				type: 'error',
+			};
 		}
 	}
 
@@ -73,12 +70,10 @@
 		} catch ( error ) {
 			preview_src = '';
 
-			const message = error instanceof Error ? error.message : 'Failed to create preview image.';
-			toast_store.trigger( {
-				message,
-				background: 'variant-ghost-error',
-				hoverable: true,
-			} );
+			toast = {
+				message: error instanceof Error ? error.message : 'Failed to create preview image.',
+				type: 'error',
+			};
 		} finally {
 			last_selected_file = file_id;
 		}
@@ -120,4 +115,11 @@
 			</FormWrap>
 		</form>
 	</ContentWrap>
+{/if}
+
+{#if toast}
+	<Snackbar class="variant-ghost-{toast.type}" on:click={() => ( toast = undefined )}>
+		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+		{@html toast.message}
+	</Snackbar>
 {/if}
