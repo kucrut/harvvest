@@ -14,6 +14,8 @@
 	export let form;
 
 	const toast_store = get_toast_store();
+	const toast_error_id = 'upload-error';
+	const toast_success_id = 'upload-success';
 
 	/** @type {FileList|undefined} */
 	let files;
@@ -23,6 +25,8 @@
 
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement } ) => {
+		toast_store.remove( toast_error_id );
+		toast_store.remove( toast_success_id );
 		is_submitting = true;
 
 		return async ( { result } ) => {
@@ -39,13 +43,13 @@
 	$: {
 		if ( form?.success ) {
 			toast_store.add( {
-				id: 'upload-success',
+				id: toast_success_id,
 				message: `File uploaded to ${ form.image_link }`,
 				type: 'success',
 			} );
 		} else if ( form?.error && form.message ) {
 			toast_store.add( {
-				id: 'upload-error',
+				id: toast_error_id,
 				message: form.message,
 				type: 'error',
 			} );
