@@ -3,7 +3,7 @@
 	export let label;
 	export let multiline = false;
 
-	$: label_class = 'required' in $$restProps ? 'font-semibold' : '';
+	$: label_class = 'required' in $$restProps ? `after:content-['_*'] after:font-semibold after:text-error-400` : null;
 </script>
 
 <label class="label">
