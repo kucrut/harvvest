@@ -2,24 +2,24 @@
 	import { afterUpdate } from 'svelte';
 	import { applyAction, enhance } from '$app/forms';
 	import { create_data_uri, generate_file_id } from '$lib/utils.js';
+	import { get_toast_store } from '$lib/stores/toast';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
-	import Snackbar from '$lib/components/snackbar.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
+
+	const toast_store = get_toast_store();
 
 	/** @type {FileList|undefined} */
 	let files;
 	let is_submitting = false;
 	let last_selected_file = '';
 	let preview_src = '';
-	/** @type {import('$types').Toast|undefined} */
-	let toast;
 
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement } ) => {
@@ -38,15 +38,17 @@
 
 	$: {
 		if ( form?.success ) {
-			toast = {
+			toast_store.add( {
+				id: 'upload-success',
 				message: `File uploaded to ${ form.image_link }`,
 				type: 'success',
-			};
+			} );
 		} else if ( form?.error && form.message ) {
-			toast = {
+			toast_store.add( {
+				id: 'upload-error',
 				message: form.message,
 				type: 'error',
-			};
+			} );
 		}
 	}
 
@@ -70,10 +72,11 @@
 		} catch ( error ) {
 			preview_src = '';
 
-			toast = {
+			toast_store.add( {
+				id: 'upload-preview-error',
 				message: error instanceof Error ? error.message : 'Failed to create preview image.',
 				type: 'error',
-			};
+			} );
 		} finally {
 			last_selected_file = file_id;
 		}
@@ -115,11 +118,4 @@
 			</FormWrap>
 		</form>
 	</ContentWrap>
-{/if}
-
-{#if toast}
-	<Snackbar class="variant-ghost-{toast.type}" on:click={() => ( toast = undefined )}>
-		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-		{@html toast.message}
-	</Snackbar>
 {/if}
