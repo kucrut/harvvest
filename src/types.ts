@@ -1,6 +1,8 @@
 export type HandleResponse< T > = ( data: unknown ) => Promise< T >;
 
 export interface Toast {
-	type: 'error' | 'success';
+	autohide?: boolean | number;
+	id: string;
 	message: string;
+	type: 'error' | 'success';
 }
