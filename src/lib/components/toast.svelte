@@ -9,14 +9,22 @@
 	const store = get_toast_store();
 	const remove = () => store.remove( item.id );
 
+	/** @type {number} */
+	let removal_delay;
+
+	const schedule_removal = () => {
+		if ( removal_delay ) {
+			window.setTimeout( remove, removal_delay );
+		}
+	};
+
 	onMount( () => {
 		if ( ! item.autohide || ( typeof item.autohide === 'number' && item.autohide < 0 ) ) {
 			return;
 		}
 
-		const timeout = typeof item.autohide === 'number' ? item.autohide : 10000;
-
-		setTimeout( remove, timeout );
+		removal_delay = typeof item.autohide === 'number' ? item.autohide : 10000;
+		schedule_removal();
 	} );
 </script>
 

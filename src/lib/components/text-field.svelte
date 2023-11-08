@@ -2,10 +2,12 @@
 	/** @type {string} */
 	export let label;
 	export let multiline = false;
+
+	$: label_class = 'required' in $$restProps ? 'font-semibold' : '';
 </script>
 
 <label class="label">
-	<span>{label}</span>
+	<span class={label_class}>{label}</span>
 	{#if multiline}
 		<textarea class="textarea" {...$$restProps} />
 	{:else}
