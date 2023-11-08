@@ -44,7 +44,7 @@
 		if ( form?.success ) {
 			toast_store.add( {
 				id: toast_success_id,
-				message: `File uploaded to <a class="underline" href="${ form.image_link }" rel="external" target="_blank">${ form.image_link }</a>.`,
+				message: `File uploaded to <a class="underline after:content-['_↗']" href="${ form.image_link }" rel="external" target="_blank">${ form.image_link }</a>.`,
 				type: 'success',
 			} );
 		} else if ( form?.error && form.message ) {
