@@ -118,8 +118,8 @@
 					<p slot="message">Click to select an image or drag and drop it here.</p>
 				</FileDropzone>
 				<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
-				<TextField disabled={is_submitting} label="Title" name="title" />
 				<TextField required disabled={is_submitting} label="Caption" name="caption" />
+				<TextField disabled={is_submitting} label="Title" name="title" />
 				<TextField multiline disabled={is_submitting} label="Description" name="description" />
 				<SubmitField {is_submitting} label="Upload"></SubmitField>
 			</FormWrap>
