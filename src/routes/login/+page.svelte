@@ -1,6 +1,6 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
-	import { getToastStore } from '@skeletonlabs/skeleton';
+	import { get_toast_store } from '$lib/stores/toast';
 	import { goto } from '$app/navigation';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
@@ -10,12 +10,15 @@
 	/** @type {import('./$types').ActionData}*/
 	export let form;
 
-	const toast_store = getToastStore();
+	const toast_store = get_toast_store();
+	const toast_item_id = 'login-error';
 	let is_submitting = false;
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
+		toast_store.remove( toast_item_id );
 		is_submitting = true;
+
 		return async ( { result } ) => {
 			if ( result.type === 'redirect' ) {
 				await goto( result.location, { invalidateAll: true } );
@@ -28,10 +31,10 @@
 
 	$: {
 		if ( form?.error && form?.message ) {
-			toast_store.trigger( {
-				background: 'variant-ghost-error',
-				hoverable: true,
+			toast_store.add( {
+				id: toast_item_id,
 				message: form.message,
+				type: 'error',
 			} );
 		}
 	}
