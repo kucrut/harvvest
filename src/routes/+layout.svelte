@@ -1,10 +1,13 @@
 <script>
-	import { AppBar, AppShell, Drawer, Toast, getDrawerStore, initializeStores } from '@skeletonlabs/skeleton';
+	import { AppBar, AppShell, Drawer, getDrawerStore, initializeStores } from '@skeletonlabs/skeleton';
+	import { init_toast_store } from '$lib/stores/toast';
 	import AppMenu from '$lib/components/app-menu.svelte';
 	import AppMenuButton from '$lib/components/app-menu-button.svelte';
+	import Snackbar from '$lib/components/snackbar.svelte';
 	import '../app.postcss';
 
 	initializeStores();
+	init_toast_store();
 
 	const drawer_store = getDrawerStore();
 </script>
@@ -15,8 +18,9 @@
 	{/if}
 </Drawer>
 
+<Snackbar />
+
 <AppShell>
-	<Toast />
 	<AppBar
 		gridColumns="grid-cols-[1fr_auto_1fr]"
 		slot="header"
