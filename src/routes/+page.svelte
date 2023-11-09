@@ -23,6 +23,7 @@
 	let last_selected_file = '';
 	let preview_src = '';
 
+	let has_title_touched = false;
 	let title = '';
 
 	/** @type {import('./$types').SubmitFunction} */
@@ -73,7 +74,7 @@
 			return;
 		}
 
-		if ( ! title ) {
+		if ( ! has_title_touched ) {
 			title = remove_file_extension( files[ 0 ].name );
 		}
 
@@ -125,7 +126,13 @@
 				</FileDropzone>
 				<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
 				<TextField required disabled={is_submitting} label="Caption" name="caption" />
-				<TextField disabled={is_submitting} label="Title" name="title" bind:value={title} />
+				<TextField
+					disabled={is_submitting}
+					label="Title"
+					name="title"
+					bind:value={title}
+					on:focus={() => ( has_title_touched = true )}
+				/>
 				<TextField multiline disabled={is_submitting} label="Description" name="description" />
 				<SubmitField {is_submitting} label="Upload"></SubmitField>
 			</FormWrap>
