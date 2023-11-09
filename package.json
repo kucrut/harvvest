@@ -13,9 +13,6 @@
 		"lint:js:fix": "eslint --fix --ext .cjs,.html,.js,.svelte,.ts .",
 		"types:check": "svelte-kit sync && svelte-check && tsc"
 	},
-	"dependencies": {
-		"zod": "^3.22.4"
-	},
 	"devDependencies": {
 		"@skeletonlabs/skeleton": "^2.5.0",
 		"@skeletonlabs/tw-plugin": "^0.2.4",
@@ -41,7 +38,8 @@
 		"svelte-check": "^3.5.2",
 		"tailwindcss": "^3.3.2",
 		"typescript": "^5.0.0",
-		"vite": "^4.4.2"
+		"vite": "^4.4.2",
+		"zod": "^3.22.4"
 	},
 	"type": "module"
 }
