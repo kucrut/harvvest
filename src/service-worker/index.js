@@ -25,3 +25,16 @@ sw.addEventListener( 'install', event => {
 
 	event.waitUntil( add_files_to_cache() );
 } );
+
+sw.addEventListener( 'activate', event => {
+	// Remove previous cached data from disk.
+	async function delete_old_caches() {
+		for ( const key of await caches.keys() ) {
+			if ( key !== CACHE ) {
+				await caches.delete( key );
+			}
+		}
+	}
+
+	event.waitUntil( delete_old_caches() );
+} );
