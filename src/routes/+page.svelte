@@ -29,7 +29,7 @@
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement, formData } ) => {
 		// Re-use file shared to our PWA.
-		if ( files?.length && ! formData.get( 'file' ) ) {
+		if ( files?.length ) {
 			formData.set( 'file', files[ 0 ] );
 		}
 
