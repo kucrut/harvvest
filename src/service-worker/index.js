@@ -38,3 +38,26 @@ sw.addEventListener( 'activate', event => {
 
 	event.waitUntil( delete_old_caches() );
 } );
+
+sw.addEventListener( 'fetch', event => {
+	const url = new URL( event.request.url );
+
+	// Don't care about other-origin URLs.
+	if ( url.origin !== location.origin ) {
+		return;
+	}
+
+	if ( event.request.method !== 'GET' ) {
+		event.respondWith(
+			( async () => {
+				const cache = await caches.open( CACHE );
+
+				const from_cache = await cache.match( url.pathname, {
+					ignoreSearch: true,
+				} );
+
+				return from_cache || fetch( event.request );
+			} )(),
+		);
+	}
+} );
