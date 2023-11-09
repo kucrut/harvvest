@@ -106,12 +106,14 @@
 	$: {
 		if ( form?.success ) {
 			toast_store.add( {
+				autohide: false,
 				id: toast_success_id,
 				message: `File uploaded to <a class="after:content-['_↗']" href="${ form.image_link }" rel="external" target="_blank"><span class="underline">${ form.image_link }</span></a>`,
 				type: 'success',
 			} );
 		} else if ( form?.error && form.message ) {
 			toast_store.add( {
+				autohide: false,
 				id: toast_error_id,
 				message: form.message,
 				type: 'error',
