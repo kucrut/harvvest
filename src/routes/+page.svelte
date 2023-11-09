@@ -1,7 +1,7 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { applyAction, enhance } from '$app/forms';
-	import { create_data_uri, generate_file_id, remove_file_extension } from '$lib/utils.js';
+	import { create_data_uri, generate_file_id, remove_file_extension, retrieve_pwa_shared_file } from '$lib/utils.js';
 	import { get_toast_store } from '$lib/stores/toast';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
@@ -27,7 +27,11 @@
 	let title = '';
 
 	/** @type {import('./$types').SubmitFunction} */
-	const handle_submit = ( { formElement } ) => {
+	const handle_submit = ( { formElement, formData } ) => {
+		if ( files?.length ) {
+			formData.set( 'file', files[ 0 ] );
+		}
+
 		toast_store.remove( toast_error_id );
 		toast_store.remove( toast_success_id );
 		is_submitting = true;
@@ -41,6 +45,20 @@
 				files = undefined;
 			}
 		};
+	};
+
+	const intercept_shared_file = async () => {
+		const is_accepting_file = $page.url.searchParams.has( 'share-target' );
+
+		if ( is_accepting_file ) {
+			const shared_file = await retrieve_pwa_shared_file();
+			const container = new DataTransfer();
+			container.items.add( shared_file );
+			files = container.files;
+
+			// Clear `search-target` param.
+			history.replaceState( '', '', '/' );
+		}
 	};
 
 	$: {
@@ -60,6 +78,8 @@
 	}
 
 	afterUpdate( async () => {
+		await intercept_shared_file();
+
 		if ( ! files?.length ) {
 			last_selected_file = '';
 			preview_src = '';
@@ -67,7 +87,8 @@
 			return;
 		}
 
-		const file_id = generate_file_id( files[ 0 ] );
+		const current_file = files[ 0 ];
+		const file_id = generate_file_id( current_file );
 		const toast_id = 'upload-preview-error';
 
 		if ( last_selected_file === file_id ) {
@@ -75,13 +96,13 @@
 		}
 
 		if ( ! has_title_touched ) {
-			title = remove_file_extension( files[ 0 ].name );
+			title = remove_file_extension( current_file.name );
 		}
 
 		toast_store.remove( toast_id );
 
 		try {
-			const uri = await create_data_uri( files[ 0 ] );
+			const uri = await create_data_uri( current_file );
 			preview_src = uri;
 		} catch ( error ) {
 			preview_src = '';
@@ -107,7 +128,7 @@
 		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 			<FormWrap>
 				<FileDropzone
-					required
+					required={! files?.length}
 					accept="image/*"
 					disabled={is_submitting}
 					name="file"
