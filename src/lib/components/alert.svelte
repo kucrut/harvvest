@@ -37,7 +37,7 @@
 			{#each meta.data_to_copy as item}
 				<button
 					aria-label={item.label || 'Copy'}
-					class="btn-icon btn-icon-sm variant-filled"
+					class="btn-icon btn-icon-sm variant-ghost"
 					on:click={() => copy_to_clipboard( item.content )}
 					><svg
 						xmlns="http://www.w3.org/2000/svg"
