@@ -97,9 +97,11 @@
 	$: {
 		if ( form?.success ) {
 			create_alert( drawer_store, {
-				message: `File uploaded to <a class="after:content-['_↗']" href="${ form.image_link }" rel="external" target="_blank"><span class="underline">${ form.image_link }</span></a>`,
+				message: `File was successfully uploaded.`,
 				title: 'Success!',
 				type: 'success',
+				data_to_copy: [ { label: 'Copy URL', content: form.image_link } ],
+				links: [ { label: 'View ↗', url: form.image_link } ],
 			} );
 		} else if ( form?.error && form.message ) {
 			create_error_alert( drawer_store, form.message );
