@@ -62,25 +62,7 @@
 		}
 	};
 
-	$: {
-		if ( form?.success ) {
-			toast_store.add( {
-				id: toast_success_id,
-				message: `File uploaded to <a class="after:content-['_↗']" href="${ form.image_link }" rel="external" target="_blank"><span class="underline">${ form.image_link }</span></a>`,
-				type: 'success',
-			} );
-		} else if ( form?.error && form.message ) {
-			toast_store.add( {
-				id: toast_error_id,
-				message: form.message,
-				type: 'error',
-			} );
-		}
-	}
-
-	afterUpdate( async () => {
-		await intercept_shared_file();
-
+	const update_preview_src = async () => {
 		if ( ! files?.length ) {
 			last_selected_file = '';
 			preview_src = '';
@@ -116,6 +98,27 @@
 		} finally {
 			last_selected_file = file_id;
 		}
+	};
+
+	$: {
+		if ( form?.success ) {
+			toast_store.add( {
+				id: toast_success_id,
+				message: `File uploaded to <a class="after:content-['_↗']" href="${ form.image_link }" rel="external" target="_blank"><span class="underline">${ form.image_link }</span></a>`,
+				type: 'success',
+			} );
+		} else if ( form?.error && form.message ) {
+			toast_store.add( {
+				id: toast_error_id,
+				message: form.message,
+				type: 'error',
+			} );
+		}
+	}
+
+	afterUpdate( async () => {
+		await intercept_shared_file();
+		await update_preview_src();
 	} );
 </script>
 
