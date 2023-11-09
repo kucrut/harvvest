@@ -49,17 +49,17 @@
 	};
 
 	const intercept_shared_file = async () => {
-		const is_accepting_file = $page.url.searchParams.has( 'share-target' );
-
-		if ( is_accepting_file ) {
-			const shared_file = await retrieve_pwa_shared_file();
-			const container = new DataTransfer();
-			container.items.add( shared_file );
-			files = container.files;
-
-			// Clear `search-target` param.
-			history.replaceState( '', '', '/' );
+		if ( ! $page.url.searchParams.has( 'share-target' ) ) {
+			return;
 		}
+
+		const shared_file = await retrieve_pwa_shared_file();
+		const container = new DataTransfer();
+		container.items.add( shared_file );
+		files = container.files;
+
+		// Clear `search-target` param.
+		history.replaceState( '', '', '/' );
 	};
 
 	const update_preview_src = async () => {
