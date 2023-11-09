@@ -1,22 +1,33 @@
 /// <reference lib="dom" />
 
-import { getDrawerStore } from '@skeletonlabs/skeleton';
-
 /**
  * Create alert
  *
+ * @param {ReturnType<import('@skeletonlabs/skeleton').getDrawerStore>} store Drawer store.
  * @param {Record<string,string>} meta Alert metadata.
  */
-export function create_alert( meta ) {
-	const drawer_store = getDrawerStore();
-
-	drawer_store.open( {
+export function create_alert( store, meta ) {
+	store.open( {
 		meta,
 		bgDrawer: 'bg-surface-50',
 		id: 'alert',
 		position: 'bottom',
 		rounded: 'rounded-tr-md rounded-br-none rounded-bl-none rounded-tl-md',
 		regionDrawer: 'p-4 h-max w-full',
+	} );
+}
+
+/**
+ * Create error alert
+ *
+ * @param {ReturnType<import('@skeletonlabs/skeleton').getDrawerStore>} store Drawer store.
+ * @param {string} message Error message.
+ */
+export function create_error_alert( store, message ) {
+	create_alert( store, {
+		message,
+		title: 'Error',
+		type: 'error',
 	} );
 }
 
