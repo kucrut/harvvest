@@ -16,18 +16,21 @@ const ASSETS = [
 	...files, // everything in `static`.
 ];
 
-/** @type {Map<string, ((value: any) => void)[]>} */
+/** @type {Map<string, (() => void)[]>} */
 const messages_map = new Map();
 
 /** @param {string} data_value */
 const next_message = data_value => {
-	return new Promise( resolve => {
+	/** @type {Promise<void>} */
+	const item = new Promise( resolve => {
 		if ( ! messages_map.has( data_value ) ) {
 			messages_map.set( data_value, [] );
 		}
 
 		messages_map.get( data_value )?.push( resolve );
 	} );
+
+	return item;
 };
 
 sw.addEventListener( 'install', event => {
@@ -98,5 +101,19 @@ sw.addEventListener( 'fetch', event => {
 				return from_cache || fetch( event.request );
 			} )(),
 		);
+	}
+} );
+
+sw.addEventListener( 'message', event => {
+	const resolvers = messages_map.get( event.data );
+
+	if ( ! resolvers ) {
+		return;
+	}
+
+	messages_map.delete( event.data );
+
+	for ( const resolve of resolvers ) {
+		resolve();
 	}
 } );
