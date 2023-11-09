@@ -28,7 +28,8 @@
 
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement, formData } ) => {
-		if ( files?.length ) {
+		// Re-use file shared to our PWA.
+		if ( files?.length && ! formData.get( 'file' ) ) {
 			formData.set( 'file', files[ 0 ] );
 		}
 
@@ -127,6 +128,7 @@
 		<!-- TODO: Add intro text -->
 		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 			<FormWrap>
+				<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 				<FileDropzone
 					required={! files?.length}
 					accept="image/*"
