@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 
-	/** @type {Record<string,string>} */
+	/** @type {import('$types').Alert} */
 	export let meta;
 
 	const dispatch = createEventDispatcher();
