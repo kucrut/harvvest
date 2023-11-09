@@ -17,9 +17,11 @@
 			console.error( err );
 		}
 	};
+
+	$: cls = meta.type === 'error' ? 'variant-soft-error' : 'variant-soft-success';
 </script>
 
-<aside class="alert variant-ghost-{meta.type}">
+<aside class="alert {cls}">
 	<div class="alert-message">
 		<h3 class="h3">{meta.title}</h3>
 		<!-- eslint-disable-next-line svelte/no-at-html-tags -->
