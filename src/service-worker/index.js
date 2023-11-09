@@ -16,6 +16,20 @@ const ASSETS = [
 	...files, // everything in `static`.
 ];
 
+/** @type {Map<string, ((value: any) => void)[]>} */
+const messages_map = new Map();
+
+/** @param {string} data_value */
+const next_message = data_value => {
+	return new Promise( resolve => {
+		if ( ! messages_map.has( data_value ) ) {
+			messages_map.set( data_value, [] );
+		}
+
+		messages_map.get( data_value )?.push( resolve );
+	} );
+};
+
 sw.addEventListener( 'install', event => {
 	// Create a new cache and add all files to it.
 	async function add_files_to_cache() {
@@ -44,6 +58,31 @@ sw.addEventListener( 'fetch', event => {
 
 	// Don't care about other-origin URLs.
 	if ( url.origin !== location.origin ) {
+		return;
+	}
+
+	if ( url.pathname === '/' && url.searchParams.has( 'share-target' ) && event.request.method === 'POST' ) {
+		const data_promise = event.request.formData();
+
+		// Redirect so the user can refresh the page without resending data.
+		event.respondWith( Response.redirect( '/?share-target' ) );
+
+		event.waitUntil(
+			( async () => {
+				// The page sends this message to tell the service worker it's ready to receive the file.
+				await next_message( 'share-ready' );
+				const client = await sw.clients.get( event.resultingClientId );
+
+				if ( ! client ) {
+					return;
+				}
+
+				const data = await data_promise;
+				const file = data.get( 'file' );
+				client.postMessage( { file, action: 'load-image' } );
+			} )(),
+		);
+
 		return;
 	}
 
