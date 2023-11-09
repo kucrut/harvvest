@@ -26,6 +26,13 @@
 		<p>{@html meta.message}</p>
 	</div>
 	<div class="alert-actions">
+		{#if meta.links?.length}
+			{#each meta.links as item}
+				<a class="btn variant-ghost" href={item.url} target={! item.url.startsWith( '/' ) ? '_blank' : null}
+					>{item.label}</a
+				>
+			{/each}
+		{/if}
 		{#if meta.data_to_copy?.length}
 			{#each meta.data_to_copy as item}
 				<button
