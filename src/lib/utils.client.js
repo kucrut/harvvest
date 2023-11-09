@@ -4,7 +4,7 @@
  * Create alert
  *
  * @param {ReturnType<import('@skeletonlabs/skeleton').getDrawerStore>} store Drawer store.
- * @param {Record<string,string>} meta Alert metadata.
+ * @param {import('$types').Alert} meta Alert metadata.
  */
 export function create_alert( store, meta ) {
 	store.open( {
