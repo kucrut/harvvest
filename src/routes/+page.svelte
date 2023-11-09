@@ -1,7 +1,7 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { applyAction, enhance } from '$app/forms';
-	import { create_data_uri, generate_file_id } from '$lib/utils.js';
+	import { create_data_uri, generate_file_id, remove_file_extension } from '$lib/utils.js';
 	import { get_toast_store } from '$lib/stores/toast';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
@@ -71,6 +71,10 @@
 
 		if ( last_selected_file === file_id ) {
 			return;
+		}
+
+		if ( ! title ) {
+			title = remove_file_extension( files[ 0 ].name );
 		}
 
 		toast_store.remove( toast_id );
