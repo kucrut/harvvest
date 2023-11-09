@@ -1,11 +1,10 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { applyAction, enhance } from '$app/forms';
+	import { create_alert, create_error_alert, retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import { create_data_uri, generate_file_id, remove_file_extension } from '$lib/utils.js';
-	import { get_toast_store } from '$lib/stores/toast';
-	import { FileDropzone } from '@skeletonlabs/skeleton';
+	import { FileDropzone, getDrawerStore } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
-	import { retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
@@ -14,9 +13,7 @@
 	/** @type {import('./$types').ActionData} */
 	export let form;
 
-	const toast_store = get_toast_store();
-	const toast_error_id = 'upload-error';
-	const toast_success_id = 'upload-success';
+	const drawer_store = getDrawerStore();
 
 	/** @type {FileList|undefined} */
 	let files;
@@ -34,8 +31,6 @@
 			formData.set( 'file', files[ 0 ] );
 		}
 
-		toast_store.remove( toast_error_id );
-		toast_store.remove( toast_success_id );
 		is_submitting = true;
 
 		return async ( { result } ) => {
@@ -76,13 +71,10 @@
 
 		const file = files[ 0 ];
 		const file_id = generate_file_id( file );
-		const toast_id = 'upload-preview-error';
 
 		if ( last_selected_file === file_id ) {
 			return;
 		}
-
-		toast_store.remove( toast_id );
 
 		try {
 			const uri = await create_data_uri( file );
@@ -90,11 +82,7 @@
 		} catch ( error ) {
 			preview_src = '';
 
-			toast_store.add( {
-				id: toast_id,
-				message: error instanceof Error ? error.message : 'Failed to create preview image.',
-				type: 'error',
-			} );
+			create_error_alert( drawer_store, error instanceof Error ? error.message : 'Failed to create preview image.' );
 		} finally {
 			last_selected_file = file_id;
 		}
@@ -108,19 +96,13 @@
 
 	$: {
 		if ( form?.success ) {
-			toast_store.add( {
-				autohide: false,
-				id: toast_success_id,
+			create_alert( drawer_store, {
 				message: `File uploaded to <a class="after:content-['_↗']" href="${ form.image_link }" rel="external" target="_blank"><span class="underline">${ form.image_link }</span></a>`,
+				title: 'Success!',
 				type: 'success',
 			} );
 		} else if ( form?.error && form.message ) {
-			toast_store.add( {
-				autohide: false,
-				id: toast_error_id,
-				message: form.message,
-				type: 'error',
-			} );
+			create_error_alert( drawer_store, form.message );
 		}
 	}
 
