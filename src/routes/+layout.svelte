@@ -1,13 +1,11 @@
 <script>
 	import { AppBar, AppShell, Drawer, getDrawerStore, initializeStores } from '@skeletonlabs/skeleton';
-	import { init_toast_store } from '$lib/stores/toast';
+	import Alert from '$lib/components/alert.svelte';
 	import AppMenu from '$lib/components/app-menu.svelte';
 	import AppMenuButton from '$lib/components/app-menu-button.svelte';
-	import Snackbar from '$lib/components/snackbar.svelte';
 	import '../app.postcss';
 
 	initializeStores();
-	init_toast_store();
 
 	const drawer_store = getDrawerStore();
 </script>
@@ -15,10 +13,10 @@
 <Drawer>
 	{#if $drawer_store.id === 'app-menu'}
 		<AppMenu />
+	{:else if $drawer_store.id === 'alert'}
+		<Alert meta={$drawer_store.meta} on:dismiss={() => drawer_store.close()} />
 	{/if}
 </Drawer>
-
-<Snackbar />
 
 <AppShell>
 	<AppBar
