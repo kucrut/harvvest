@@ -54,6 +54,7 @@
 				"named": "never",
 				"asyncArrow": "always"
 			}
-		]
+		],
+		"jsdoc/check-line-alignment": "off"
 	}
 }
