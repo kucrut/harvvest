@@ -1,6 +1,7 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
-	import { create_alert } from '$lib/utils.client';
+	import { create_error_alert } from '$lib/utils.client';
+	import { getDrawerStore } from '@skeletonlabs/skeleton';
 	import { goto } from '$app/navigation';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
@@ -10,6 +11,7 @@
 	/** @type {import('./$types').ActionData}*/
 	export let form;
 
+	const drawer_store = getDrawerStore();
 	let is_submitting = false;
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
@@ -28,11 +30,7 @@
 
 	$: {
 		if ( form?.error && form?.message ) {
-			create_alert( {
-				message: form.message,
-				title: 'Error',
-				type: 'error',
-			} );
+			create_error_alert( drawer_store, form.message );
 		}
 	}
 </script>
