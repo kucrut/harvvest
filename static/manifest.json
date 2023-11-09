@@ -17,5 +17,21 @@
 			"sizes": "512x512",
 			"type": "image/png"
 		}
+	],
+	"screenshots": [
+		{
+			"src": "images/screenshot-mobile.webp",
+			"sizes": "350x638",
+			"type": "image/webp",
+			"form_factor": "narrow",
+			"label": "Upload screen of Photo Harvest"
+		},
+		{
+			"src": "images/screenshot-desktop.webp",
+			"sizes": "1280x835",
+			"type": "image/webp",
+			"form_factor": "wide",
+			"label": "Upload screen of Photo Harvest"
+		}
 	]
 }
