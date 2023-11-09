@@ -18,7 +18,7 @@
 		}
 	};
 
-	$: cls = meta.type === 'error' ? 'variant-soft-error' : 'variant-soft-success';
+	$: cls = meta.type === 'error' ? 'variant-soft-error' : 'variant-soft-surface';
 </script>
 
 <aside class="alert {cls}">
@@ -30,7 +30,7 @@
 	<div class="alert-actions">
 		{#if meta.links?.length}
 			{#each meta.links as item}
-				<a class="btn variant-ghost" href={item.url} target={! item.url.startsWith( '/' ) ? '_blank' : null}
+				<a class="btn variant-soft" href={item.url} target={! item.url.startsWith( '/' ) ? '_blank' : null}
 					>{item.label}</a
 				>
 			{/each}
@@ -39,7 +39,7 @@
 			{#each meta.data_to_copy as item}
 				<button
 					aria-label={item.label || 'Copy'}
-					class="btn-icon btn-icon-sm variant-ghost"
+					class="btn-icon btn-icon-sm variant-soft"
 					on:click={() => copy_to_clipboard( item.content )}
 					><svg
 						xmlns="http://www.w3.org/2000/svg"
