@@ -45,6 +45,9 @@
 			if ( result.type === 'success' ) {
 				formElement.reset();
 				files = undefined;
+				has_title_touched = false;
+				last_selected_file = '';
+				preview_src = '';
 			}
 		};
 	};
