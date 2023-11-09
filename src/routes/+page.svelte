@@ -1,10 +1,11 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { applyAction, enhance } from '$app/forms';
-	import { create_data_uri, generate_file_id, remove_file_extension, retrieve_pwa_shared_file } from '$lib/utils.js';
+	import { create_data_uri, generate_file_id, remove_file_extension } from '$lib/utils.js';
 	import { get_toast_store } from '$lib/stores/toast';
 	import { FileDropzone } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
+	import { retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
