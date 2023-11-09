@@ -1,6 +1,7 @@
 {
 	"background_color": "#faf8fc",
 	"display": "fullscreen",
+	"id": "/",
 	"name": "Photo Harvest",
 	"short_name": "Photo Harvest",
 	"start_url": "/",
