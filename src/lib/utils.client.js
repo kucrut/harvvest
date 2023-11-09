@@ -1,5 +1,25 @@
 /// <reference lib="dom" />
 
+import { getDrawerStore } from '@skeletonlabs/skeleton';
+
+/**
+ * Create alert
+ *
+ * @param {Record<string,string>} meta Alert metadata.
+ */
+export function create_alert( meta ) {
+	const drawer_store = getDrawerStore();
+
+	drawer_store.open( {
+		meta,
+		bgDrawer: 'bg-surface-50',
+		id: 'alert',
+		position: 'bottom',
+		rounded: 'rounded-tr-md rounded-br-none rounded-bl-none rounded-tl-md',
+		regionDrawer: 'p-4 h-max w-full',
+	} );
+}
+
 /**
  * Retrieve shared file from PWA
  *
