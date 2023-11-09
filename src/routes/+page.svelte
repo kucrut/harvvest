@@ -79,10 +79,6 @@
 			return;
 		}
 
-		if ( ! has_title_touched ) {
-			title = remove_file_extension( file.name );
-		}
-
 		toast_store.remove( toast_id );
 
 		try {
@@ -98,6 +94,12 @@
 			} );
 		} finally {
 			last_selected_file = file_id;
+		}
+	};
+
+	const update_title = () => {
+		if ( ! has_title_touched && files?.length ) {
+			title = remove_file_extension( files[ 0 ].name );
 		}
 	};
 
@@ -120,6 +122,7 @@
 	afterUpdate( async () => {
 		await intercept_shared_file();
 		await update_preview_src();
+		update_title();
 	} );
 </script>
 
