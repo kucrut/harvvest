@@ -71,8 +71,8 @@
 			return;
 		}
 
-		const current_file = files[ 0 ];
-		const file_id = generate_file_id( current_file );
+		const file = files[ 0 ];
+		const file_id = generate_file_id( file );
 		const toast_id = 'upload-preview-error';
 
 		if ( last_selected_file === file_id ) {
@@ -80,13 +80,13 @@
 		}
 
 		if ( ! has_title_touched ) {
-			title = remove_file_extension( current_file.name );
+			title = remove_file_extension( file.name );
 		}
 
 		toast_store.remove( toast_id );
 
 		try {
-			const uri = await create_data_uri( current_file );
+			const uri = await create_data_uri( file );
 			preview_src = uri;
 		} catch ( error ) {
 			preview_src = '';
