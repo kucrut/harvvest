@@ -10,8 +10,8 @@
 <label class="label">
 	<span class={label_class}>{label}</span>
 	{#if multiline}
-		<textarea {value} class="textarea" {...$$restProps} />
+		<textarea {value} class="textarea" {...$$restProps} on:blur on:change on:focus on:input />
 	{:else}
-		<input {value} class="input" {...$$restProps} />
+		<input {value} class="input" {...$$restProps} on:blur on:change on:focus on:input />
 	{/if}
 </label>
