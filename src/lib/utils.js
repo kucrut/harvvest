@@ -113,3 +113,13 @@ export async function handle_wp_rest_response( response, callback ) {
 
 	throw new Error( message );
 }
+
+/**
+ * Remove file extension
+ *
+ * @param {string} filename File name.
+ * @return {string} File name without extension.
+ */
+export function remove_file_extension( filename ) {
+	return filename.split( '.' ).slice( 0, -1 ).join( '.' );
+}
