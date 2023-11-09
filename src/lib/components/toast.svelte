@@ -44,7 +44,7 @@
 	on:mouseleave={schedule_removal}
 >
 	<div
-		class="toast flex justify-between items-center pointer-events-auto max-w-[640px] p-4 space-x-4 rounded-container-token shadow-lg variant-ghost-{item.type}"
+		class="toast flex justify-between items-center pointer-events-auto max-w-[640px] p-4 space-x-4 rounded-container-token shadow-lg variant-soft-{item.type}"
 	>
 		<div class="text-base">
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
