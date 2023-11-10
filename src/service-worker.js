@@ -17,6 +17,23 @@ const ASSETS = [
 	...files, // everything in `static`.
 ];
 
+/** @type {Map<string, (() => void)[]>} */
+const messages_map = new Map();
+
+/** @param {string} data_value */
+const add_message = data_value => {
+	/** @type {Promise<void>} */
+	const item = new Promise( resolve => {
+		if ( ! messages_map.has( data_value ) ) {
+			messages_map.set( data_value, [] );
+		}
+
+		messages_map.get( data_value )?.push( resolve );
+	} );
+
+	return item;
+};
+
 /**
  * Handle GET requests
  *
@@ -43,23 +60,6 @@ const handle_get_requests = async ( url, request ) => {
 	}
 };
 
-/** @type {Map<string, (() => void)[]>} */
-const messages_map = new Map();
-
-/** @param {string} data_value */
-const next_message = data_value => {
-	/** @type {Promise<void>} */
-	const item = new Promise( resolve => {
-		if ( ! messages_map.has( data_value ) ) {
-			messages_map.set( data_value, [] );
-		}
-
-		messages_map.get( data_value )?.push( resolve );
-	} );
-
-	return item;
-};
-
 /**
  * Handle POST request with shared fiel
  *
@@ -67,7 +67,7 @@ const next_message = data_value => {
  */
 const handle_share = async event => {
 	// The page sends this message to tell the service worker it's ready to receive the file.
-	await next_message( 'share-ready' );
+	await add_message( 'share-ready' );
 	const client = await sw.clients.get( event.resultingClientId );
 
 	if ( ! client ) {
