@@ -1,9 +1,10 @@
+/* eslint-disable jsdoc/no-undefined-types */ // TODO
+
 /// <reference types="@sveltejs/kit" />
 /// <reference no-default-lib="true"/>
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
 
-// eslint-disable-next-line jsdoc/no-undefined-types
 const sw = /** @type {ServiceWorkerGlobalScope} */ ( /** @type {unknown} */ ( self ) );
 
 import { build, files, version } from '$service-worker';
@@ -59,6 +60,26 @@ const next_message = data_value => {
 	return item;
 };
 
+/**
+ * Handle POST request with shared fiel
+ *
+ * @param {FetchEvent} event Fetch event.
+ */
+const handle_share = async event => {
+	// The page sends this message to tell the service worker it's ready to receive the file.
+	await next_message( 'share-ready' );
+	const client = await sw.clients.get( event.resultingClientId );
+
+	if ( ! client ) {
+		return;
+	}
+
+	const data = await event.request.formData();
+	const file = data.get( 'file' );
+
+	client.postMessage( { file, action: 'load-image' } );
+};
+
 sw.addEventListener( 'install', event => {
 	// Create a new cache and add all files to it.
 	async function add_files_to_cache() {
@@ -90,27 +111,10 @@ sw.addEventListener( 'fetch', event => {
 		return;
 	}
 
-	if ( url.pathname === '/' && url.searchParams.has( 'share-target' ) && event.request.method === 'POST' ) {
-		const data_promise = event.request.formData();
-
+	if ( event.request.method === 'POST' && url.pathname === '/' && url.searchParams.has( 'share-target' ) ) {
 		// Redirect so the user can refresh the page without resending data.
 		event.respondWith( Response.redirect( '/?share-target' ) );
-
-		event.waitUntil(
-			( async () => {
-				// The page sends this message to tell the service worker it's ready to receive the file.
-				await next_message( 'share-ready' );
-				const client = await sw.clients.get( event.resultingClientId );
-
-				if ( ! client ) {
-					return;
-				}
-
-				const data = await data_promise;
-				const file = data.get( 'file' );
-				client.postMessage( { file, action: 'load-image' } );
-			} )(),
-		);
+		event.waitUntil( handle_share( event ) );
 
 		return;
 	}
