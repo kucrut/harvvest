@@ -16,6 +16,32 @@ const ASSETS = [
 	...files, // everything in `static`.
 ];
 
+/**
+ * Handle GET requests
+ *
+ * @param {URL} url Request URL object.
+ * @param {Request} request Request object.
+ */
+const handle_get_requests = async ( url, request ) => {
+	const cache = await caches.open( CACHE );
+
+	try {
+		const response = await fetch( request );
+
+		if ( response.status === 200 ) {
+			cache.put( request, response.clone() );
+		}
+
+		return response;
+	} catch ( error ) {
+		const from_cache = await cache.match( url.pathname, {
+			ignoreSearch: true,
+		} );
+
+		return from_cache;
+	}
+};
+
 /** @type {Map<string, (() => void)[]>} */
 const messages_map = new Map();
 
@@ -89,28 +115,8 @@ sw.addEventListener( 'fetch', event => {
 		return;
 	}
 
-	if ( event.request.method !== 'GET' ) {
-		event.respondWith(
-			( async () => {
-				const cache = await caches.open( CACHE );
-
-				try {
-					const response = await fetch( event.request );
-
-					if ( response.status === 200 ) {
-						cache.put( event.request, response.clone() );
-					}
-
-					return response;
-				} catch ( error ) {
-					const from_cache = await cache.match( url.pathname, {
-						ignoreSearch: true,
-					} );
-
-					return from_cache;
-				}
-			} )(),
-		);
+	if ( event.request.method === 'GET' ) {
+		event.respondWith( handle_get_requests( url, event.request ) );
 	}
 } );
 
