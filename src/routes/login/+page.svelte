@@ -44,9 +44,23 @@
 
 	<form method="POST" use:enhance={handle_submit}>
 		<FormWrap>
-			<TextField autocomplete required disabled={is_submitting} label="WordPress URL" name="url" type="url" />
-			<TextField autocomplete required disabled={is_submitting} label="Username or email" name="username" type="text" />
-			<TextField autocomplete required disabled={is_submitting} label="Password" name="password" type="password" />
+			<TextField autocomplete="url" required disabled={is_submitting} label="WordPress URL" name="url" type="url" />
+			<TextField
+				autocomplete="on"
+				required
+				disabled={is_submitting}
+				label="Username or email"
+				name="username"
+				type="text"
+			/>
+			<TextField
+				autocomplete="current-password"
+				required
+				disabled={is_submitting}
+				label="Password"
+				name="password"
+				type="password"
+			/>
 			<SubmitField {is_submitting} label="Log In" />
 		</FormWrap>
 	</form>
