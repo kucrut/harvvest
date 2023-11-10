@@ -94,11 +94,21 @@ sw.addEventListener( 'fetch', event => {
 			( async () => {
 				const cache = await caches.open( CACHE );
 
-				const from_cache = await cache.match( url.pathname, {
-					ignoreSearch: true,
-				} );
+				try {
+					const response = await fetch( event.request );
 
-				return from_cache || fetch( event.request );
+					if ( response.status === 200 ) {
+						cache.put( event.request, response.clone() );
+					}
+
+					return response;
+				} catch ( error ) {
+					const from_cache = await cache.match( url.pathname, {
+						ignoreSearch: true,
+					} );
+
+					return from_cache;
+				}
 			} )(),
 		);
 	}
