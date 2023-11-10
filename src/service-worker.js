@@ -66,17 +66,20 @@ const handle_get_requests = async ( url, request ) => {
  * @param {FetchEvent} event Fetch event.
  */
 const handle_share = async event => {
-	// The page sends this message to tell the service worker it's ready to receive the file.
-	await await_client_message( 'share-ready' );
 	const client = await sw.clients.get( event.resultingClientId );
 
 	if ( ! client ) {
 		return;
 	}
 
+	// Wait for the the page (client) to sends this message to tell us
+	// (service worker) that it's ready to receive the file.
+	await await_client_message( 'share-ready' );
+
 	const data = await event.request.formData();
 	const file = data.get( 'file' );
 
+	// Send the file to the client via post message's event.data.
 	client.postMessage( { file, action: 'load-image' } );
 };
 
