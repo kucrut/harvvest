@@ -20,15 +20,15 @@ const ASSETS = [
 /** @type {Map<string, (() => void)[]>} */
 const messages_map = new Map();
 
-/** @param {string} data_value */
-const add_message = data_value => {
+/** @param {string} action */
+const await_client_message = action => {
 	/** @type {Promise<void>} */
 	const item = new Promise( resolve => {
-		if ( ! messages_map.has( data_value ) ) {
-			messages_map.set( data_value, [] );
+		if ( ! messages_map.has( action ) ) {
+			messages_map.set( action, [] );
 		}
 
-		messages_map.get( data_value )?.push( resolve );
+		messages_map.get( action )?.push( resolve );
 	} );
 
 	return item;
@@ -67,7 +67,7 @@ const handle_get_requests = async ( url, request ) => {
  */
 const handle_share = async event => {
 	// The page sends this message to tell the service worker it's ready to receive the file.
-	await add_message( 'share-ready' );
+	await await_client_message( 'share-ready' );
 	const client = await sw.clients.get( event.resultingClientId );
 
 	if ( ! client ) {
