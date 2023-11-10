@@ -5,9 +5,9 @@
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
 
-const sw = /** @type {ServiceWorkerGlobalScope} */ ( /** @type {unknown} */ ( self ) );
-
 import { build, files, version } from '$service-worker';
+
+const sw = /** @type {ServiceWorkerGlobalScope} */ ( /** @type {unknown} */ ( self ) );
 
 // Create a unique cache name for this deployment.
 const CACHE = `cache-${ version }`;
