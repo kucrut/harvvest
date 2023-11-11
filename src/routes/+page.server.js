@@ -3,6 +3,15 @@ import { get_error_message } from '$lib/utils';
 import { logout, wp_get_attachment_taxonomies, wp_get_taxonomy_terms, wp_upload } from '$lib/utils.server.js';
 import { session_schema } from '$lib/schema';
 
+/**
+ * Bail because of invalid field value
+ *
+ * @param {string} message Error message.
+ */
+function invalid_value( message ) {
+	return fail( 400, { error: true, message } );
+}
+
 /** @type {import('./$types').PageServerLoad} */
 export const load = async ( { locals, parent } ) => {
 	const layout_data = await parent();
@@ -64,19 +73,19 @@ export const actions = {
 		const file = data.get( 'file' );
 
 		if ( ! ( file instanceof File ) ) {
-			return fail( 400, { error: true, message: 'Please provide an image to upload.' } );
+			return invalid_value( 'Please provide an image to upload.' );
 		}
 
 		const alt_text = data.get( 'alt_text' );
 
 		if ( typeof alt_text !== 'string' || alt_text === '' ) {
-			return fail( 400, { error: true, message: 'Please provide an alt text for the image.' } );
+			return invalid_value( 'Please provide an alt text for the image.' );
 		}
 
 		const caption = data.get( 'caption' );
 
 		if ( typeof caption !== 'string' || caption === '' ) {
-			return fail( 400, { error: true, message: 'Please provide a caption for the image.' } );
+			return invalid_value( 'Please provide a caption for the image.' );
 		}
 
 		try {
