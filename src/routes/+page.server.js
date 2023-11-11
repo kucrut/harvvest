@@ -4,8 +4,10 @@ import { logout, wp_upload } from '$lib/utils.server.js';
 import { session_schema } from '$lib/schema';
 
 /** @type {import('./$types').PageServerLoad} */
-export const load = async ( { locals } ) => {
-	if ( ! locals.user ) {
+export const load = async ( { parent } ) => {
+	const layout_data = await parent();
+
+	if ( ! layout_data.user ) {
 		throw redirect( 302, '/login' );
 	}
 };
