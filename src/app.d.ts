@@ -8,7 +8,6 @@ declare global {
 		interface Locals {
 			session?: import('./lib/schema').Session;
 			terms?: Array< import('$types').Taxonomy_Terms_Option >;
-			user?: import('./lib/schema.js').User;
 		}
 		interface PageData {
 			terms?: Array< import('$types').Taxonomy_Terms_Option >;
