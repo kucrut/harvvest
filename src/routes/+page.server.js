@@ -31,7 +31,7 @@ export const load = async ( { locals, parent } ) => {
 
 				terms.push( {
 					name: tax.name,
-					slug: tax.slug,
+					slug: tax.rest_base,
 					terms: tax_terms.map( ( { id, name } ) => ( { id, name } ) ),
 				} );
 			} catch ( err ) {
