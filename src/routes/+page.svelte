@@ -9,6 +9,7 @@
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
 	import TextField from '$lib/components/text-field.svelte';
+	import TermsField from '$lib/components/terms-field.svelte';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
@@ -153,6 +154,12 @@
 					on:focus={() => ( has_title_touched = true )}
 				/>
 				<TextField multiline disabled={is_submitting} label="Description" name="description" />
+				{#if $page.data.terms?.length}
+					<!-- eslint-disable-next-line space-in-parens -->
+					{#each $page.data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
+						<TermsField {taxonomy} />
+					{/each}
+				{/if}
 				<SubmitField {is_submitting} label="Upload"></SubmitField>
 			</FormWrap>
 		</form>
