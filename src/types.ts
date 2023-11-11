@@ -17,3 +17,14 @@ export interface Alert {
 	title: string;
 	type: 'error' | 'success';
 }
+
+export interface Term_Option {
+	id: number;
+	name: string;
+}
+
+export interface Taxonomy_Terms_Option {
+	name: string;
+	slug: string;
+	terms: Term_Option[];
+}
