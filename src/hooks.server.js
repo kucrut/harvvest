@@ -6,6 +6,8 @@ import {
 	wp_get_taxonomy_terms,
 } from '$lib/utils.server.js';
 
+// TODO: Split handlers, or maybe move non-session stuff to page server loader.
+
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle = async ( { event, resolve } ) => {
 	const session_cookie = event.cookies.get( 'session' );
