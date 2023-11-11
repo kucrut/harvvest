@@ -1,14 +1,41 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '$lib/utils';
-import { logout, wp_upload } from '$lib/utils.server.js';
+import { logout, wp_get_attachment_taxonomies, wp_get_taxonomy_terms, wp_upload } from '$lib/utils.server.js';
 import { session_schema } from '$lib/schema';
 
 /** @type {import('./$types').PageServerLoad} */
-export const load = async ( { parent } ) => {
+export const load = async ( { locals, parent } ) => {
 	const layout_data = await parent();
 
-	if ( ! layout_data.user ) {
+	if ( ! locals.session || ! layout_data.user ) {
 		throw redirect( 302, '/login' );
+	}
+
+	try {
+		const taxonomies = await wp_get_attachment_taxonomies( locals.session.api_url, locals.session.token );
+		/** @type {import('$types').Taxonomy_Terms_Option[]} */
+		const terms = [];
+
+		for ( const tax of Object.values( taxonomies ) ) {
+			try {
+				const tax_terms = await wp_get_taxonomy_terms( tax._links[ 'wp:items' ][ 0 ].href, locals.session.token );
+
+				terms.push( {
+					name: tax.name,
+					slug: tax.slug,
+					terms: tax_terms.map( ( { id, name } ) => ( { id, name } ) ),
+				} );
+			} catch ( err ) {
+				// eslint-disable-next-line no-console
+				console.log( err );
+				continue;
+			}
+		}
+
+		return { terms };
+	} catch ( error ) {
+		// eslint-disable-next-line no-console
+		console.log( error );
 	}
 };
 
