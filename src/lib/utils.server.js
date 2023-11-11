@@ -5,6 +5,7 @@ import {
 	valid_token_response_schema,
 	wp_login_data_schema,
 	wp_media_item_schema,
+	wp_taxonomies_schema,
 	wp_user_schema,
 } from './schema';
 
@@ -79,6 +80,32 @@ export async function validate_token( session ) {
 	};
 
 	return handle_wp_rest_response( response, handle );
+}
+
+/**
+ * Get attachment taxonomies.
+ *
+ * @throws {Error|typeof import('zod').ZodError} Error object.
+ *
+ * @param {string} api_url WordPress API URL.
+ * @param {string} token   Auth token.
+ *
+ * @return {Promise<import('./schema').WP_Taxonomies>} Taxonomies object.
+ */
+export async function wp_get_attachment_taxonomies( api_url, token ) {
+	const url = new URL( `${ api_url }/wp/v2/taxonomies` );
+	url.searchParams.append( 'type', 'attachment' );
+
+	const response = await fetch( url, {
+		headers: {
+			Authorization: `Bearer ${ token }`,
+		},
+	} );
+
+	/** @type {import('$types').HandleResponse<import('./schema').WP_Taxonomies>} */
+	const handler = async json => wp_taxonomies_schema.parse( json );
+
+	return handle_wp_rest_response( response, handler );
 }
 
 /**
