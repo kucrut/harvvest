@@ -95,6 +95,26 @@ export const wp_taxonomies_schema = z.record( wp_taxonomy_schema );
 
 /** @typedef {z.infer<wp_taxonomies_schema>} WP_Taxonomies */
 
+export const wp_term_schema = z.object( {
+	id: z.number().min( 1 ),
+	count: z.number(),
+	description: z.string(),
+	link: z.string(),
+	name: z.string(),
+	slug: z.string(),
+	taxonomy: z.string(),
+	parent: z.number(),
+	_links: wp_links_schema.extend( {
+		about: wp_link_item_schema,
+	} ),
+} );
+
+/** @typedef {z.infer<wp_term_schema>} WP_Term */
+
+export const wp_taxonomy_terms_schema = wp_term_schema.array();
+
+/** @typedef {z.infer<wp_taxonomy_terms_schema>} WP_Taxonomy_Terms */
+
 export const wp_user_schema = z.object( {
 	avatar_urls: z.record( z.string().url() ),
 	description: z.string(),
