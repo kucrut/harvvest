@@ -22,9 +22,7 @@ export const handle = async ( { event, resolve } ) => {
 	try {
 		session = validate_session( session_cookie );
 		await validate_token( session );
-		const { avatar_url, email, name, wp_url } = session;
 		event.locals.session = session;
-		event.locals.user = { avatar_url, email, name, wp_url };
 	} catch {
 		delete_session_cookies( event.cookies );
 
