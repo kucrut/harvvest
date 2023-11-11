@@ -3,8 +3,11 @@ import { fail, redirect } from '@sveltejs/kit';
 import { ZodError } from 'zod';
 
 /** @type {import('./$types').PageServerLoad} */
-export const load = async ( { locals } ) => {
-	if ( locals.user ) {
+export const load = async ( { parent } ) => {
+	const layout_data = await parent();
+
+	// Redirect to homepage as we already have a valid session.
+	if ( layout_data.user ) {
 		throw redirect( 302, '/' );
 	}
 };
