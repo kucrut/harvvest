@@ -6,6 +6,7 @@ import {
 	wp_login_data_schema,
 	wp_media_item_schema,
 	wp_taxonomies_schema,
+	wp_taxonomy_terms_schema,
 	wp_user_schema,
 } from './schema';
 
@@ -83,7 +84,7 @@ export async function validate_token( session ) {
 }
 
 /**
- * Get attachment taxonomies.
+ * Get attachment taxonomies
  *
  * @throws {Error|typeof import('zod').ZodError} Error object.
  *
@@ -104,6 +105,38 @@ export async function wp_get_attachment_taxonomies( api_url, token ) {
 
 	/** @type {import('$types').HandleResponse<import('./schema').WP_Taxonomies>} */
 	const handler = async json => wp_taxonomies_schema.parse( json );
+
+	return handle_wp_rest_response( response, handler );
+}
+
+/**
+ * Get taxonomy terms
+ *
+ * @throws {Error|typeof import('zod').ZodError} Error object.
+ *
+ * @param {string} endpoint Taxonomy rest endpoint.
+ * @param {string} token Auth token.
+ * @param {Record<string,string>=} params Parameters.
+ *
+ * @return {Promise<import('./schema').WP_Taxonomy_Terms>} Taxonomy terms
+ */
+export async function wp_get_taxonomy_terms( endpoint, token, params = undefined ) {
+	const url = new URL( endpoint );
+
+	if ( params ) {
+		Object.entries( params ).forEach( ( [ key, value ] ) => {
+			url.searchParams.append( key, value );
+		} );
+	}
+
+	const response = await fetch( url, {
+		headers: {
+			Authorization: `Bearer ${ token }`,
+		},
+	} );
+
+	/** @type {import('$types').HandleResponse<import('./schema').WP_Taxonomy_Terms>} */
+	const handler = async json => wp_taxonomy_terms_schema.parse( json );
 
 	return handle_wp_rest_response( response, handler );
 }
