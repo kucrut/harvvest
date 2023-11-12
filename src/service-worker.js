@@ -84,6 +84,8 @@ const handle_share = async event => {
 };
 
 sw.addEventListener( 'install', event => {
+	sw.skipWaiting();
+
 	// Create a new cache and add all files to it.
 	async function add_files_to_cache() {
 		const cache = await caches.open( CACHE );
