@@ -1,9 +1,9 @@
+import { discover, get_jwt_auth } from '@kucrut/wp-api-helpers';
 import { handle_wp_rest_response } from './utils';
 import { redirect } from '@sveltejs/kit';
 import {
 	session_schema,
 	valid_token_response_schema,
-	wp_login_data_schema,
 	wp_media_item_schema,
 	wp_taxonomies_schema,
 	wp_taxonomy_terms_schema,
@@ -151,60 +151,26 @@ export async function wp_get_taxonomy_terms( endpoint, token, params = undefined
  * @return {Promise<import('./schema').Session>} User object.
  */
 export async function wp_login( wp_url, username, password ) {
-	const head_response = await fetch( wp_url, {
-		method: 'HEAD',
+	const api_url = await discover( wp_url );
+	const auth = await get_jwt_auth( {
+		username,
+		password,
+		url: api_url,
 	} );
+	const { avatar_urls, name } = await wp_user( api_url, auth.token );
 
-	if ( ! head_response.ok ) {
-		throw new Error( `HEAD request failed: ${ head_response.statusText }` );
-	}
+	const avatar_size = Object.keys( avatar_urls )
+		.map( s => Number( s ) )
+		.sort( ( a, b ) => b - a )[ 0 ]
+		.toString();
 
-	const link_header = head_response.headers.get( 'Link' );
-
-	if ( ! link_header ) {
-		throw new Error( `Link header not found` );
-	}
-
-	const match = link_header.match( /^<(.*)>; rel="https:\/\/api.w.org\/"/ );
-
-	if ( ! match ) {
-		throw new Error( `Could not find WP REST API URL from Link header. Are you sure it's a WordPress site?` );
-	}
-
-	const api_url = match[ 1 ].replace( /\/$/, '' );
-
-	const login_response = await fetch( `${ api_url }/jwt-auth/v1/token`, {
-		method: 'POST',
-		body: JSON.stringify( {
-			username,
-			password,
-		} ),
-		headers: {
-			'Content-Type': 'application/json',
-			'Accept': 'application/json',
-		},
-	} );
-
-	/** @type {import('$types').HandleResponse<import('./schema').Session>} */
-	const handle = async data => {
-		const login_data = await wp_login_data_schema.parseAsync( data );
-		const { avatar_urls, name } = await wp_user( api_url, login_data.token );
-
-		const avatar_size = Object.keys( avatar_urls )
-			.map( s => Number( s ) )
-			.sort( ( a, b ) => b - a )[ 0 ]
-			.toString();
-
-		return {
-			api_url,
-			name,
-			wp_url,
-			avatar_url: avatar_urls[ avatar_size ],
-			token: login_data.token,
-		};
+	return {
+		api_url,
+		name,
+		wp_url,
+		avatar_url: avatar_urls[ avatar_size ],
+		token: auth.token,
 	};
-
-	return handle_wp_rest_response( login_response, handle );
 }
 
 /**
