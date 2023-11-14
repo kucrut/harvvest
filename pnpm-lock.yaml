@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 devDependencies:
+  '@kucrut/wp-api-helpers':
+    specifier: file:../../libs/wp-api-helpers
+    version: file:../../libs/wp-api-helpers(zod@3.22.4)
   '@skeletonlabs/skeleton':
     specifier: ^2.5.0
     version: 2.5.0(svelte@4.2.3)
@@ -5672,4 +5675,14 @@ packages:
 
   /zod@3.22.4:
     resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: true
+
+  file:../../libs/wp-api-helpers(zod@3.22.4):
+    resolution: {directory: ../../libs/wp-api-helpers, type: directory}
+    id: file:../../libs/wp-api-helpers
+    name: '@kucrut/wp-api-helpers'
+    peerDependencies:
+      zod: ^3.22.4
+    dependencies:
+      zod: 3.22.4
     dev: true

@@ -14,6 +14,7 @@
 		"types:check": "svelte-kit sync && svelte-check && tsc"
 	},
 	"devDependencies": {
+		"@kucrut/wp-api-helpers": "file:../../libs/wp-api-helpers",
 		"@skeletonlabs/skeleton": "^2.5.0",
 		"@skeletonlabs/tw-plugin": "^0.2.4",
 		"@sveltejs/adapter-auto": "^2.0.0",
