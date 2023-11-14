@@ -1,4 +1,4 @@
-import { discover, get_jwt_auth } from '@kucrut/wp-api-helpers';
+import { discover, get_jwt_auth, get_me } from '@kucrut/wp-api-helpers';
 import { handle_wp_rest_response } from './utils';
 import { redirect } from '@sveltejs/kit';
 import {
@@ -7,7 +7,6 @@ import {
 	wp_media_item_schema,
 	wp_taxonomies_schema,
 	wp_taxonomy_terms_schema,
-	wp_user_schema,
 } from './schema';
 
 /**
@@ -157,7 +156,7 @@ export async function wp_login( wp_url, username, password ) {
 		password,
 		url: api_url,
 	} );
-	const { avatar_urls, name } = await wp_user( api_url, auth.token );
+	const { avatar_urls, name } = await get_me( api_url, `Bearer ${ auth.token }` );
 
 	const avatar_size = Object.keys( avatar_urls )
 		.map( s => Number( s ) )
@@ -200,34 +199,6 @@ export async function wp_upload( api_url, token, data ) {
 		const media = wp_media_item_schema.parse( json );
 
 		return media.source_url;
-	};
-
-	return handle_wp_rest_response( response, handler );
-}
-
-/**
- * Fetch WordPress user data
- *
- * @throws {Error|typeof import('zod').ZodError} Error object.
- *
- * @param {string} api_url WordPress API URL.
- * @param {string} token   Auth token.
- *
- * @return {Promise<import('./schema').WP_User>} User data.
- */
-export async function wp_user( api_url, token ) {
-	const response = await fetch( `${ api_url }/wp/v2/users/me`, {
-		method: 'POST',
-		headers: {
-			Authorization: `Bearer ${ token }`,
-		},
-	} );
-
-	/** @type {import('$types').HandleResponse<import('./schema').WP_User>} */
-	const handler = async json => {
-		const user = wp_user_schema.parse( json );
-
-		return user;
 	};
 
 	return handle_wp_rest_response( response, handler );

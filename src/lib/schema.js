@@ -114,17 +114,3 @@ export const wp_term_schema = z.object( {
 export const wp_taxonomy_terms_schema = wp_term_schema.array();
 
 /** @typedef {z.infer<wp_taxonomy_terms_schema>} WP_Taxonomy_Terms */
-
-export const wp_user_schema = z.object( {
-	avatar_urls: z.record( z.string().url() ),
-	description: z.string(),
-	id: z.number().min( 1 ),
-	link: z.string().url(),
-	meta: z.record( z.any() ).optional(),
-	name: z.string().min( 1 ),
-	slug: z.string(),
-	url: z.string().url(),
-	_links: wp_links_schema,
-} );
-
-/** @typedef {z.infer<wp_user_schema>} WP_User */
