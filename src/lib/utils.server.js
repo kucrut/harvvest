@@ -1,13 +1,7 @@
 import { discover, get_jwt_auth, get_me } from '@kucrut/wp-api-helpers';
 import { handle_wp_rest_response } from './utils';
 import { redirect } from '@sveltejs/kit';
-import {
-	session_schema,
-	valid_token_response_schema,
-	wp_media_item_schema,
-	wp_taxonomies_schema,
-	wp_taxonomy_terms_schema,
-} from './schema';
+import { session_schema, wp_media_item_schema, wp_taxonomies_schema, wp_taxonomy_terms_schema } from './schema';
 
 /**
  * Delete session cookies
@@ -55,31 +49,6 @@ export function validate_session( session_cookie ) {
 	const session = session_schema.parse( json );
 
 	return session;
-}
-
-/**
- * Validate token
- *
- * @param {import('./schema').Session} session Session object.
- * @throws {Error|typeof import('zod').ZodError}
- * @return {Promise<import('./schema').ValidToken>} Valid token response.
- */
-export async function validate_token( session ) {
-	const response = await fetch( `${ session.api_url }/jwt-auth/v1/token/validate`, {
-		method: 'POST',
-		headers: {
-			Authorization: `Bearer ${ session.token }`,
-		},
-	} );
-
-	/** @type {import('$types').HandleResponse<import('./schema').ValidToken>} */
-	const handle = async data => {
-		const result = valid_token_response_schema.parse( data );
-
-		return result;
-	};
-
-	return handle_wp_rest_response( response, handle );
 }
 
 /**
