@@ -40,15 +40,6 @@ export const wp_media_item_schema = z.object( {
 
 /** @typedef {z.infer<wp_media_item_schema>} WP_Media_Item */
 
-export const wp_login_data_schema = z.object( {
-	user_email: z.string().email(),
-	user_display_name: z.string(),
-	user_nicename: z.string(),
-	token: z.string(),
-} );
-
-/** @typedef {z.infer<wp_login_data_schema>} WP_Login_Data */
-
 export const wp_rest_error_schema = z.object( {
 	code: z.string(),
 	message: z.string(),
