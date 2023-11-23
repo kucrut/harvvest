@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '$lib/utils';
-import { get_taxonomies } from '@kucrut/wp-api-helpers';
-import { logout, wp_get_taxonomy_terms, wp_upload } from '$lib/utils.server.js';
+import { get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
+import { logout, wp_upload } from '$lib/utils.server.js';
 import { session_schema } from '$lib/schema';
 
 /**
@@ -21,14 +21,16 @@ export const load = async ( { locals, parent } ) => {
 		throw redirect( 302, '/login' );
 	}
 
+	const auth = `Bearer ${ locals.session.token }`;
+
 	try {
-		const taxonomies = await get_taxonomies( locals.session.api_url, `Bearer ${ locals.session.token }`, 'attachment' );
+		const taxonomies = await get_taxonomies( locals.session.api_url, auth, 'attachment' );
 		/** @type {import('$types').Taxonomy_Terms_Option[]} */
 		const terms = [];
 
 		for ( const tax of Object.values( taxonomies ) ) {
 			try {
-				const tax_terms = await wp_get_taxonomy_terms( tax._links[ 'wp:items' ][ 0 ].href, locals.session.token );
+				const tax_terms = await get_terms( locals.session.api_url, auth, tax.rest_base, { hide_empty: false } );
 
 				terms.push( {
 					name: tax.name,

@@ -1,7 +1,7 @@
 import { discover, get_jwt_auth, get_me } from '@kucrut/wp-api-helpers';
 import { handle_wp_rest_response } from './utils';
 import { redirect } from '@sveltejs/kit';
-import { session_schema, wp_media_item_schema, wp_taxonomy_terms_schema } from './schema';
+import { session_schema, wp_media_item_schema } from './schema';
 
 /**
  * Delete session cookies
@@ -49,38 +49,6 @@ export function validate_session( session_cookie ) {
 	const session = session_schema.parse( json );
 
 	return session;
-}
-
-/**
- * Get taxonomy terms
- *
- * @throws {Error|typeof import('zod').ZodError} Error object.
- *
- * @param {string} endpoint Taxonomy rest endpoint.
- * @param {string} token Auth token.
- * @param {Record<string,string>=} params Parameters.
- *
- * @return {Promise<import('./schema').WP_Taxonomy_Terms>} Taxonomy terms
- */
-export async function wp_get_taxonomy_terms( endpoint, token, params = undefined ) {
-	const url = new URL( endpoint );
-
-	if ( params ) {
-		Object.entries( params ).forEach( ( [ key, value ] ) => {
-			url.searchParams.append( key, value );
-		} );
-	}
-
-	const response = await fetch( url, {
-		headers: {
-			Authorization: `Bearer ${ token }`,
-		},
-	} );
-
-	/** @type {import('$types').HandleResponse<import('./schema').WP_Taxonomy_Terms>} */
-	const handler = async json => wp_taxonomy_terms_schema.parse( json );
-
-	return handle_wp_rest_response( response, handler );
 }
 
 /**
