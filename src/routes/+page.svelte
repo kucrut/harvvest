@@ -4,6 +4,7 @@
 	import { create_alert, create_error_alert, retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import { create_data_uri, generate_file_id, remove_file_extension } from '$lib/utils.js';
 	import { FileDropzone, getDrawerStore } from '@skeletonlabs/skeleton';
+	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { page } from '$app/stores';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
@@ -82,8 +83,9 @@
 			preview_src = uri;
 		} catch ( error ) {
 			preview_src = '';
+			const message = get_error_message( error, 'Failed to create preview image.', false );
 
-			create_error_alert( drawer_store, error instanceof Error ? error.message : 'Failed to create preview image.' );
+			create_error_alert( drawer_store, message );
 		} finally {
 			last_selected_file = file_id;
 		}
