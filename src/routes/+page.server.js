@@ -1,6 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '$lib/utils';
-import { logout, wp_get_attachment_taxonomies, wp_get_taxonomy_terms, wp_upload } from '$lib/utils.server.js';
+import { get_taxonomies } from '@kucrut/wp-api-helpers';
+import { logout, wp_get_taxonomy_terms, wp_upload } from '$lib/utils.server.js';
 import { session_schema } from '$lib/schema';
 
 /**
@@ -21,7 +22,7 @@ export const load = async ( { locals, parent } ) => {
 	}
 
 	try {
-		const taxonomies = await wp_get_attachment_taxonomies( locals.session.api_url, locals.session.token );
+		const taxonomies = await get_taxonomies( locals.session.api_url, `Bearer ${ locals.session.token }`, 'attachment' );
 		/** @type {import('$types').Taxonomy_Terms_Option[]} */
 		const terms = [];
 

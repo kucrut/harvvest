@@ -57,26 +57,6 @@ const wp_links_schema = z.object( {
 	collection: wp_link_item_schema,
 } );
 
-export const wp_taxonomy_schema = z.object( {
-	hierarchical: z.boolean(),
-	description: z.string(),
-	name: z.string(),
-	rest_base: z.string(),
-	rest_namespace: z.string(),
-	slug: z.string(),
-	types: z.string().array(),
-	_links: z.object( {
-		'collection': wp_link_item_schema,
-		'wp:items': wp_link_item_schema,
-	} ),
-} );
-
-/** @typedef {z.infer<wp_taxonomy_schema>} WP_Taxonomy */
-
-export const wp_taxonomies_schema = z.record( wp_taxonomy_schema );
-
-/** @typedef {z.infer<wp_taxonomies_schema>} WP_Taxonomies */
-
 export const wp_term_schema = z.object( {
 	id: z.number().min( 1 ),
 	count: z.number(),

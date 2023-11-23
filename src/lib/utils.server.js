@@ -1,7 +1,7 @@
 import { discover, get_jwt_auth, get_me } from '@kucrut/wp-api-helpers';
 import { handle_wp_rest_response } from './utils';
 import { redirect } from '@sveltejs/kit';
-import { session_schema, wp_media_item_schema, wp_taxonomies_schema, wp_taxonomy_terms_schema } from './schema';
+import { session_schema, wp_media_item_schema, wp_taxonomy_terms_schema } from './schema';
 
 /**
  * Delete session cookies
@@ -49,32 +49,6 @@ export function validate_session( session_cookie ) {
 	const session = session_schema.parse( json );
 
 	return session;
-}
-
-/**
- * Get attachment taxonomies
- *
- * @throws {Error|typeof import('zod').ZodError} Error object.
- *
- * @param {string} api_url WordPress API URL.
- * @param {string} token   Auth token.
- *
- * @return {Promise<import('./schema').WP_Taxonomies>} Taxonomies object.
- */
-export async function wp_get_attachment_taxonomies( api_url, token ) {
-	const url = new URL( `${ api_url }/wp/v2/taxonomies` );
-	url.searchParams.append( 'type', 'attachment' );
-
-	const response = await fetch( url, {
-		headers: {
-			Authorization: `Bearer ${ token }`,
-		},
-	} );
-
-	/** @type {import('$types').HandleResponse<import('./schema').WP_Taxonomies>} */
-	const handler = async json => wp_taxonomies_schema.parse( json );
-
-	return handle_wp_rest_response( response, handler );
 }
 
 /**
