@@ -1,7 +1,7 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '$lib/utils';
-import { get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
-import { logout, wp_upload } from '$lib/utils.server.js';
+import { create_media_parsed, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
+import { logout } from '$lib/utils.server.js';
 import { session_schema } from '$lib/schema';
 
 /**
@@ -92,11 +92,11 @@ export const actions = {
 		}
 
 		try {
-			const result = await wp_upload( session.data.api_url, session.data.token, data );
+			const result = await create_media_parsed( session.data.api_url, `Bearer ${ session.data.token }`, data );
 
 			return {
 				success: true,
-				image_link: result,
+				image_link: result.source_url, // TODO: Maybe return the whole object.
 			};
 		} catch ( error ) {
 			const message = get_error_message(
