@@ -15,37 +15,3 @@ export const session_schema = user_schema.extend( {
 } );
 
 /** @typedef {z.infer<session_schema>} Session */
-
-const wp_item_string = z.object( {
-	raw: z.string(),
-	rendered: z.string(),
-} );
-
-export const wp_media_item_schema = z.object( {
-	id: z.number(),
-	date: z.string(),
-	date_gmt: z.string(),
-	caption: wp_item_string,
-	description: wp_item_string,
-	guid: z.object( {
-		raw: z.string().url(),
-		rendered: z.string().url(),
-	} ),
-	link: z.string().url(),
-	slug: z.string(),
-	source_url: z.string().url(),
-	title: wp_item_string,
-	// TODO: Add more?
-} );
-
-/** @typedef {z.infer<wp_media_item_schema>} WP_Media_Item */
-
-export const wp_rest_error_schema = z.object( {
-	code: z.string(),
-	message: z.string(),
-	data: z.object( {
-		status: z.number(),
-	} ),
-} );
-
-/** @typedef {z.infer<wp_rest_error_schema>} WP_Rest_Error */

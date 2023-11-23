@@ -1,7 +1,6 @@
 import { discover, get_jwt_auth, get_me } from '@kucrut/wp-api-helpers';
-import { handle_wp_rest_response } from './utils';
 import { redirect } from '@sveltejs/kit';
-import { session_schema, wp_media_item_schema } from './schema';
+import { session_schema } from './schema';
 
 /**
  * Delete session cookies
@@ -81,36 +80,4 @@ export async function wp_login( wp_url, username, password ) {
 		avatar_url: avatar_urls[ avatar_size ],
 		token: auth.token,
 	};
-}
-
-/**
- * Upload image to WordPress
- *
- * @todo Handle video uploads.
- *
- * @throws {Error|typeof import('zod').ZodError} Error object.
- *
- * @param {string}   api_url WordPress API URL.
- * @param {string}   token   Auth token.
- * @param {FormData} data    Form data.
- *
- * @return {Promise<string>} Uploaded image link.
- */
-export async function wp_upload( api_url, token, data ) {
-	const response = await fetch( `${ api_url }/wp/v2/media`, {
-		body: data,
-		method: 'POST',
-		headers: {
-			Authorization: `Bearer ${ token }`,
-		},
-	} );
-
-	/** @type {import('$types').HandleResponse<string>} */
-	const handler = async json => {
-		const media = wp_media_item_schema.parse( json );
-
-		return media.source_url;
-	};
-
-	return handle_wp_rest_response( response, handler );
 }

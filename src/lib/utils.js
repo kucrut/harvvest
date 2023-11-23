@@ -1,5 +1,4 @@
 import { ZodError } from 'zod';
-import { wp_rest_error_schema } from './schema';
 
 /**
  * Create data URI for image source
@@ -65,53 +64,6 @@ export function get_error_message( error, fallback, dump = false ) {
 	}
 
 	return message;
-}
-
-/**
- * Handle WP REST API response
- *
- * This helps catch syntax errors in json because of PHP notices, etc.
- *
- * @template T
- *
- * @param {Response}                           response Fetch response object.
- * @param {import('$types').HandleResponse<T>} callback Callback to run when json is valid.
- *
- * @throws {Error} JSON.parse error.
- *
- * @return {Promise<T>} Whatever the callback returns.
- */
-export async function handle_wp_rest_response( response, callback ) {
-	const clone = response.clone();
-	let result;
-
-	if ( response.ok ) {
-		try {
-			result = await response.json();
-		} catch ( error ) {
-			const text = await clone.text();
-			const message = get_error_message( error, 'Please consult the logs.', true ).replace( '<', '&lt;' );
-
-			throw new Error( `Unexpected response: ${ message }\n${ text }` );
-		}
-
-		return await callback( result );
-	}
-
-	const json = await response.json();
-	const error = wp_rest_error_schema.safeParse( json );
-	/** @type {string} */
-	let message;
-
-	if ( error.success ) {
-		message = error.data.message;
-	} else {
-		message = 'Unexpected response from server. Please consult the logs.';
-		// eslint-disable-next-line no-console
-		console.error( error );
-	}
-
-	throw new Error( message );
 }
 
 /**
