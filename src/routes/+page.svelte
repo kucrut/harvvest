@@ -128,7 +128,7 @@
 				<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 				<FileDropzone
 					required={! files?.length}
-					accept="image/*"
+					accept="image/*,video/*"
 					disabled={is_submitting}
 					name="file"
 					slotLead="mb-4 empty:mb-0"
