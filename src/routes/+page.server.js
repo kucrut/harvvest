@@ -24,7 +24,7 @@ export const load = async ( { locals, parent } ) => {
 	const auth = `Bearer ${ locals.session.token }`;
 
 	try {
-		const taxonomies = await get_taxonomies( locals.session.api_url, auth, 'attachment' );
+		const taxonomies = await get_taxonomies( locals.session.api_url, auth, { type: 'attachment' } );
 		/** @type {import('$types').Taxonomy_Terms_Option[]} */
 		const terms = [];
 
