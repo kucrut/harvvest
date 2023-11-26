@@ -30,7 +30,7 @@ export const load = async ( { locals, parent } ) => {
 
 		for ( const tax of Object.values( taxonomies ) ) {
 			try {
-				const tax_terms = await get_terms( locals.session.api_url, auth, tax.rest_base, { hide_empty: false } );
+				const tax_terms = await get_terms( locals.session.api_url, tax.rest_base, auth, { hide_empty: false } );
 
 				terms.push( {
 					name: tax.name,
