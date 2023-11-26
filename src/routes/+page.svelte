@@ -79,8 +79,10 @@
 		}
 
 		try {
-			const uri = await create_data_uri( file );
-			preview_src = uri;
+			if ( file.type.startsWith( 'image/' ) ) {
+				const uri = await create_data_uri( file );
+				preview_src = uri;
+			}
 		} catch ( error ) {
 			preview_src = '';
 			const message = get_error_message( error, 'Failed to create preview image.', false );
