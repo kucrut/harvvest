@@ -1,4 +1,4 @@
-import { create_media_parsed, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
+import { create_media, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { logout } from '$lib/utils.server.js';
@@ -92,7 +92,7 @@ export const actions = {
 		}
 
 		try {
-			const result = await create_media_parsed( session.data.api_url, `Bearer ${ session.data.token }`, data );
+			const result = await create_media( session.data.api_url, `Bearer ${ session.data.token }`, data );
 
 			return {
 				success: true,
