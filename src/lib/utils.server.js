@@ -1,4 +1,4 @@
-import { discover, get_jwt_auth, get_me } from '@kucrut/wp-api-helpers';
+import { discover, get_jwt_auth, get_user } from '@kucrut/wp-api-helpers';
 import { redirect } from '@sveltejs/kit';
 import { session_schema } from './schema';
 
@@ -62,7 +62,7 @@ export function validate_session( session_cookie ) {
 export async function wp_login( wp_url, username, password ) {
 	const api_url = await discover( wp_url );
 	const auth = await get_jwt_auth( api_url, username, password );
-	const { avatar_urls, name } = await get_me( api_url, `Bearer ${ auth.token }` );
+	const { avatar_urls, name } = await get_user( api_url, 'me', `Bearer ${ auth.token }` );
 
 	const avatar_size = Object.keys( avatar_urls )
 		.map( s => Number( s ) )
