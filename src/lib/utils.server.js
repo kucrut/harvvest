@@ -14,7 +14,7 @@ export function delete_session_cookies( cookies ) {
 /**
  * Get session cookie options
  *
- * @return {import('cookie').CookieSerializeOptions} Cookie options.
+ * @return {import('cookie').CookieSerializeOptions & {path: string}} Cookie options.
  */
 export function get_session_cookie_options() {
 	return {
