@@ -33,7 +33,7 @@ export function get_session_cookie_options() {
  */
 export function logout( cookies ) {
 	delete_session_cookies( cookies );
-	throw redirect( 302, '/login' );
+	redirect( 302, '/login' );
 }
 
 /**

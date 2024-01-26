@@ -8,7 +8,7 @@ export const load = async ( { parent } ) => {
 
 	// Redirect to homepage as we already have a valid session.
 	if ( layout_data.user ) {
-		throw redirect( 302, '/' );
+		redirect( 302, '/' );
 	}
 };
 
@@ -52,6 +52,6 @@ export const actions = {
 			} );
 		}
 
-		throw redirect( 302, '/' );
+		redirect( 302, '/' );
 	},
 };

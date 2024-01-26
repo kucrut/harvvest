@@ -18,7 +18,7 @@ export const load = async ( { locals, parent } ) => {
 	const layout_data = await parent();
 
 	if ( ! locals.session || ! layout_data.user ) {
-		throw redirect( 302, '/login' );
+		redirect( 302, '/login' );
 	}
 
 	const auth = `Bearer ${ locals.session.token }`;
