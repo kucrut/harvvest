@@ -1,4 +1,4 @@
-import { vitePreprocess } from '@sveltejs/kit/vite';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import adapter_auto from '@sveltejs/adapter-auto';
 import adapter_node from '@sveltejs/adapter-node';
 

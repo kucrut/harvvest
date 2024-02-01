@@ -4,6 +4,7 @@
 	import { create_alert, create_error_alert, retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import { create_data_uri, generate_file_id, remove_file_extension } from '$lib/utils.js';
 	import { FileDropzone, getDrawerStore } from '@skeletonlabs/skeleton';
+	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { page } from '$app/stores';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
@@ -78,12 +79,15 @@
 		}
 
 		try {
-			const uri = await create_data_uri( file );
-			preview_src = uri;
+			if ( file.type.startsWith( 'image/' ) ) {
+				const uri = await create_data_uri( file );
+				preview_src = uri;
+			}
 		} catch ( error ) {
 			preview_src = '';
+			const message = get_error_message( error, 'Failed to create preview image.', false );
 
-			create_error_alert( drawer_store, error instanceof Error ? error.message : 'Failed to create preview image.' );
+			create_error_alert( drawer_store, message );
 		} finally {
 			last_selected_file = file_id;
 		}
@@ -128,7 +132,7 @@
 				<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 				<FileDropzone
 					required={! files?.length}
-					accept="image/*"
+					accept="image/*,video/*"
 					disabled={is_submitting}
 					name="file"
 					slotLead="mb-4 empty:mb-0"
@@ -142,7 +146,7 @@
 							</div>
 						{/if}
 					</svelte:fragment>
-					<p slot="message">Click to select an image or drag and drop it here.</p>
+					<p slot="message">Click to select an image/video or drag and drop it here.</p>
 				</FileDropzone>
 				<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
 				<TextField required disabled={is_submitting} label="Caption" name="caption" />

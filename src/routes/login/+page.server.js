@@ -1,6 +1,6 @@
-import { get_session_cookie_options, wp_login } from '$lib/utils.server.js';
 import { fail, redirect } from '@sveltejs/kit';
-import { ZodError } from 'zod';
+import { get_error_message } from '@kucrut/wp-api-helpers/utils';
+import { get_session_cookie_options, wp_login } from '$lib/utils.server.js';
 
 /** @type {import('./$types').PageServerLoad} */
 export const load = async ( { parent } ) => {
@@ -8,7 +8,7 @@ export const load = async ( { parent } ) => {
 
 	// Redirect to homepage as we already have a valid session.
 	if ( layout_data.user ) {
-		throw redirect( 302, '/' );
+		redirect( 302, '/' );
 	}
 };
 
@@ -40,20 +40,18 @@ export const actions = {
 
 			cookies.set( 'session', JSON.stringify( auth ), get_session_cookie_options() );
 		} catch ( error ) {
-			/** @type {string} */
-			let message;
+			const message = get_error_message(
+				error,
+				'Unexpected upload result from server. Please consult the logs.',
+				true,
+			);
 
-			if ( error instanceof Error || error instanceof ZodError ) {
-				message = error.message;
-			} else {
-				message = 'Unknown error occured while trying to log in.';
-				// eslint-disable-next-line no-console
-				console.error( error );
-			}
-
-			return fail( 500, { error: true, message } );
+			return fail( 500, {
+				message,
+				error: true,
+			} );
 		}
 
-		throw redirect( 302, '/' );
+		redirect( 302, '/' );
 	},
 };

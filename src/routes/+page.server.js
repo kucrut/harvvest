@@ -1,6 +1,7 @@
+import { create_media, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
 import { fail, redirect } from '@sveltejs/kit';
-import { get_error_message } from '$lib/utils';
-import { logout, wp_get_attachment_taxonomies, wp_get_taxonomy_terms, wp_upload } from '$lib/utils.server.js';
+import { get_error_message } from '@kucrut/wp-api-helpers/utils';
+import { logout } from '$lib/utils.server.js';
 import { session_schema } from '$lib/schema';
 
 /**
@@ -17,17 +18,19 @@ export const load = async ( { locals, parent } ) => {
 	const layout_data = await parent();
 
 	if ( ! locals.session || ! layout_data.user ) {
-		throw redirect( 302, '/login' );
+		redirect( 302, '/login' );
 	}
 
+	const auth = `Bearer ${ locals.session.token }`;
+
 	try {
-		const taxonomies = await wp_get_attachment_taxonomies( locals.session.api_url, locals.session.token );
+		const taxonomies = await get_taxonomies( locals.session.api_url, auth, { type: 'attachment' } );
 		/** @type {import('$types').Taxonomy_Terms_Option[]} */
 		const terms = [];
 
 		for ( const tax of Object.values( taxonomies ) ) {
 			try {
-				const tax_terms = await wp_get_taxonomy_terms( tax._links[ 'wp:items' ][ 0 ].href, locals.session.token );
+				const tax_terms = await get_terms( locals.session.api_url, tax.rest_base, auth, { hide_empty: false } );
 
 				terms.push( {
 					name: tax.name,
@@ -89,11 +92,11 @@ export const actions = {
 		}
 
 		try {
-			const result = await wp_upload( session.data.api_url, session.data.token, data );
+			const result = await create_media( session.data.api_url, `Bearer ${ session.data.token }`, data );
 
 			return {
 				success: true,
-				image_link: result,
+				image_link: result.source_url, // TODO: Maybe return the whole object.
 			};
 		} catch ( error ) {
 			const message = get_error_message(

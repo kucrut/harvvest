@@ -56,7 +56,11 @@ const handle_get_requests = async ( url, request ) => {
 			ignoreSearch: true,
 		} );
 
-		return from_cache;
+		if ( from_cache ) {
+			return from_cache;
+		}
+
+		throw error;
 	}
 };
 

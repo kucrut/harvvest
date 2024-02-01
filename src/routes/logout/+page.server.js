@@ -3,7 +3,7 @@ import { logout } from '$lib/utils.server.js';
 
 /** @type {import('./$types').PageServerLoad} */
 export const load = async () => {
-	throw redirect( 302, '/' );
+	redirect( 302, '/' );
 };
 
 /** @type {import('./$types').Actions} */
