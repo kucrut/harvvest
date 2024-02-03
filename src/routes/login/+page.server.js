@@ -13,6 +13,12 @@ function get_access_keys() {
 	return keys;
 }
 
+function is_access_key_required() {
+	const access_keys = get_access_keys();
+
+	return Array.isArray( access_keys ) && access_keys.length > 0;
+}
+
 /** @type {import('./$types').PageServerLoad} */
 export const load = async ( { parent } ) => {
 	const layout_data = await parent();
