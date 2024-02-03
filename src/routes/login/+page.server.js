@@ -1,7 +1,7 @@
+import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { get_session_cookie_options, wp_login } from '$lib/utils.server.js';
-import { env } from '$env/dynamic/private';
 
 function get_access_keys() {
 	if ( ! env.ACCESS_KEYS ) {
