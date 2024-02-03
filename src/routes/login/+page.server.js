@@ -28,10 +28,8 @@ export const load = async ( { parent } ) => {
 		redirect( 302, '/' );
 	}
 
-	const access_keys = get_access_keys();
-
 	return {
-		require_access_key: Array.isArray( access_keys ) && access_keys.length > 0,
+		require_access_key: is_access_key_required(),
 	};
 };
 
