@@ -61,8 +61,8 @@ export const actions = {
 
 		const access_keys = get_access_keys();
 		if (
-			typeof access_key !== 'string' ||
-			( require_access_key && Array.isArray( access_keys ) && ! access_keys.includes( access_key ) )
+			require_access_key &&
+			( typeof access_key !== 'string' || ( Array.isArray( access_keys ) && ! access_keys.includes( access_key ) ) )
 		) {
 			return fail( 400, {
 				error: true,
