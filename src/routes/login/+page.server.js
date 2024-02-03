@@ -1,14 +1,14 @@
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { get_session_cookie_options, wp_login } from '$lib/utils.server.js';
-import { ACCESS_KEYS } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 function get_access_keys() {
-	if ( ! ACCESS_KEYS ) {
+	if ( ! env.ACCESS_KEYS ) {
 		return undefined;
 	}
 
-	const keys = ACCESS_KEYS.split( ',' ).filter( k => typeof k === 'string' && k !== '' );
+	const keys = env.ACCESS_KEYS.split( ',' ).filter( k => typeof k === 'string' && k !== '' );
 
 	return keys;
 }
