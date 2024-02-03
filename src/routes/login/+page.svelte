@@ -10,6 +10,8 @@
 
 	/** @type {import('./$types').ActionData}*/
 	export let form;
+	/** @type {import('./$types').PageData} */
+	export let data;
 
 	const drawer_store = getDrawerStore();
 	let is_submitting = false;
@@ -61,6 +63,16 @@
 				name="password"
 				type="password"
 			/>
+			{#if data.require_access_key}
+				<TextField
+					autocomplete="on"
+					required
+					disabled={is_submitting}
+					label="Access Key"
+					name="access_key"
+					type="text"
+				/>
+			{/if}
 			<SubmitField {is_submitting} label="Log In" />
 		</FormWrap>
 	</form>
