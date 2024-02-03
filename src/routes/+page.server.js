@@ -4,6 +4,7 @@ import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { logout } from '$lib/utils.server.js';
 import { session_schema } from '$lib/schema';
+import pretty_bytes from 'pretty-bytes';
 
 function get_max_file_size() {
 	return +( env.PUBLIC_MAX_FILE_SIZE ?? '512' );
@@ -85,6 +86,12 @@ export const actions = {
 
 		if ( ! ( file instanceof File ) ) {
 			return invalid_value( 'Please provide an image or video to upload.' );
+		}
+
+		const max_file_size = get_max_file_size();
+
+		if ( file.size > max_file_size ) {
+			return invalid_value( `Upload file size exceeded limit (${ pretty_bytes( max_file_size ) }).` );
 		}
 
 		const alt_text = data.get( 'alt_text' );
