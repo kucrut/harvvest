@@ -17,6 +17,8 @@
 
 	const drawer_store = getDrawerStore();
 
+	/** @type {'image'|'video'|undefined} */
+	let file_type;
 	/** @type {FileList|undefined} */
 	let files;
 	let is_submitting = false;
@@ -82,6 +84,11 @@
 			if ( file.type.startsWith( 'image/' ) ) {
 				const uri = await create_data_uri( file );
 				preview_src = uri;
+				file_type = 'image';
+			} else if ( file.type.startsWith( 'video/' ) ) {
+				file_type = 'video';
+			} else {
+				file_type = undefined;
 			}
 		} catch ( error ) {
 			preview_src = '';
@@ -140,9 +147,29 @@
 					bind:files
 				>
 					<svelte:fragment slot="lead">
-						{#if preview_src}
+						{#if file_type === 'image' && preview_src}
 							<div class="gap-y-4 grid max-w-md place-items-center">
 								<img alt="" class="block rounded" src={preview_src} />
+							</div>
+						{:else if file_type === 'video'}
+							<div class="gap-y-4 grid max-w-md place-items-center">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="w-14"
+									fill="none"
+									stroke-linecap="round"
+									stroke-linejoin="round"
+									stroke-width="2"
+									stroke="currentColor"
+									viewBox="0 0 24 24"
+									><path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><rect
+										width="8"
+										height="6"
+										x="2"
+										y="12"
+										rx="1"
+									/><path d="m10 15.5 4 2.5v-6l-4 2.5" /></svg
+								>
 							</div>
 						{/if}
 					</svelte:fragment>
