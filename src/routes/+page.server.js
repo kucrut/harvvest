@@ -80,7 +80,7 @@ export const actions = {
 		const file = data.get( 'file' );
 
 		if ( ! ( file instanceof File ) ) {
-			return invalid_value( 'Please provide an image to upload.' );
+			return invalid_value( 'Please provide an image or video to upload.' );
 		}
 
 		const alt_text = data.get( 'alt_text' );
