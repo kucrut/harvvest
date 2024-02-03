@@ -191,7 +191,8 @@
 						{/if}
 					</svelte:fragment>
 					<p slot="message">
-						Click to select an image/video or drag and drop it here.<br />Maximum file size is {max_file_size_formatted}.
+						Click to select an image/video or drag and drop it here.<br />Maximum file size is
+						<em>{max_file_size_formatted}</em>.
 					</p>
 				</FileDropzone>
 				<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
