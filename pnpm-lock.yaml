@@ -71,6 +71,9 @@ devDependencies:
   prettier-plugin-svelte:
     specifier: ^3.1.2
     version: 3.1.2(svelte@4.2.9)(wp-prettier@3.0.3)
+  pretty-bytes:
+    specifier: ^6.1.1
+    version: 6.1.1
   svelte:
     specifier: ^4.2.9
     version: 4.2.9
@@ -4743,6 +4746,11 @@ packages:
     dependencies:
       prettier: /wp-prettier@3.0.3
       svelte: 4.2.9
+    dev: true
+
+  /pretty-bytes@6.1.1:
+    resolution: {integrity: sha512-mQUvGU6aUFQ+rNvTIAcZuWGRT9a6f6Yrg9bHs4ImKF+HZCEK+plBvnAZYSIQztknZF2qnzNtr6F8s0+IuptdlQ==}
+    engines: {node: ^14.13.1 || >=16.0.0}
     dev: true
 
   /prop-types@15.8.1:
