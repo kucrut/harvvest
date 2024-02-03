@@ -6,6 +6,7 @@
 	import { FileDropzone, getDrawerStore } from '@skeletonlabs/skeleton';
 	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { page } from '$app/stores';
+	import pretty_bytes from 'pretty-bytes';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
@@ -174,8 +175,9 @@
 						{/if}
 					</svelte:fragment>
 					<p slot="message">
-						Click to select an image/video or drag and drop it here.<br />Maximum file size is {$page.data
-							.max_file_size}.
+						Click to select an image/video or drag and drop it here.<br />Maximum file size is {pretty_bytes(
+							$page.data.max_file_size,
+						)}.
 					</p>
 				</FileDropzone>
 				<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
