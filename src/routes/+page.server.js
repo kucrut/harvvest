@@ -1,4 +1,6 @@
+import pretty_bytes from 'pretty-bytes';
 import { create_media, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
+import { env } from '$env/dynamic/public';
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { logout } from '$lib/utils.server.js';
@@ -44,7 +46,10 @@ export const load = async ( { locals, parent } ) => {
 			}
 		}
 
-		return { terms };
+		return {
+			terms,
+			max_file_size: pretty_bytes( +( env.PUBLIC_MAX_FILE_SIZE ?? '512' ) ),
+		};
 	} catch ( error ) {
 		// eslint-disable-next-line no-console
 		console.log( error );
