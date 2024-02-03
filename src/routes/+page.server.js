@@ -5,6 +5,10 @@ import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { logout } from '$lib/utils.server.js';
 import { session_schema } from '$lib/schema';
 
+function get_max_file_size() {
+	return +( env.PUBLIC_MAX_FILE_SIZE ?? '512' );
+}
+
 /**
  * Bail because of invalid field value
  *
@@ -47,7 +51,7 @@ export const load = async ( { locals, parent } ) => {
 
 		return {
 			terms,
-			max_file_size: +( env.PUBLIC_MAX_FILE_SIZE ?? '512' ),
+			max_file_size: get_max_file_size(),
 		};
 	} catch ( error ) {
 		// eslint-disable-next-line no-console
