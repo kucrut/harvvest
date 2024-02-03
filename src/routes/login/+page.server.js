@@ -36,13 +36,16 @@ export const load = async ( { parent } ) => {
 /** @type {import('./$types').Actions} */
 export const actions = {
 	default: async ( { cookies, request } ) => {
+		const require_access_key = is_access_key_required();
 		const data = await request.formData();
 
+		const access_key = data.get( 'access_key' );
 		const password = data.get( 'password' );
 		const url = data.get( 'url' );
 		const username = data.get( 'username' );
 
 		if (
+			( require_access_key && ( typeof access_key !== 'string' || ! access_key ) ) ||
 			typeof password !== 'string' ||
 			! password ||
 			typeof url !== 'string' ||
@@ -53,6 +56,17 @@ export const actions = {
 			return fail( 400, {
 				error: true,
 				message: 'All fields are required.',
+			} );
+		}
+
+		const access_keys = get_access_keys();
+		if (
+			typeof access_key !== 'string' ||
+			( require_access_key && Array.isArray( access_keys ) && ! access_keys.includes( access_key ) )
+		) {
+			return fail( 400, {
+				error: true,
+				message: 'Invalid access key.',
 			} );
 		}
 
