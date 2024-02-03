@@ -21,6 +21,12 @@ export const load = async ( { parent } ) => {
 	if ( layout_data.user ) {
 		redirect( 302, '/' );
 	}
+
+	const access_keys = get_access_keys();
+
+	return {
+		require_access_key: Array.isArray( access_keys ) && access_keys.length > 0,
+	};
 };
 
 /** @type {import('./$types').Actions} */
