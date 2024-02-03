@@ -29,6 +29,21 @@
 	let has_title_touched = false;
 	let title = '';
 
+	$: max_file_size_formatted = pretty_bytes( $page.data.max_file_size );
+
+	const check_file_size = async () => {
+		if ( ! files?.length ) {
+			return;
+		}
+
+		if ( files[ 0 ].size <= $page.data.max_file_size ) {
+			return;
+		}
+
+		files = undefined;
+		create_error_alert( drawer_store, `Maximum allowed file size is ${ max_file_size_formatted }.` );
+	};
+
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement, formData } ) => {
 		// Re-use file shared to our PWA.
@@ -123,6 +138,7 @@
 
 	afterUpdate( async () => {
 		await intercept_shared_file();
+		await check_file_size();
 		await update_preview_src();
 		update_title();
 	} );
@@ -175,9 +191,7 @@
 						{/if}
 					</svelte:fragment>
 					<p slot="message">
-						Click to select an image/video or drag and drop it here.<br />Maximum file size is {pretty_bytes(
-							$page.data.max_file_size,
-						)}.
+						Click to select an image/video or drag and drop it here.<br />Maximum file size is {max_file_size_formatted}.
 					</p>
 				</FileDropzone>
 				<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
