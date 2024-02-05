@@ -52,6 +52,7 @@ const handle_get_requests = async ( url, request ) => {
 
 		return response;
 	} catch ( error ) {
+		// TODO: Redirect to "Offline" page.
 		const from_cache = await cache.match( url.pathname, {
 			ignoreSearch: true,
 		} );
