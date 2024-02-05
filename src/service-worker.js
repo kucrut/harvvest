@@ -57,13 +57,10 @@ const handle_get_requests = async ( url, request ) => {
 
 		return response;
 	} catch ( error ) {
-		// TODO: Redirect to "Offline" page.
-		const from_cache = await cache.match( url.pathname, {
-			ignoreSearch: true,
-		} );
+		const offline_page = await cache.match( '/offline' );
 
-		if ( from_cache ) {
-			return from_cache;
+		if ( offline_page ) {
+			return offline_page;
 		}
 
 		throw error;
