@@ -45,7 +45,11 @@ const handle_get_requests = async ( url, request ) => {
 	const cache = await caches.open( CACHE );
 
 	if ( ASSETS.includes( url.pathname ) ) {
-		return cache.match( url.pathname );
+		const cached_asset = await cache.match( url.pathname );
+
+		if ( cached_asset ) {
+			return cached_asset;
+		}
 	}
 
 	try {
