@@ -5,7 +5,7 @@
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
 
-import { build, files, version } from '$service-worker';
+import { build, files, version, prerendered } from '$service-worker';
 
 const sw = /** @type {ServiceWorkerGlobalScope} */ ( /** @type {unknown} */ ( self ) );
 
@@ -15,6 +15,7 @@ const CACHE = `cache-${ version }`;
 const ASSETS = [
 	...build, // the app itself.
 	...files, // everything in `static`.
+	...prerendered, // prerendered pages.
 ];
 
 /** @type {Map<string, (() => void)[]>} */
