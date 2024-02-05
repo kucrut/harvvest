@@ -44,7 +44,7 @@ const handle_get_requests = async ( url, request ) => {
 	const cache = await caches.open( CACHE );
 
 	try {
-		const response = await fetch( request );
+		const response = await fetch( request, { credentials: 'same-origin' } );
 
 		if ( response.status === 200 ) {
 			cache.put( request, response.clone() );
