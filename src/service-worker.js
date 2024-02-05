@@ -44,6 +44,10 @@ const await_client_message = action => {
 const handle_get_requests = async ( url, request ) => {
 	const cache = await caches.open( CACHE );
 
+	if ( ASSETS.includes( url.pathname ) ) {
+		return cache.match( url.pathname );
+	}
+
 	try {
 		const response = await fetch( request, { credentials: 'same-origin' } );
 
