@@ -8,7 +8,7 @@
 </svelte:head>
 
 <ContentWrap>
-	<div class="grid place-content-center gap-5">
+	<div class="grid place-content-center gap-5 h-full">
 		<svg
 			class="w-16"
 			fill="none"
