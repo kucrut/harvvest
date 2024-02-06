@@ -24,7 +24,10 @@
 				d="M5 13a10 10 0 0 1 5.24-2.76"
 			/><line x1="12" x2="12.01" y1="20" y2="20" /></svg
 		>
-		<p>You are offline.</p>
+		<p>
+			You appear to be offline<br />
+			You can't use Photo Harvest until you're connected to the internet.
+		</p>
 		<button class="btn variant-filled" type="button" on:click={() => goto( '/' )}>Refresh</button>
 	</div>
 </ContentWrap>
