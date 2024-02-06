@@ -28,6 +28,6 @@
 			You appear to be offline<br />
 			You can't use Photo Harvest until you're connected to the internet.
 		</p>
-		<button class="btn variant-filled" type="button" on:click={() => goto( '/' )}>Refresh</button>
+		<button class="btn variant-filled" type="button" on:click={() => goto( '/' )}>Retry</button>
 	</div>
 </ContentWrap>
