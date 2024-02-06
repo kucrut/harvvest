@@ -37,7 +37,7 @@
 	{/if}
 </Drawer>
 
-<AppShell>
+<AppShell class="h-lvh">
 	<AppBar
 		gridColumns="grid-cols-[1fr_auto_1fr]"
 		slot="header"
