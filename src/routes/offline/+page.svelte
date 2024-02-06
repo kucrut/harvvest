@@ -8,9 +8,9 @@
 </svelte:head>
 
 <ContentWrap>
-	<div class="grid place-content-center gap-5 h-full">
+	<div class="grid gap-6 place-items-center place-content-center text-center h-full">
 		<svg
-			class="w-16"
+			class="w-16 text-error-300"
 			fill="none"
 			stroke-linecap="round"
 			stroke-linejoin="round"
@@ -25,9 +25,9 @@
 			/><line x1="12" x2="12.01" y1="20" y2="20" /></svg
 		>
 		<p>
-			You appear to be offline<br />
+			You appear to be offline.<br />
 			You can't use Photo Harvest until you're connected to the internet.
 		</p>
-		<button class="btn variant-filled" type="button" on:click={() => goto( '/' )}>Retry</button>
+		<button class="btn variant-filled w-max" type="button" on:click={() => goto( '/' )}>Retry</button>
 	</div>
 </ContentWrap>
