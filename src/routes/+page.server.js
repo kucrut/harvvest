@@ -20,14 +20,12 @@ function invalid_value( message ) {
 }
 
 /** @type {import('./$types').PageServerLoad} */
-export const load = async ( { locals, parent } ) => {
-	const layout_data = await parent();
-
-	if ( ! locals.session || ! layout_data.user ) {
-		redirect( 302, '/login' );
+export const load = async ( { locals } ) => {
+	if ( ! locals.session ) {
+		redirect( 307, '/login' );
 	}
 
-	const auth = `Bearer ${ locals.session.token }`;
+	const auth = locals.session.auth;
 
 	try {
 		const taxonomies = await get_taxonomies( locals.session.api_url, auth, { type: 'attachment' } );
@@ -107,7 +105,7 @@ export const actions = {
 		}
 
 		try {
-			const result = await create_media( session.data.api_url, `Bearer ${ session.data.token }`, data );
+			const result = await create_media( session.data.api_url, session.data.auth, data );
 
 			return {
 				success: true,
