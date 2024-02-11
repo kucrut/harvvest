@@ -57,7 +57,7 @@
 					type="text"
 				/>
 			{/if}
-			<SubmitField {is_submitting} label="Log In" />
+			<SubmitField {is_submitting} label="Get Authorization" />
 		</FormWrap>
 	</form>
 </ContentWrap>
