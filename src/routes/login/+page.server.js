@@ -2,6 +2,8 @@ import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { get_session_cookie_options, wp_login } from '$lib/utils.server.js';
+import { discover, get_app_password_auth_endpoint } from '@kucrut/wp-api-helpers';
+import { APP_ID, APP_NAME } from '$env/static/private';
 
 function get_access_keys() {
 	if ( ! env.ACCESS_KEYS ) {
@@ -35,23 +37,17 @@ export const load = async ( { parent } ) => {
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-	default: async ( { cookies, request } ) => {
+	default: async ( { request } ) => {
 		const require_access_key = is_access_key_required();
 		const data = await request.formData();
 
 		const access_key = data.get( 'access_key' );
-		const password = data.get( 'password' );
 		const url = data.get( 'url' );
-		const username = data.get( 'username' );
 
 		if (
 			( require_access_key && ( typeof access_key !== 'string' || ! access_key ) ) ||
-			typeof password !== 'string' ||
-			! password ||
 			typeof url !== 'string' ||
-			! url ||
-			typeof username !== 'string' ||
-			! username
+			! url
 		) {
 			return fail( 400, {
 				error: true,
@@ -60,6 +56,7 @@ export const actions = {
 		}
 
 		const access_keys = get_access_keys();
+
 		if (
 			require_access_key &&
 			( typeof access_key !== 'string' || ( Array.isArray( access_keys ) && ! access_keys.includes( access_key ) ) )
@@ -70,23 +67,24 @@ export const actions = {
 			} );
 		}
 
+		let endpoint;
+
 		try {
-			const auth = await wp_login( url, username, password );
-
-			cookies.set( 'session', JSON.stringify( auth ), get_session_cookie_options() );
+			const api_url = await discover( url );
+			endpoint = await get_app_password_auth_endpoint( api_url );
 		} catch ( error ) {
-			const message = get_error_message(
-				error,
-				'Unexpected upload result from server. Please consult the logs.',
-				true,
-			);
-
+			const message = get_error_message( error, 'Unexpected result from server. Please consult the logs.', true );
 			return fail( 500, {
 				message,
 				error: true,
 			} );
 		}
 
-		redirect( 302, '/' );
+		const auth_url = new URL( endpoint );
+		auth_url.searchParams.append( 'app_id', APP_ID );
+		auth_url.searchParams.append( 'app_name', APP_NAME );
+		auth_url.searchParams.append( 'success_url', request.url );
+
+		redirect( 303, auth_url );
 	},
 };
