@@ -2,7 +2,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { create_error_alert } from '$lib/utils.client';
 	import { getDrawerStore } from '@skeletonlabs/skeleton';
-	import { goto } from '$app/navigation';
+	import { afterNavigate, goto } from '$app/navigation';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
@@ -25,6 +25,12 @@
 			is_submitting = false;
 		};
 	};
+
+	afterNavigate( async () => {
+		if ( data.has_auth ) {
+			await goto( '/', { invalidateAll: true } );
+		}
+	} );
 
 	$: {
 		if ( form?.error && form?.message ) {
