@@ -1,9 +1,9 @@
+import { APP_ID, APP_NAME } from '$env/static/private';
+import { create_basic_auth_string, get_error_message } from '@kucrut/wp-api-helpers/utils';
+import { discover, get_app_password_auth_endpoint, get_user } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
-import { get_error_message } from '@kucrut/wp-api-helpers/utils';
-import { get_session_cookie_options, wp_login } from '$lib/utils.server.js';
-import { discover, get_app_password_auth_endpoint } from '@kucrut/wp-api-helpers';
-import { APP_ID, APP_NAME } from '$env/static/private';
+import { get_session_cookie_options } from '$lib/utils.server.js';
 
 function get_access_keys() {
 	if ( ! env.ACCESS_KEYS ) {
@@ -21,16 +21,56 @@ function is_access_key_required() {
 	return Array.isArray( access_keys ) && access_keys.length > 0;
 }
 
-/** @type {import('./$types').PageServerLoad} */
-export const load = async ( { parent } ) => {
-	const layout_data = await parent();
+/**
+ * Handle WP application password authorization flow
+ *
+ * @param {URL} url URL object.
+ * @return {Promise<import('$lib/schema').Session|undefined>};
+ */
+async function handle_wp_auth( url ) {
+	const password = url.searchParams.get( 'password' );
+	const username = url.searchParams.get( 'user_login' );
+	const wp_url = url.searchParams.get( 'site_url' );
 
+	if ( ! password || ! wp_url || ! username ) {
+		return;
+	}
+
+	const api_url = await discover( wp_url );
+	const auth = create_basic_auth_string( username, password );
+	const { avatar_urls, name } = await get_user( api_url, 'me', auth );
+
+	const avatar_size = Object.keys( avatar_urls )
+		.map( s => Number( s ) )
+		.sort( ( a, b ) => b - a )[ 0 ]
+		.toString();
+
+	return {
+		api_url,
+		auth, // TODO: Encrypt!
+		name,
+		wp_url,
+		avatar_url: avatar_urls[ avatar_size ],
+	};
+}
+
+/** @type {import('./$types').PageServerLoad} */
+export const load = async ( { cookies, locals, url } ) => {
 	// Redirect to homepage as we already have a valid session.
-	if ( layout_data.user ) {
+	if ( locals.session ) {
+		// TODO: Check if we have file to upload from PWA.
+		redirect( 302, '/' );
+	}
+
+	const new_session = await handle_wp_auth( url );
+
+	if ( new_session ) {
+		cookies.set( 'session', JSON.stringify( new_session ), get_session_cookie_options() );
 		redirect( 302, '/' );
 	}
 
 	return {
+		has_auth: new_session !== undefined, // Work-around for Firefox. Aaaaaargh!!!111
 		require_access_key: is_access_key_required(),
 	};
 };
