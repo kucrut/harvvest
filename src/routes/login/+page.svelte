@@ -58,6 +58,7 @@
 				/>
 			{/if}
 			<SubmitField {is_submitting} label="Get Authorization" />
+			<!-- TODO: Add info about auth flow. -->
 		</FormWrap>
 	</form>
 </ContentWrap>
