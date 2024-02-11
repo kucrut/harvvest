@@ -40,7 +40,7 @@
 <ContentWrap>
 	<h1 class="h3 text-center">Log In</h1>
 
-	<form action="?/auth" method="POST" use:enhance={handle_submit}>
+	<form method="POST" use:enhance={handle_submit}>
 		<FormWrap>
 			<TextField autocomplete="url" required disabled={is_submitting} label="WordPress URL" name="url" type="url" />
 			{#if data.require_access_key}
