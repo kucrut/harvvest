@@ -21,10 +21,6 @@
 		is_submitting = true;
 
 		return async ( { result } ) => {
-			if ( result.type === 'redirect' ) {
-				await goto( result.location, { invalidateAll: true } );
-			}
-
 			await applyAction( result );
 			is_submitting = false;
 		};
