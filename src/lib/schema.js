@@ -11,7 +11,7 @@ export const user_schema = z.object( {
 
 export const session_schema = user_schema.extend( {
 	api_url: z.string().url(),
-	token: z.string(),
+	auth: z.string(),
 } );
 
 /** @typedef {z.infer<session_schema>} Session */
