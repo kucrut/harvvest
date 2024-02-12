@@ -1,5 +1,5 @@
-import { APP_SECRET } from '$env/static/private';
 import { Encryption } from '@adonisjs/encryption';
+import { env } from '$env/dynamic/private';
 import { redirect } from '@sveltejs/kit';
 import { session_schema } from './schema';
 
@@ -49,7 +49,7 @@ export function validate_session( session_cookie ) {
 	const json = JSON.parse( session_cookie );
 	const session = session_schema.parse( {
 		...json,
-		auth: new Encryption( { secret: APP_SECRET } ).decrypt( json.auth ),
+		auth: new Encryption( { secret: env.APP_SECRET } ).decrypt( json.auth ),
 	} );
 
 	return session;
@@ -64,7 +64,7 @@ export function validate_session( session_cookie ) {
 export function set_session_cookies( cookies, data ) {
 	const session = JSON.stringify( {
 		...data,
-		auth: new Encryption( { secret: APP_SECRET } ).encrypt( data.auth ),
+		auth: new Encryption( { secret: env.APP_SECRET } ).encrypt( data.auth ),
 	} );
 
 	cookies.set( 'session', session, get_session_cookie_options() );
