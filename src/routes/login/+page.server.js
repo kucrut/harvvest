@@ -20,6 +20,19 @@ function is_access_key_required() {
 	return Array.isArray( access_keys ) && access_keys.length > 0;
 }
 
+function is_wp_url_required() {
+	if ( typeof env.WP_URL !== 'string' || ! env.WP_URL ) {
+		return true;
+	}
+
+	try {
+		const url = new URL( env.WP_URL );
+		return ! [ 'http:', 'https:' ].includes( url.protocol );
+	} catch {
+		return true;
+	}
+}
+
 /**
  * Handle WP application password authorization flow
  *
@@ -72,6 +85,7 @@ export const load = async ( { cookies, locals, url } ) => {
 		auth_rejected: url.searchParams.get( 'success' ) === 'false',
 		has_auth: new_session !== undefined, // Work-around for Firefox. Aaaaaargh!!!111
 		require_access_key: is_access_key_required(),
+		require_wp_url: is_wp_url_required(),
 	};
 };
 
