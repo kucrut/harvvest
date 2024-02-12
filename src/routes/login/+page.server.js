@@ -2,7 +2,7 @@ import { create_basic_auth_string, get_error_message } from '@kucrut/wp-api-help
 import { discover, get_app_password_auth_endpoint, get_user } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
-import { get_session_cookie_options } from '$lib/utils.server.js';
+import { get_session_cookie_options, set_session_cookies } from '$lib/utils.server.js';
 
 function get_access_keys() {
 	if ( ! env.ACCESS_KEYS ) {
@@ -59,9 +59,9 @@ async function handle_wp_auth( url ) {
 
 	return {
 		api_url,
-		auth, // TODO: Encrypt!
 		name,
 		wp_url,
+		auth,
 		avatar_url: avatar_urls[ avatar_size ],
 	};
 }
@@ -77,7 +77,7 @@ export const load = async ( { cookies, locals, url } ) => {
 	const new_session = await handle_wp_auth( url );
 
 	if ( new_session ) {
-		cookies.set( 'session', JSON.stringify( new_session ), get_session_cookie_options() );
+		set_session_cookies( cookies, new_session );
 		redirect( 302, '/' );
 	}
 
