@@ -70,6 +70,7 @@ export const load = async ( { cookies, locals, url } ) => {
 	}
 
 	return {
+		auth_rejected: url.searchParams.get( 'success' ) === 'false',
 		has_auth: new_session !== undefined, // Work-around for Firefox. Aaaaaargh!!!111
 		require_access_key: is_access_key_required(),
 	};
