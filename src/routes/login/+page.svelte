@@ -16,6 +16,8 @@
 	const drawer_store = getDrawerStore();
 	let client_id = '';
 	let is_submitting = false;
+	/** @type {HTMLElement} */
+	let message_el;
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
@@ -33,6 +35,10 @@
 		}
 
 		client_id = navigator.userAgent;
+
+		if ( message_el ) {
+			setTimeout( () => message_el.parentElement?.removeChild( message_el ), 5000 );
+		}
 	} );
 
 	$: {
@@ -69,7 +75,7 @@
 	</form>
 
 	{#if data.auth_rejected}
-		<aside class="alert variant-soft-error">
+		<aside class="alert variant-soft-error" bind:this={message_el}>
 			<div class="alert-message">
 				<p>Authorization request was rejected. Please try again.</p>
 			</div>
