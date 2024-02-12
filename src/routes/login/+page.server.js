@@ -77,7 +77,7 @@ export const load = async ( { cookies, locals, url } ) => {
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-	default: async ( { request } ) => {
+	default: async ( { cookies, request } ) => {
 		const require_access_key = is_access_key_required();
 		const data = await request.formData();
 
@@ -125,6 +125,9 @@ export const actions = {
 
 		const app_id = crypto.randomUUID();
 		const auth_url = new URL( endpoint );
+
+		// This will be used when revoking the app password on logout.
+		cookies.set( 'app_id', app_id, get_session_cookie_options() );
 
 		auth_url.searchParams.append( 'app_id', app_id );
 		auth_url.searchParams.append( 'app_name', `${ APP_NAME } - ${ client_id }` );
