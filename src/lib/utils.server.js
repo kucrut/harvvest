@@ -64,7 +64,7 @@ export function validate_session( session_cookie ) {
 export function set_session_cookies( cookies, data ) {
 	const session = JSON.stringify( {
 		...data,
-		auth: new Encryption( { secret: APP_SECRET } ).encrypt( data ),
+		auth: new Encryption( { secret: APP_SECRET } ).encrypt( data.auth ),
 	} );
 
 	cookies.set( 'session', session, get_session_cookie_options() );
