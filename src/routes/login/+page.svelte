@@ -57,7 +57,9 @@
 
 	<form method="POST" use:enhance={handle_submit}>
 		<FormWrap>
-			<TextField autocomplete="url" required disabled={is_submitting} label="WordPress URL" name="url" type="url" />
+			{#if data.require_wp_url}
+				<TextField autocomplete="url" required disabled={is_submitting} label="WordPress URL" name="url" type="url" />
+			{/if}
 			{#if data.require_access_key}
 				<TextField
 					autocomplete="on"
