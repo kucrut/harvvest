@@ -82,10 +82,13 @@ export const actions = {
 		const data = await request.formData();
 
 		const access_key = data.get( 'access_key' );
+		const client_id = data.get( 'client_id' );
 		const url = data.get( 'url' );
 
 		if (
 			( require_access_key && ( typeof access_key !== 'string' || ! access_key ) ) ||
+			typeof client_id !== 'string' ||
+			! client_id ||
 			typeof url !== 'string' ||
 			! url
 		) {
