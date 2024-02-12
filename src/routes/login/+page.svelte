@@ -67,4 +67,12 @@
 			<!-- TODO: Add info about auth flow. -->
 		</FormWrap>
 	</form>
+
+	{#if data.auth_rejected}
+		<aside class="alert variant-soft-error">
+			<div class="alert-message">
+				<p>Authorization request was rejected. Please try again.</p>
+			</div>
+		</aside>
+	{/if}
 </ContentWrap>
