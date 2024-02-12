@@ -93,11 +93,12 @@ export const load = async ( { cookies, locals, url } ) => {
 export const actions = {
 	default: async ( { cookies, request } ) => {
 		const require_access_key = is_access_key_required();
+		const require_wp_url = is_wp_url_required();
 		const data = await request.formData();
 
 		const access_key = data.get( 'access_key' );
 		const client_id = data.get( 'client_id' );
-		const url = data.get( 'url' );
+		const url = require_wp_url ? data.get( 'url' ) : env.WP_URL;
 
 		if (
 			( require_access_key && ( typeof access_key !== 'string' || ! access_key ) ) ||
