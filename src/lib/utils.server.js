@@ -33,6 +33,7 @@ export function get_session_cookie_options() {
  */
 export function logout( cookies ) {
 	delete_session_cookies( cookies );
+	cookies.delete( 'app_id', get_session_cookie_options() );
 	redirect( 302, '/login' );
 }
 
