@@ -1,4 +1,3 @@
-import { APP_NAME } from '$env/static/private';
 import { create_basic_auth_string, get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { discover, get_app_password_auth_endpoint, get_user } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
@@ -131,7 +130,7 @@ export const actions = {
 		cookies.set( 'app_id', app_id, get_session_cookie_options() );
 
 		auth_url.searchParams.append( 'app_id', app_id );
-		auth_url.searchParams.append( 'app_name', `${ APP_NAME } - ${ client_id }` );
+		auth_url.searchParams.append( 'app_name', `${ env.APP_NAME } - ${ client_id }` );
 		auth_url.searchParams.append( 'success_url', request.url );
 
 		redirect( 303, auth_url );
