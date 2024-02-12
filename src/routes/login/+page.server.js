@@ -1,5 +1,5 @@
 import { create_basic_auth_string, get_error_message } from '@kucrut/wp-api-helpers/utils';
-import { discover, get_app_password_auth_endpoint, get_user } from '@kucrut/wp-api-helpers';
+import { discover, get_app_password_auth_endpoint, get_single_user } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
 import { get_session_cookie_options, set_session_cookies } from '$lib/utils.server.js';
@@ -50,7 +50,7 @@ async function handle_wp_auth( url ) {
 
 	const api_url = await discover( wp_url );
 	const auth = create_basic_auth_string( username, password );
-	const { avatar_urls, name } = await get_user( api_url, 'me', auth );
+	const { avatar_urls, name } = await get_single_user( 'me', api_url, auth );
 
 	const avatar_size = Object.keys( avatar_urls )
 		.map( s => Number( s ) )

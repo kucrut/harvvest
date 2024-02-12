@@ -28,13 +28,13 @@ export const load = async ( { cookies, locals } ) => {
 	const auth = locals.session.auth;
 
 	try {
-		const taxonomies = await get_taxonomies( locals.session.api_url, auth, { type: 'attachment' } );
+		const taxonomies = await get_taxonomies( locals.session.api_url, auth, 'view', { type: 'attachment' } );
 		/** @type {import('$types').Taxonomy_Terms_Option[]} */
 		const terms = [];
 
-		for ( const tax of Object.values( taxonomies ) ) {
+		for ( const tax of taxonomies ) {
 			try {
-				const tax_terms = await get_terms( locals.session.api_url, tax.rest_base, auth, { hide_empty: false } );
+				const tax_terms = await get_terms( locals.session.api_url, tax.rest_base, auth, 'view', { hide_empty: false } );
 
 				terms.push( {
 					name: tax.name,
