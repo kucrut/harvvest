@@ -47,7 +47,10 @@ export function logout( cookies ) {
  */
 export function validate_session( session_cookie ) {
 	const json = JSON.parse( session_cookie );
-	const session = session_schema.parse( json );
+	const session = session_schema.parse( {
+		...json,
+		auth: new Encryption( { secret: APP_SECRET } ).decrypt( json.auth ),
+	} );
 
 	return session;
 }
