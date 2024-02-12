@@ -124,10 +124,10 @@ export const actions = {
 		}
 
 		const app_id = crypto.randomUUID();
-
 		const auth_url = new URL( endpoint );
+
 		auth_url.searchParams.append( 'app_id', app_id );
-		auth_url.searchParams.append( 'app_name', APP_NAME );
+		auth_url.searchParams.append( 'app_name', `${ APP_NAME } - ${ client_id }` );
 		auth_url.searchParams.append( 'success_url', request.url );
 
 		redirect( 303, auth_url );
