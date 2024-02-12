@@ -2,8 +2,7 @@ import { create_media, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers'
 import { env } from '$env/dynamic/public';
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
-import { logout } from '$lib/utils.server.js';
-import { session_schema } from '$lib/schema';
+import { logout } from '$lib/utils.server';
 import pretty_bytes from 'pretty-bytes';
 
 function get_max_file_size() {
@@ -60,22 +59,9 @@ export const load = async ( { locals } ) => {
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-	default: async ( { cookies, request } ) => {
-		const force_logout = () => {
+	default: async ( { cookies, locals, request } ) => {
+		if ( ! locals.session ) {
 			logout( cookies );
-		};
-
-		const session_str = cookies.get( 'session' );
-
-		if ( typeof session_str !== 'string' || session_str === '' ) {
-			force_logout();
-			return;
-		}
-
-		const session = session_schema.safeParse( JSON.parse( session_str ) );
-
-		if ( ! session.success ) {
-			force_logout();
 			return;
 		}
 
@@ -105,7 +91,7 @@ export const actions = {
 		}
 
 		try {
-			const result = await create_media( session.data.api_url, session.data.auth, data );
+			const result = await create_media( locals.session.api_url, locals.session.auth, data );
 
 			return {
 				success: true,
