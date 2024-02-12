@@ -1,3 +1,5 @@
+import { APP_SECRET } from '$env/static/private';
+import { Encryption } from '@adonisjs/encryption';
 import { redirect } from '@sveltejs/kit';
 import { session_schema } from './schema';
 
@@ -48,4 +50,19 @@ export function validate_session( session_cookie ) {
 	const session = session_schema.parse( json );
 
 	return session;
+}
+
+/**
+ * Set session cookies
+ *
+ * @param {import('@sveltejs/kit').Cookies} cookies Cookies.
+ * @param {import('./schema').Session} data Session data.
+ */
+export function set_session_cookies( cookies, data ) {
+	const session = JSON.stringify( {
+		...data,
+		auth: new Encryption( { secret: APP_SECRET } ).encrypt( data ),
+	} );
+
+	cookies.set( 'session', session, get_session_cookie_options() );
 }
