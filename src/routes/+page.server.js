@@ -1,6 +1,6 @@
 import { create_media, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/public';
-import { fail, redirect } from '@sveltejs/kit';
+import { fail } from '@sveltejs/kit';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { logout } from '$lib/utils.server';
 import pretty_bytes from 'pretty-bytes';
@@ -19,9 +19,10 @@ function invalid_value( message ) {
 }
 
 /** @type {import('./$types').PageServerLoad} */
-export const load = async ( { locals } ) => {
+export const load = async ( { cookies, locals } ) => {
 	if ( ! locals.session ) {
-		redirect( 307, '/login' );
+		logout( cookies );
+		return;
 	}
 
 	const auth = locals.session.auth;
