@@ -14,6 +14,7 @@
 	export let data;
 
 	const drawer_store = getDrawerStore();
+	let client_id = '';
 	let is_submitting = false;
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
@@ -30,6 +31,8 @@
 		if ( data.has_auth ) {
 			await goto( '/', { invalidateAll: true } );
 		}
+
+		client_id = navigator.userAgent;
 	} );
 
 	$: {
@@ -59,6 +62,7 @@
 					type="text"
 				/>
 			{/if}
+			<input type="hidden" name="client_id" value={client_id} />
 			<SubmitField {is_submitting} label="Get Authorization" />
 			<!-- TODO: Add info about auth flow. -->
 		</FormWrap>
