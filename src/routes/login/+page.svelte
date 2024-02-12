@@ -72,7 +72,6 @@
 			{/if}
 			<input type="hidden" name="client_id" value={client_id} />
 			<SubmitField {is_submitting} label="Get Authorization" />
-			<!-- TODO: Add info about auth flow. -->
 		</FormWrap>
 	</form>
 
