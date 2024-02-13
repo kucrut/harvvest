@@ -141,27 +141,28 @@ export const actions = {
 			} );
 		}
 
-		const require_wp_url = is_wp_url_required();
-		const url = require_wp_url ? data.get( 'url' ) : env.WP_AUTH_ENDPOINT;
+		let endpoint = get_wp_auth_endpoint_from_env();
 
-		if ( typeof url !== 'string' || ! url ) {
-			return fail( 400, {
-				error: true,
-				message: 'All fields are required.',
-			} );
-		}
+		if ( ! endpoint ) {
+			const url = data.get( 'url' );
 
-		let endpoint;
+			// TODO: Validate URL.
+			if ( typeof url !== 'string' || ! url ) {
+				return fail( 400, {
+					error: true,
+					message: 'Please provide a valid WordPress URL.',
+				} );
+			}
 
-		try {
-			const api_url = await discover( url );
-			endpoint = await get_app_password_auth_endpoint( api_url );
-		} catch ( error ) {
-			const message = get_error_message( error, 'Unexpected result from server. Please consult the logs.', true );
-			return fail( 500, {
-				message,
-				error: true,
-			} );
+			try {
+				const api_url = await discover( url );
+				endpoint = await get_app_password_auth_endpoint( api_url );
+			} catch ( error ) {
+				return fail( 500, {
+					error: true,
+					message: get_error_message( error, 'Unexpected result from server. Please consult the logs.', true ),
+				} );
+			}
 		}
 
 		const app_id = crypto.randomUUID();
