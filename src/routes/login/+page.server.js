@@ -128,8 +128,7 @@ export const actions = {
 		if ( ! endpoint ) {
 			const url = data.get( 'url' );
 
-			// TODO: Validate URL.
-			if ( typeof url !== 'string' || ! url ) {
+			if ( typeof url !== 'string' || ! is_valid_http_url( url ) ) {
 				return fail( 400, {
 					error: true,
 					message: 'Please provide a valid WordPress URL.',
