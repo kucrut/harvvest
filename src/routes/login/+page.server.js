@@ -14,6 +14,24 @@ function get_access_keys() {
 	return keys;
 }
 
+function get_wp_auth_endpoint_from_env() {
+	if ( typeof env.WP_AUTH_ENDPOINT !== 'string' || ! env.WP_AUTH_ENDPOINT ) {
+		return undefined;
+	}
+
+	try {
+		const url = new URL( env.WP_AUTH_ENDPOINT );
+
+		if ( [ 'http:', 'https:' ].includes( url.protocol ) ) {
+			return url.toString();
+		}
+
+		return undefined;
+	} catch {
+		return undefined;
+	}
+}
+
 /**
  * Check if access key is valid
  *
