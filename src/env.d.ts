@@ -5,6 +5,7 @@ interface ImportMetaEnv {
 	readonly APP_NAME: string;
 	readonly APP_SECRET: string;
 	readonly PUBLIC_MAX_FILE_SIZE: string;
+	readonly WP_AUTH_ENDPOINT: string;
 	readonly WP_URL: string;
 }
 
