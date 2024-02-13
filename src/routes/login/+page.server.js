@@ -52,19 +52,6 @@ function is_access_key_valid( key ) {
 	return keys.includes( key );
 }
 
-function is_wp_url_required() {
-	if ( typeof env.WP_AUTH_ENDPOINT !== 'string' || ! env.WP_AUTH_ENDPOINT ) {
-		return true;
-	}
-
-	try {
-		const url = new URL( env.WP_AUTH_ENDPOINT );
-		return ! [ 'http:', 'https:' ].includes( url.protocol );
-	} catch {
-		return true;
-	}
-}
-
 /**
  * Handle WP application password authorization flow
  *
