@@ -117,7 +117,7 @@ export const load = async ( { cookies, locals, url } ) => {
 		auth_rejected: url.searchParams.get( 'success' ) === 'false',
 		has_auth: new_session !== undefined, // Work-around for Firefox. Aaaaaargh!!!111
 		require_access_key: get_access_keys().length > 0,
-		require_wp_url: is_wp_url_required(),
+		require_wp_url: ! get_wp_auth_endpoint_from_env(),
 	};
 };
 
