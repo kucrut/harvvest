@@ -21,12 +21,12 @@ function is_access_key_required() {
 }
 
 function is_wp_url_required() {
-	if ( typeof env.WP_URL !== 'string' || ! env.WP_URL ) {
+	if ( typeof env.WP_AUTH_ENDPOINT !== 'string' || ! env.WP_AUTH_ENDPOINT ) {
 		return true;
 	}
 
 	try {
-		const url = new URL( env.WP_URL );
+		const url = new URL( env.WP_AUTH_ENDPOINT );
 		return ! [ 'http:', 'https:' ].includes( url.protocol );
 	} catch {
 		return true;
@@ -98,7 +98,7 @@ export const actions = {
 
 		const access_key = data.get( 'access_key' );
 		const client_id = data.get( 'client_id' );
-		const url = require_wp_url ? data.get( 'url' ) : env.WP_URL;
+		const url = require_wp_url ? data.get( 'url' ) : env.WP_AUTH_ENDPOINT;
 
 		if (
 			( require_access_key && ( typeof access_key !== 'string' || ! access_key ) ) ||
