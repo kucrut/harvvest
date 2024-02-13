@@ -1,5 +1,4 @@
 import { delete_session_cookies, validate_session } from '$lib/utils.server.js';
-import { get_jwt_validate_token } from '@kucrut/wp-api-helpers';
 
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle = async ( { event, resolve } ) => {
@@ -14,7 +13,6 @@ export const handle = async ( { event, resolve } ) => {
 
 	try {
 		session = validate_session( session_cookie );
-		await get_jwt_validate_token( session.api_url, session.token );
 		event.locals.session = session;
 	} catch {
 		delete_session_cookies( event.cookies );

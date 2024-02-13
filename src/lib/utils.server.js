@@ -1,4 +1,5 @@
-import { discover, get_jwt_auth, get_user } from '@kucrut/wp-api-helpers';
+import { Encryption } from '@adonisjs/encryption';
+import { env } from '$env/dynamic/private';
 import { redirect } from '@sveltejs/kit';
 import { session_schema } from './schema';
 
@@ -33,6 +34,7 @@ export function get_session_cookie_options() {
  */
 export function logout( cookies ) {
 	delete_session_cookies( cookies );
+	cookies.delete( 'app_id', get_session_cookie_options() );
 	redirect( 302, '/login' );
 }
 
@@ -45,35 +47,25 @@ export function logout( cookies ) {
  */
 export function validate_session( session_cookie ) {
 	const json = JSON.parse( session_cookie );
-	const session = session_schema.parse( json );
+	const session = session_schema.parse( {
+		...json,
+		auth: new Encryption( { secret: env.APP_SECRET } ).decrypt( json.auth ),
+	} );
 
 	return session;
 }
 
 /**
- * Log in to WordPress via REST API
+ * Set session cookies
  *
- * @param {string} wp_url   WordPress URL.
- * @param {string} username Username or email.
- * @param {string} password Password.
- *
- * @return {Promise<import('./schema').Session>} User object.
+ * @param {import('@sveltejs/kit').Cookies} cookies Cookies.
+ * @param {import('./schema').Session} data Session data.
  */
-export async function wp_login( wp_url, username, password ) {
-	const api_url = await discover( wp_url );
-	const auth = await get_jwt_auth( api_url, username, password );
-	const { avatar_urls, name } = await get_user( api_url, 'me', `Bearer ${ auth.token }` );
+export function set_session_cookies( cookies, data ) {
+	const session = JSON.stringify( {
+		...data,
+		auth: new Encryption( { secret: env.APP_SECRET } ).encrypt( data.auth ),
+	} );
 
-	const avatar_size = Object.keys( avatar_urls )
-		.map( s => Number( s ) )
-		.sort( ( a, b ) => b - a )[ 0 ]
-		.toString();
-
-	return {
-		api_url,
-		name,
-		wp_url,
-		avatar_url: avatar_urls[ avatar_size ],
-		token: auth.token,
-	};
+	cookies.set( 'session', session, get_session_cookie_options() );
 }
