@@ -115,11 +115,18 @@ export const actions = {
 			} );
 		}
 
-		const require_wp_url = is_wp_url_required();
 		const client_id = data.get( 'client_id' );
+		if ( typeof client_id !== 'string' || ! client_id ) {
+			return fail( 400, {
+				error: true,
+				message: 'All fields are required.',
+			} );
+		}
+
+		const require_wp_url = is_wp_url_required();
 		const url = require_wp_url ? data.get( 'url' ) : env.WP_AUTH_ENDPOINT;
 
-		if ( typeof client_id !== 'string' || ! client_id || typeof url !== 'string' || ! url ) {
+		if ( typeof url !== 'string' || ! url ) {
 			return fail( 400, {
 				error: true,
 				message: 'All fields are required.',
