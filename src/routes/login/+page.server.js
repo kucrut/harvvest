@@ -6,7 +6,7 @@ import { get_session_cookie_options, set_session_cookies } from '$lib/utils.serv
 
 function get_access_keys() {
 	if ( ! env.ACCESS_KEYS ) {
-		return undefined;
+		return [];
 	}
 
 	const keys = env.ACCESS_KEYS.split( ',' ).filter( k => typeof k === 'string' && k !== '' );
@@ -14,10 +14,24 @@ function get_access_keys() {
 	return keys;
 }
 
-function is_access_key_required() {
-	const access_keys = get_access_keys();
+/**
+ * Check if access key is valid
+ *
+ * @param {ReturnType<FormData['get']>} key Access key.
+ * @return {boolean} Whether the provided access key is valid.
+ */
+function is_access_key_valid( key ) {
+	const keys = get_access_keys();
 
-	return Array.isArray( access_keys ) && access_keys.length > 0;
+	if ( ! keys.length ) {
+		return true;
+	}
+
+	if ( ! key || typeof key !== 'string' ) {
+		return false;
+	}
+
+	return keys.includes( key );
 }
 
 function is_wp_url_required() {
@@ -84,7 +98,7 @@ export const load = async ( { cookies, locals, url } ) => {
 	return {
 		auth_rejected: url.searchParams.get( 'success' ) === 'false',
 		has_auth: new_session !== undefined, // Work-around for Firefox. Aaaaaargh!!!111
-		require_access_key: is_access_key_required(),
+		require_access_key: get_access_keys().length > 0,
 		require_wp_url: is_wp_url_required(),
 	};
 };
@@ -92,36 +106,23 @@ export const load = async ( { cookies, locals, url } ) => {
 /** @type {import('./$types').Actions} */
 export const actions = {
 	default: async ( { cookies, request } ) => {
-		const require_access_key = is_access_key_required();
-		const require_wp_url = is_wp_url_required();
 		const data = await request.formData();
 
-		const access_key = data.get( 'access_key' );
-		const client_id = data.get( 'client_id' );
-		const url = require_wp_url ? data.get( 'url' ) : env.WP_AUTH_ENDPOINT;
-
-		if (
-			( require_access_key && ( typeof access_key !== 'string' || ! access_key ) ) ||
-			typeof client_id !== 'string' ||
-			! client_id ||
-			typeof url !== 'string' ||
-			! url
-		) {
+		if ( ! is_access_key_valid( data.get( 'access_key' ) ) ) {
 			return fail( 400, {
 				error: true,
-				message: 'All fields are required.',
+				message: 'Please provide a valid access key.',
 			} );
 		}
 
-		const access_keys = get_access_keys();
+		const require_wp_url = is_wp_url_required();
+		const client_id = data.get( 'client_id' );
+		const url = require_wp_url ? data.get( 'url' ) : env.WP_AUTH_ENDPOINT;
 
-		if (
-			require_access_key &&
-			( typeof access_key !== 'string' || ( Array.isArray( access_keys ) && ! access_keys.includes( access_key ) ) )
-		) {
+		if ( typeof client_id !== 'string' || ! client_id || typeof url !== 'string' || ! url ) {
 			return fail( 400, {
 				error: true,
-				message: 'Invalid access key.',
+				message: 'All fields are required.',
 			} );
 		}
 
