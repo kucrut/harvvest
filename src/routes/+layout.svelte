@@ -25,10 +25,6 @@
 <!-- Alert component -->
 
 <div class="app-shell">
-	<div class="app-bar">
-		<button>Menu</button>
-		<h1 class="h2">Photo Harvest</h1>
-	</div>
-
+	<!-- TODO: Add menu button? -->
 	<slot />
 </div>
