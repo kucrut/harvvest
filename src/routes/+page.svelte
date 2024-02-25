@@ -148,66 +148,64 @@
 	<ContentWrap>
 		<!-- TODO: Add intro text -->
 		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
-			<fieldset>
-				<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-				<FileDropzone
-					required={! files?.length}
-					accept="image/*,video/*"
-					disabled={is_submitting}
-					name="file"
-					type="file"
-					bind:files
-				>
-					<svelte:fragment slot="lead">
-						{#if file_type === 'image' && preview_src}
-							<div>
-								<img alt="" src={preview_src} />
-							</div>
-						{:else if file_type === 'video'}
-							<div class="gap-y-4 grid max-w-md place-items-center">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									class="w-14"
-									fill="none"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									stroke="currentColor"
-									viewBox="0 0 24 24"
-									><path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><rect
-										width="8"
-										height="6"
-										x="2"
-										y="12"
-										rx="1"
-									/><path d="m10 15.5 4 2.5v-6l-4 2.5" /></svg
-								>
-							</div>
-						{/if}
-					</svelte:fragment>
-					<p slot="message">
-						Click to select an image/video or drag and drop it here.<br />Maximum file size is
-						<em>{max_file_size_formatted}</em>.
-					</p>
-				</FileDropzone>
-				<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
-				<TextField required disabled={is_submitting} label="Caption" name="caption" />
-				<TextField
-					disabled={is_submitting}
-					label="Title"
-					name="title"
-					bind:value={title}
-					on:focus={() => ( has_title_touched = true )}
-				/>
-				<TextField multiline disabled={is_submitting} label="Description" name="description" />
-				{#if $page.data.terms?.length}
-					<!-- eslint-disable-next-line space-in-parens -->
-					{#each $page.data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
-						<TermsField {taxonomy} />
-					{/each}
-				{/if}
-				<button aria-busy={is_submitting} type="submit">Upload</button>
-			</fieldset>
+			<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
+			<FileDropzone
+				required={! files?.length}
+				accept="image/*,video/*"
+				disabled={is_submitting}
+				name="file"
+				type="file"
+				bind:files
+			>
+				<svelte:fragment slot="lead">
+					{#if file_type === 'image' && preview_src}
+						<div>
+							<img alt="" src={preview_src} />
+						</div>
+					{:else if file_type === 'video'}
+						<div class="gap-y-4 grid max-w-md place-items-center">
+							<svg
+								xmlns="http://www.w3.org/2000/svg"
+								class="w-14"
+								fill="none"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								stroke="currentColor"
+								viewBox="0 0 24 24"
+								><path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><rect
+									width="8"
+									height="6"
+									x="2"
+									y="12"
+									rx="1"
+								/><path d="m10 15.5 4 2.5v-6l-4 2.5" /></svg
+							>
+						</div>
+					{/if}
+				</svelte:fragment>
+				<p slot="message">
+					Click to select an image/video or drag and drop it here.<br />Maximum file size is
+					<em>{max_file_size_formatted}</em>.
+				</p>
+			</FileDropzone>
+			<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
+			<TextField required disabled={is_submitting} label="Caption" name="caption" />
+			<TextField
+				disabled={is_submitting}
+				label="Title"
+				name="title"
+				bind:value={title}
+				on:focus={() => ( has_title_touched = true )}
+			/>
+			<TextField multiline disabled={is_submitting} label="Description" name="description" />
+			{#if $page.data.terms?.length}
+				<!-- eslint-disable-next-line space-in-parens -->
+				{#each $page.data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
+					<TermsField {taxonomy} />
+				{/each}
+			{/if}
+			<button aria-busy={is_submitting} type="submit">Upload</button>
 		</form>
 	</ContentWrap>
 {/if}
