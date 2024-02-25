@@ -49,6 +49,7 @@
 </svelte:head>
 
 <ContentWrap>
+	<!-- Replace with logo -->
 	<h1>Log In</h1>
 
 	<form method="POST" use:enhance={handle_submit}>
