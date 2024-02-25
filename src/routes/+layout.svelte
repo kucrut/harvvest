@@ -24,7 +24,7 @@
 
 <!-- Alert component -->
 
-<div class="app-shell">
+<div>
 	<!-- TODO: Add menu button? -->
 	<slot />
 </div>
