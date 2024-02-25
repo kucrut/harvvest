@@ -53,7 +53,7 @@
 </svelte:head>
 
 <ContentWrap>
-	<h1 class="h3 text-center">Log In</h1>
+	<h1>Log In</h1>
 
 	<form method="POST" use:enhance={handle_submit}>
 		<FormWrap>
@@ -76,8 +76,8 @@
 	</form>
 
 	{#if data.auth_rejected}
-		<aside class="alert variant-soft-error" bind:this={message_el}>
-			<div class="alert-message">
+		<aside bind:this={message_el}>
+			<div>
 				<p>Authorization request was rejected. Please try again.</p>
 			</div>
 		</aside>
