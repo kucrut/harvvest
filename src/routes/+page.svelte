@@ -184,16 +184,10 @@
 				</small>
 			</div>
 			<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-			<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
-			<TextField required disabled={is_submitting} label="Caption" name="caption" />
-			<TextField
-				disabled={is_submitting}
-				label="Title"
-				name="title"
-				bind:value={title}
-				on:focus={() => ( has_title_touched = true )}
-			/>
-			<TextField multiline disabled={is_submitting} label="Description" name="description" />
+			<TextField multiline required label="Alternative text" name="alt_text" />
+			<TextField required label="Caption" name="caption" />
+			<TextField label="Title" name="title" bind:value={title} on:focus={() => ( has_title_touched = true )} />
+			<TextField multiline label="Description" name="description" />
 			{#if $page.data.terms?.length}
 				<!-- eslint-disable-next-line space-in-parens -->
 				{#each $page.data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
