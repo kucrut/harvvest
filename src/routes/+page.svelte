@@ -147,7 +147,6 @@
 	<ContentWrap>
 		<!-- TODO: Add intro text -->
 		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
-			<!-- TODO: Implement file drop zone -->
 			<div>
 				{#if file_type === 'image' && preview_src}
 					<div>
@@ -174,10 +173,6 @@
 						>
 					</div>
 				{/if}
-				<p>
-					Click to select an image/video or drag and drop it here.<br />Maximum file size is
-					<em>{max_file_size_formatted}</em>.
-				</p>
 				<input
 					required={! files?.length}
 					accept="image/*,video/*"
@@ -186,6 +181,9 @@
 					type="file"
 					bind:files
 				/>
+				<small>
+					Click to select an image/video. Maximum file size is <em>{max_file_size_formatted}</em>.
+				</small>
 			</div>
 			<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 			<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
