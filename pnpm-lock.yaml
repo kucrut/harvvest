@@ -11,6 +11,9 @@ devDependencies:
   '@kucrut/wp-api-helpers':
     specifier: ^0.3.1
     version: 0.3.1(zod@3.22.4)
+  '@picocss/pico':
+    specifier: ^2.0.3
+    version: 2.0.3
   '@skeletonlabs/skeleton':
     specifier: ^2.8.0
     version: 2.8.0(svelte@4.2.10)
@@ -1736,6 +1739,11 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.17.1
+    dev: true
+
+  /@picocss/pico@2.0.3:
+    resolution: {integrity: sha512-uIWvDcZnbA+oo4mpz8LeA05huCWbDnUz8Ad2NZXTFn6SrEXBtIdKDu+/bOD4oI8hJHp6dUEEvDLim2+qqSgruQ==}
+    engines: {node: '>=18.19.0'}
     dev: true
 
   /@pkgjs/parseargs@0.11.0:
