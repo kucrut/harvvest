@@ -159,14 +159,13 @@
 					accept="image/*,video/*"
 					disabled={is_submitting}
 					name="file"
-					slotLead="mb-4 empty:mb-0"
 					type="file"
 					bind:files
 				>
 					<svelte:fragment slot="lead">
 						{#if file_type === 'image' && preview_src}
-							<div class="gap-y-4 grid max-w-md place-items-center">
-								<img alt="" class="block rounded" src={preview_src} />
+							<div>
+								<img alt="" src={preview_src} />
 							</div>
 						{:else if file_type === 'video'}
 							<div class="gap-y-4 grid max-w-md place-items-center">
