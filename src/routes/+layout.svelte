@@ -1,6 +1,5 @@
 <script>
 	import '../app.scss';
-	import '../app.postcss';
 
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
