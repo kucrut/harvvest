@@ -1,2 +1,1 @@
-<!-- TODO: pico -->
-<div><slot /></div>
+<main class="container"><slot /></main>
