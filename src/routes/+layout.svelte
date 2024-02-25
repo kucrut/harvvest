@@ -2,10 +2,9 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { AppBar, AppShell, Drawer, getDrawerStore, initializeStores } from '@skeletonlabs/skeleton';
+	import { Drawer, getDrawerStore, initializeStores } from '@skeletonlabs/skeleton';
 	import Alert from '$lib/components/alert.svelte';
 	import AppMenu from '$lib/components/app-menu.svelte';
-	import AppMenuButton from '$lib/components/app-menu-button.svelte';
 	import '../app.postcss';
 
 	initializeStores();
@@ -37,17 +36,11 @@
 	{/if}
 </Drawer>
 
-<AppShell class="h-lvh">
-	<AppBar
-		gridColumns="grid-cols-[1fr_auto_1fr]"
-		slot="header"
-		slotDefault="place-self-center"
-		slotTrail="place-content-end"
-	>
-		<svelte:fragment slot="lead"><AppMenuButton /></svelte:fragment>
+<div class="app-shell">
+	<div class="app-bar">
+		<button>Menu</button>
 		<h1 class="h2">Photo Harvest</h1>
-		<svelte:fragment slot="trail"><span /></svelte:fragment>
-	</AppBar>
+	</div>
 
 	<slot />
-</AppShell>
+</div>
