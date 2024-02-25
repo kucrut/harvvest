@@ -70,3 +70,11 @@
 		</aside>
 	{/if}
 </ContentWrap>
+
+<style>
+	form {
+		padding: var( --pico-spacing );
+		border: 1px solid var( --pico-muted-border-color );
+		border-radius: var( --pico-border-radius );
+	}
+</style>
