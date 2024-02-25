@@ -149,9 +149,7 @@
 		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 			<div>
 				{#if file_type === 'image' && preview_src}
-					<div>
-						<img alt="" src={preview_src} />
-					</div>
+					<img alt="" src={preview_src} />
 				{:else if file_type === 'video'}
 					<div>
 						<svg
@@ -206,3 +204,13 @@
 		</form>
 	</ContentWrap>
 {/if}
+
+<style>
+	img {
+		max-width: 100%;
+		height: auto;
+		border-radius: var( --pico-border-radius );
+		display: block;
+		margin-block-end: var( --pico-spacing );
+	}
+</style>
