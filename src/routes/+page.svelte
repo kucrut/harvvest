@@ -8,7 +8,6 @@
 	import { page } from '$app/stores';
 	import pretty_bytes from 'pretty-bytes';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
-	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
@@ -152,7 +151,7 @@
 	<ContentWrap>
 		<!-- TODO: Add intro text -->
 		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
-			<FormWrap>
+			<fieldset>
 				<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 				<FileDropzone
 					required={! files?.length}
@@ -211,7 +210,7 @@
 					{/each}
 				{/if}
 				<SubmitField {is_submitting} label="Upload"></SubmitField>
-			</FormWrap>
+			</fieldset>
 		</form>
 	</ContentWrap>
 {/if}
