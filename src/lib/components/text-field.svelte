@@ -13,3 +13,10 @@
 		<input {value} class="input" {...$$restProps} on:blur on:change on:focus on:input />
 	{/if}
 </label>
+
+<style>
+	label:has( [required] ) span::after {
+		content: '\00a0\*';
+		color: var( --pico-form-element-invalid-border-color );
+	}
+</style>
