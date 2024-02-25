@@ -1,9 +1,11 @@
 <script>
+	import '../app.scss';
+	import '../app.postcss';
+
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { initializeStores } from '@skeletonlabs/skeleton';
-	import '../app.postcss';
 
 	initializeStores();
 
