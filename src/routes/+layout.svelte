@@ -4,9 +4,6 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { initializeStores } from '@skeletonlabs/skeleton';
-
-	initializeStores();
 
 	onMount( () => {
 		const offline_path = '/offline';
