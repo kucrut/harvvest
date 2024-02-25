@@ -72,6 +72,11 @@
 </ContentWrap>
 
 <style>
+	h1 {
+		text-align: center;
+		margin-block: calc( var( --pico-spacing ) * 2 );
+	}
+
 	form {
 		padding: var( --pico-spacing );
 		border: 1px solid var( --pico-muted-border-color );
