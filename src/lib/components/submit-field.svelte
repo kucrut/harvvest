@@ -5,9 +5,10 @@
 	export let label = 'Submit';
 </script>
 
-<p class="flex items-center gap-4">
-	<button class="btn variant-filled" disabled={is_submitting} type="submit">{label}</button>
+<p>
+	<button disabled={is_submitting} type="submit">{label}</button>
 	{#if is_submitting}
+		<!-- TODO: Use pico's loading -->
 		<Spinner />
 	{/if}
 </p>
