@@ -5,7 +5,7 @@
 	export let value = '';
 </script>
 
-<label class="label">
+<label>
 	<span>{label}</span>
 	{#if multiline}
 		<textarea {value} class="textarea" {...$$restProps} on:blur on:change on:focus on:input />
