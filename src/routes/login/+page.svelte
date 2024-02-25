@@ -3,7 +3,6 @@
 	// import { create_error_alert } from '$lib/utils.client';
 	import { afterNavigate, goto } from '$app/navigation';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
-	import FormWrap from '$lib/components/form-wrap.svelte';
 	import SubmitField from '$lib/components/submit-field.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 
@@ -54,7 +53,7 @@
 	<h1>Log In</h1>
 
 	<form method="POST" use:enhance={handle_submit}>
-		<FormWrap>
+		<fieldset>
 			{#if data.require_wp_url}
 				<TextField autocomplete="url" required disabled={is_submitting} label="WordPress URL" name="url" type="url" />
 			{/if}
@@ -70,7 +69,7 @@
 			{/if}
 			<input type="hidden" name="client_id" value={client_id} />
 			<SubmitField {is_submitting} label="Get Authorization" />
-		</FormWrap>
+		</fieldset>
 	</form>
 
 	{#if data.auth_rejected}
