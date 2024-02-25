@@ -194,7 +194,7 @@
 					<TermsField {taxonomy} />
 				{/each}
 			{/if}
-			<button aria-busy={is_submitting} type="submit">Upload</button>
+			<button aria-busy={is_submitting} type="submit">{is_submitting ? 'Uploading…' : 'Upload'}</button>
 		</form>
 	</ContentWrap>
 {/if}
