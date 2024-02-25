@@ -52,15 +52,13 @@
 	<h1>Log In</h1>
 
 	<form method="POST" use:enhance={handle_submit}>
-		<fieldset>
-			{#if data.require_wp_url}
-				<TextField autocomplete="url" required label="WordPress URL" name="url" type="url" />
-			{/if}
-			{#if data.require_access_key}
-				<TextField autocomplete="on" required label="Access Key" name="access_key" type="text" />
-			{/if}
-			<input type="hidden" name="client_id" value={client_id} />
-		</fieldset>
+		{#if data.require_wp_url}
+			<TextField autocomplete="url" required label="WordPress URL" name="url" type="url" />
+		{/if}
+		{#if data.require_access_key}
+			<TextField autocomplete="on" required label="Access Key" name="access_key" type="text" />
+		{/if}
+		<input type="hidden" name="client_id" value={client_id} />
 		<button aria-busy={is_submitting}>Get Authorization</button>
 	</form>
 
