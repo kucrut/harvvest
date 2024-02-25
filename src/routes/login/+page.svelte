@@ -1,7 +1,6 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
-	import { create_error_alert } from '$lib/utils.client';
-	import { getDrawerStore } from '@skeletonlabs/skeleton';
+	// import { create_error_alert } from '$lib/utils.client';
 	import { afterNavigate, goto } from '$app/navigation';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import FormWrap from '$lib/components/form-wrap.svelte';
@@ -13,7 +12,6 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
-	const drawer_store = getDrawerStore();
 	let client_id = '';
 	let is_submitting = false;
 	/** @type {HTMLElement} */
@@ -43,7 +41,7 @@
 
 	$: {
 		if ( form?.error && form?.message ) {
-			create_error_alert( drawer_store, form.message );
+			// TODO: create alert
 		}
 	}
 </script>
