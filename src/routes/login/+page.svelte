@@ -3,7 +3,6 @@
 	// import { create_error_alert } from '$lib/utils.client';
 	import { afterNavigate, goto } from '$app/navigation';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
-	import SubmitField from '$lib/components/submit-field.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 
 	/** @type {import('./$types').ActionData}*/
@@ -61,8 +60,8 @@
 				<TextField autocomplete="on" required label="Access Key" name="access_key" type="text" />
 			{/if}
 			<input type="hidden" name="client_id" value={client_id} />
-			<SubmitField label="Get Authorization" />
 		</fieldset>
+		<button aria-busy={is_submitting}>Get Authorization</button>
 	</form>
 
 	{#if data.auth_rejected}
