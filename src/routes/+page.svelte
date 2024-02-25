@@ -8,7 +8,6 @@
 	import { page } from '$app/stores';
 	import pretty_bytes from 'pretty-bytes';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
-	import SubmitField from '$lib/components/submit-field.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
 
@@ -207,7 +206,7 @@
 						<TermsField {taxonomy} />
 					{/each}
 				{/if}
-				<SubmitField {is_submitting} label="Upload"></SubmitField>
+				<button aria-busy={is_submitting} type="submit">Upload</button>
 			</fieldset>
 		</form>
 	</ContentWrap>
