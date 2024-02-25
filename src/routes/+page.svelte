@@ -1,10 +1,10 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { applyAction, enhance } from '$app/forms';
-	import { create_alert, create_error_alert, retrieve_pwa_shared_file } from '$lib/utils.client.js';
+	import { /* create_alert, create_error_alert, */ retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import { create_data_uri, generate_file_id, remove_file_extension } from '$lib/utils.js';
-	import { FileDropzone, getDrawerStore } from '@skeletonlabs/skeleton';
-	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
+	import { FileDropzone } from '@skeletonlabs/skeleton';
+	// import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { page } from '$app/stores';
 	import pretty_bytes from 'pretty-bytes';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
@@ -14,8 +14,6 @@
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
-
-	const drawer_store = getDrawerStore();
 
 	/** @type {'image'|'video'|undefined} */
 	let file_type;
@@ -40,7 +38,7 @@
 		}
 
 		files = undefined;
-		create_error_alert( drawer_store, `Maximum allowed file size is ${ max_file_size_formatted }.` );
+		// create_error_alert( drawer_store, `Maximum allowed file size is ${ max_file_size_formatted }.` );
 	};
 
 	/** @type {import('./$types').SubmitFunction} */
@@ -107,9 +105,9 @@
 			}
 		} catch ( error ) {
 			preview_src = '';
-			const message = get_error_message( error, 'Failed to create preview image.', false );
+			// const message = get_error_message( error, 'Failed to create preview image.', false );
 
-			create_error_alert( drawer_store, message );
+			// create_error_alert( drawer_store, message );
 		} finally {
 			last_selected_file = file_id;
 		}
@@ -123,15 +121,15 @@
 
 	$: {
 		if ( form?.success ) {
-			create_alert( drawer_store, {
-				message: `File was successfully uploaded.`,
-				title: 'Success!',
-				type: 'success',
-				data_to_copy: [ { label: 'Copy URL', content: form.image_link } ],
-				links: [ { label: 'View ↗', url: form.image_link } ],
-			} );
+			// create_alert( drawer_store, {
+			// 	message: `File was successfully uploaded.`,
+			// 	title: 'Success!',
+			// 	type: 'success',
+			// 	data_to_copy: [ { label: 'Copy URL', content: form.image_link } ],
+			// 	links: [ { label: 'View ↗', url: form.image_link } ],
+			// } );
 		} else if ( form?.error && form.message ) {
-			create_error_alert( drawer_store, form.message );
+			// create_error_alert( drawer_store, form.message );
 		}
 	}
 
