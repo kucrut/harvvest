@@ -1,16 +1,16 @@
 @use "@picocss/pico/scss" with (
-    $theme-color: "slate",
-    $modules: (
-        "content/code": false,
-        "content/embedded": false,
-        "content/miscs": false,
-        "content/table": false,
-        "forms/input-color": false,
-        "forms/input-date": false,
-        "forms/input-range": false,
-        "forms/input-search": false,
-        "components/accordion": false,
-        "components/dropdown": false,
-        "components/tooltip": false
-    )
+	$theme-color: "slate",
+	$modules: (
+		"content/code": false,
+		"content/embedded": false,
+		"content/miscs": false,
+		"content/table": false,
+		"forms/input-color": false,
+		"forms/input-date": false,
+		"forms/input-range": false,
+		"forms/input-search": false,
+		"components/accordion": false,
+		"components/dropdown": false,
+		"components/tooltip": false
+	)
 );
