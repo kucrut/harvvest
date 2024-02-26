@@ -9,6 +9,7 @@
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
+	import Alert from '$lib/components/alert.svelte';
 
 	/** @type {import('./$types').ActionData} */
 	export let form;
@@ -19,6 +20,7 @@
 	let files;
 	let is_submitting = false;
 	let last_selected_file = '';
+	let message = '';
 	let preview_src = '';
 
 	let has_title_touched = false;
@@ -126,8 +128,8 @@
 			// 	data_to_copy: [ { label: 'Copy URL', content: form.image_link } ],
 			// 	links: [ { label: 'View ↗', url: form.image_link } ],
 			// } );
-		} else if ( form?.error && form.message ) {
-			// create_error_alert( drawer_store, form.message );
+		} else if ( form?.error && form?.message ) {
+			message = form.message;
 		}
 	}
 
@@ -196,6 +198,12 @@
 			{/if}
 			<button aria-busy={is_submitting} type="submit">{is_submitting ? 'Uploading…' : 'Upload'}</button>
 		</form>
+
+		{#if message}
+			<Alert on:expire={() => ( message = '' )}>
+				<p>{message}</p>
+			</Alert>
+		{/if}
 	</ContentWrap>
 {/if}
 
