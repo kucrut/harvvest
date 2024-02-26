@@ -3,7 +3,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { /* create_alert, create_error_alert, */ retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import { create_data_uri, generate_file_id, remove_file_extension } from '$lib/utils.js';
-	// import { get_error_message } from '@kucrut/wp-api-helpers/utils';
+	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { page } from '$app/stores';
 	import pretty_bytes from 'pretty-bytes';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
@@ -105,9 +105,7 @@
 			}
 		} catch ( error ) {
 			preview_src = '';
-			// const message = get_error_message( error, 'Failed to create preview image.', false );
-
-			// create_error_alert( drawer_store, message );
+			message = get_error_message( error, 'Failed to create preview image.', false );
 		} finally {
 			last_selected_file = file_id;
 		}
