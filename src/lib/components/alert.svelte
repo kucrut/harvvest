@@ -31,7 +31,7 @@
 	} );
 </script>
 
-<aside class={type} on:mouseenter={stop} on:mouseleave={start}>
+<aside class={type} on:mouseenter={stop} on:mouseleave={start} on:pointerenter={stop} on:pointerleave={start}>
 	<slot />
 </aside>
 
