@@ -139,7 +139,6 @@
 
 {#if $page.data.user}
 	<ContentWrap>
-		<!-- TODO: Add intro text -->
 		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 			<div>
 				{#if file_type === 'image' && preview_src}
