@@ -1,13 +1,14 @@
 <script>
 	import { afterUpdate } from 'svelte';
 	import { applyAction, enhance } from '$app/forms';
-	import { copy_to_clipboard, retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import { create_data_uri, generate_file_id, remove_file_extension } from '$lib/utils.js';
 	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { page } from '$app/stores';
+	import { retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import pretty_bytes from 'pretty-bytes';
 	import Alert from '$lib/components/alert.svelte';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
+	import CopyButton from '$lib/components/copy-button.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
 
@@ -210,8 +211,8 @@
 		<p>{alert.message}</p>
 		{#if form?.success && form?.image_link}
 			<div>
-				<a class="button" href={form.image_link}>View ↗</a>
-				<button class="secondary" on:click={() => copy_to_clipboard( form.image_link )}>Copy URL</button>
+				<a class="button" href={form.image_link}>View</a>
+				<CopyButton data={form.image_link}>Copy URL</CopyButton>
 			</div>
 		{/if}
 	</Alert>
