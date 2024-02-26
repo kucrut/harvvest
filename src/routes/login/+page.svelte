@@ -10,7 +10,8 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
-	let alert_message = '';
+	/** @type {import('$types').Alert|null} */
+	let alert = null;
 	let client_id = '';
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
@@ -30,11 +31,17 @@
 
 	$: {
 		if ( data.auth_rejected ) {
-			alert_message = 'Authorization request was rejected. Please try again.';
+			alert = {
+				message: 'Authorization request was rejected. Please try again.',
+				type: 'error',
+			};
 		} else if ( form?.error && form?.message ) {
-			alert_message = form.message;
+			alert = {
+				message: form.message,
+				type: 'error',
+			};
 		} else {
-			alert_message = '';
+			alert = null;
 		}
 	}
 </script>
@@ -57,14 +64,13 @@
 		<input type="hidden" name="client_id" value={client_id} />
 		<button type="submit">Get Authorization</button>
 	</form>
-
-	{#if alert_message}
-		<!-- Move outside ContentWrap -->
-		<Alert on:expire={() => ( alert_message = '' )}>
-			<p>{alert_message}</p>
-		</Alert>
-	{/if}
 </ContentWrap>
+
+{#if alert}
+	<Alert type={alert.type} on:expire={() => ( alert = null )}>
+		<p>{alert.message}</p>
+	</Alert>
+{/if}
 
 <style>
 	h1 {
