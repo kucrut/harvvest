@@ -1,10 +1,13 @@
 <script>
 	import { page } from '$app/stores';
 
+	/** @type {() => void } */
+	export let close;
 	export let is_open = false;
 </script>
 
-<aside class:open={is_open}>
+<aside class:is-open={is_open}>
+	<button on:click={close}>Close</button>
 	<nav>
 		<h1>Photo Harvest</h1>
 		<ul>
@@ -38,15 +41,19 @@
 <style lang="scss">
 	aside {
 		position: fixed;
-		top: 0;
-		bottom: 0;
-		left: 0;
+		inset: 0;
 		block-size: 100dvh;
 		max-inline-size: unset;
 		inline-size: min( 35ch, 100vw );
 		padding: var( --pico-spacing );
 		background-color: var( --pico-background-color );
 		display: grid;
+		transform: translate3d( -100%, 0, 0 );
+		transition: transform 0.5s;
+
+		&.is-open {
+			transform: translateZ( 0 );
+		}
 	}
 
 	h1 {

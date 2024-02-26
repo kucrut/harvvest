@@ -8,6 +8,8 @@
 
 	export let data;
 
+	let is_sidebar_open = false;
+
 	onMount( () => {
 		const offline_path = '/offline';
 
@@ -30,7 +32,7 @@
 <div>
 	<hgroup class="container">
 		<h1>{data.app_name}</h1>
-		<button class="outline"
+		<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}
 			><svg
 				xmlns="http://www.w3.org/2000/svg"
 				aria-hidden="true"
@@ -48,7 +50,12 @@
 			></button
 		>
 	</hgroup>
-	<AppMenu />
+	<AppMenu
+		close={() => {
+			is_sidebar_open = false;
+		}}
+		is_open={is_sidebar_open}
+	/>
 	<slot />
 </div>
 
