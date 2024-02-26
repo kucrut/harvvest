@@ -43,6 +43,7 @@
 		inline-size: calc( 100dvw - ( var( --pico-spacing ) * 2 ) );
 		margin: var( --pico-spacing );
 		padding: var( --pico-spacing );
+		background-color: var( --pico-form-element-background-color );
 		border: var( --pico-border-width ) solid var( --pico-muted-border-color );
 		border-radius: var( --pico-border-radius );
 
