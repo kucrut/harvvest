@@ -55,7 +55,7 @@
 			<TextField autocomplete="on" required label="Access Key" name="access_key" type="text" />
 		{/if}
 		<input type="hidden" name="client_id" value={client_id} />
-		<button>Get Authorization</button>
+		<button type="submit">Get Authorization</button>
 	</form>
 
 	{#if alert_message}
