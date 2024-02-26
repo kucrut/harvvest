@@ -7,18 +7,31 @@
 
 	const dispatch = createEventDispatcher();
 
-	onMount( () => {
+	/** @type {ReturnType<typeof setTimeout>} */
+	let timeout_id;
+
+	function start() {
 		if ( timeout < 500 ) {
 			return;
 		}
 
-		setTimeout( () => {
+		timeout_id = setTimeout( () => {
 			dispatch( 'expire' );
 		}, timeout );
+	}
+
+	function stop() {
+		if ( timeout_id ) {
+			clearTimeout( timeout_id );
+		}
+	}
+
+	onMount( () => {
+		start();
 	} );
 </script>
 
-<aside class={type}>
+<aside class={type} on:mouseenter={stop} on:mouseleave={start}>
 	<slot />
 </aside>
 
