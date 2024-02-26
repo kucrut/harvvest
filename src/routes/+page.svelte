@@ -171,6 +171,7 @@
 						>
 					</div>
 				{/if}
+				<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 				<input
 					required={! files?.length}
 					accept="image/*,video/*"
@@ -183,7 +184,6 @@
 					Click to select an image/video. Maximum file size is <em>{max_file_size_formatted}</em>.
 				</small>
 			</div>
-			<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 			<TextField multiline required label="Alternative text" name="alt_text" />
 			<TextField required label="Caption" name="caption" />
 			<TextField label="Title" name="title" bind:value={title} on:focus={() => ( has_title_touched = true )} />
