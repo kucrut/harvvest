@@ -1,6 +1,22 @@
 /// <reference lib="dom" />
 
 /**
+ * Copy text to clipboard
+ *
+ * @param {string} text Text to copy to clipboard.
+ */
+export async function copy_to_clipboard( text ) {
+	try {
+		if ( navigator?.clipboard?.writeText ) {
+			await navigator.clipboard.writeText( text );
+		}
+	} catch ( err ) {
+		// eslint-disable-next-line no-console
+		console.error( err );
+	}
+}
+
+/**
  * Retrieve shared file from PWA
  *
  * Stolen from Squoosh.
