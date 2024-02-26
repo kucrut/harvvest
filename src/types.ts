@@ -11,11 +11,8 @@ export interface AlertLink {
 }
 
 export interface Alert {
-	data_to_copy?: AlertDataToCopy[];
-	links?: AlertLink[];
 	message: string;
-	title: string;
-	type: 'error' | 'success';
+	type: 'error' | 'message' | 'success';
 }
 
 export interface Term_Option {
