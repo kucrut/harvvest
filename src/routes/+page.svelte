@@ -14,13 +14,14 @@
 	/** @type {import('./$types').ActionData} */
 	export let form;
 
+	/** @type {import('$types').Alert|null} */
+	let alert = null;
 	/** @type {'image'|'video'|undefined} */
 	let file_type;
 	/** @type {FileList|undefined} */
 	let files;
 	let is_submitting = false;
 	let last_selected_file = '';
-	let message = '';
 	let preview_src = '';
 
 	let has_title_touched = false;
@@ -38,7 +39,10 @@
 		}
 
 		files = undefined;
-		message = `Maximum allowed file size is ${ max_file_size_formatted }.`;
+		alert = {
+			message: `Maximum allowed file size is ${ max_file_size_formatted }.`,
+			type: 'error',
+		};
 	};
 
 	/** @type {import('./$types').SubmitFunction} */
@@ -105,7 +109,10 @@
 			}
 		} catch ( error ) {
 			preview_src = '';
-			message = get_error_message( error, 'Failed to create preview image.', false );
+			alert = {
+				message: get_error_message( error, 'Failed to create preview image.', false ),
+				type: 'error',
+			};
 		} finally {
 			last_selected_file = file_id;
 		}
@@ -119,9 +126,15 @@
 
 	$: {
 		if ( form?.success ) {
-			message = 'File was successfully uploaded.';
+			alert = {
+				message: 'File was successfully uploaded.',
+				type: 'success',
+			};
 		} else if ( form?.error && form?.message ) {
-			message = form.message;
+			alert = {
+				message: form.message,
+				type: 'error',
+			};
 		}
 	}
 
@@ -189,19 +202,19 @@
 			{/if}
 			<button aria-busy={is_submitting} type="submit">{is_submitting ? 'Uploading…' : 'Upload'}</button>
 		</form>
-
-		{#if message}
-			<Alert on:expire={() => ( message = '' )}>
-				<p>{message}</p>
-				{#if form?.success && form?.image_link}
-					<div>
-						<a class="button" href={form.image_link}>View ↗</a>
-						<button class="secondary" on:click={() => copy_to_clipboard( form.image_link )}>Copy URL</button>
-					</div>
-				{/if}
-			</Alert>
-		{/if}
 	</ContentWrap>
+{/if}
+
+{#if alert}
+	<Alert type={alert.type} on:expire={() => ( alert = null )}>
+		<p>{alert.message}</p>
+		{#if form?.success && form?.image_link}
+			<div>
+				<a class="button" href={form.image_link}>View ↗</a>
+				<button class="secondary" on:click={() => copy_to_clipboard( form.image_link )}>Copy URL</button>
+			</div>
+		{/if}
+	</Alert>
 {/if}
 
 <style>
