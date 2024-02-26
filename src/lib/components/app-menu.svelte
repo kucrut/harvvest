@@ -1,5 +1,4 @@
 <script>
-	import { Avatar } from '@skeletonlabs/skeleton';
 	import { page } from '$app/stores';
 </script>
 
@@ -26,7 +25,7 @@
 
 	{#if $page.data.user}
 		<div class="user-info">
-			<Avatar src={$page.data.user.avatar_url} rounded="rounded-md" width="w-10" />
+			<img alt="User avatar" src={$page.data.user.avatar_url} />
 			<span>{$page.data.user.name}</span><br />
 			<a class="username" href={$page.data.user.wp_url} target="_blank">
 				<span class="underline">{$page.data.user.wp_url}</span>
