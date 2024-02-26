@@ -30,7 +30,7 @@
 <!-- Alert component -->
 
 <div>
-	<hgroup class="container">
+	<hgroup class="container-fluid">
 		<h1>{data.app_name}</h1>
 		<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}
 			><svg
@@ -59,11 +59,25 @@
 	<slot />
 </div>
 
-<style>
+<style lang="scss">
+	div {
+		--menu-size: min( 35ch, 100vw );
+
+		@media ( min-width: $br-lg ) {
+			display: grid;
+			grid-template-columns: var( --menu-size ) 1fr;
+		}
+	}
+
 	hgroup {
 		display: grid;
 		align-items: center;
 		padding-block: var( --pico-spacing );
+
+		@media ( min-width: $br-lg ) {
+			grid-column: 2/-1;
+			grid-row: 1/2;
+		}
 	}
 
 	h1,
@@ -82,6 +96,10 @@
 		inline-size: fit-content;
 		border: unset;
 		padding: unset;
+
+		@media ( min-width: $br-lg ) {
+			display: none;
+		}
 	}
 
 	svg {

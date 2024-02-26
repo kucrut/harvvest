@@ -60,13 +60,18 @@
 		max-inline-size: unset;
 		inline-size: min( 35ch, 100vw );
 		padding: var( --pico-spacing );
-		background-color: var( --pico-background-color );
+		background-color: var( --pico-form-element-background-color );
 		display: grid;
 		transform: translate3d( -100%, 0, 0 );
 		transition: transform 0.5s;
 
 		&.is-open {
 			transform: translateZ( 0 );
+		}
+
+		@media ( min-width: $br-lg ) {
+			transform: unset;
+			grid-row: 1/-1;
 		}
 	}
 
@@ -78,6 +83,10 @@
 		border: unset;
 		padding: unset;
 		color: inherit;
+
+		@media ( min-width: $br-lg ) {
+			display: none;
+		}
 	}
 
 	h1 {

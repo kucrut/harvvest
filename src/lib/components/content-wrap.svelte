@@ -2,12 +2,15 @@
 	export let center_content = false;
 </script>
 
-<main class="container" class:centered={center_content}><slot /></main>
+<main class="container-fluid" class:centered={center_content}><slot /></main>
 
-<style>
+<style lang="scss">
 	main {
 		padding-block: var( --pico-block-spacing-vertical );
-		min-height: 100dvh;
+
+		@media ( min-width: $br-lg ) {
+			grid-column: 2/-1;
+		}
 	}
 
 	.centered {
