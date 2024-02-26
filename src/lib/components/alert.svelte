@@ -2,7 +2,7 @@
 	import { createEventDispatcher, onMount } from 'svelte';
 
 	export let timeout = 2000;
-	/** @type { 'error' | 'message' | 'success' } */
+	/** @type {import('$types').Alert['type']} */
 	export let type = 'message';
 
 	const dispatch = createEventDispatcher();
