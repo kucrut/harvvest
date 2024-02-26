@@ -7,7 +7,7 @@
 	<title>Photo Harvest</title>
 </svelte:head>
 
-<ContentWrap>
+<ContentWrap center_content>
 	<div>
 		<svg
 			fill="none"
@@ -30,3 +30,13 @@
 		<button type="button" on:click={() => goto( '/' )}>Retry</button>
 	</div>
 </ContentWrap>
+
+<style>
+	div {
+		text-align: center;
+	}
+	svg {
+		color: var( --pico-muted-color );
+		width: 100px;
+	}
+</style>
