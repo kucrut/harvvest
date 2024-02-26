@@ -60,7 +60,7 @@
 			<TextField autocomplete="on" required label="Access Key" name="access_key" type="text" />
 		{/if}
 		<input type="hidden" name="client_id" value={client_id} />
-		<button aria-busy={is_submitting}>Get Authorization</button>
+		<button>Get Authorization</button>
 	</form>
 
 	{#if data.auth_rejected}
