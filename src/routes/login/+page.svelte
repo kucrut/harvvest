@@ -10,6 +10,7 @@
 	/** @type {import('./$types').PageData} */
 	export let data;
 
+	let alert_message = '';
 	let client_id = '';
 	/** @type {HTMLElement} */
 	let message_el;
@@ -34,8 +35,12 @@
 	} );
 
 	$: {
-		if ( form?.error && form?.message ) {
-			// TODO: create alert
+		if ( data.auth_rejected ) {
+			alert_message = 'Authorization request was rejected. Please try again.';
+		} else if ( form?.error && form?.message ) {
+			alert_message = form.message;
+		} else {
+			alert_message = '';
 		}
 	}
 </script>
@@ -59,11 +64,9 @@
 		<button>Get Authorization</button>
 	</form>
 
-	{#if data.auth_rejected}
-		<aside bind:this={message_el}>
-			<div>
-				<p>Authorization request was rejected. Please try again.</p>
-			</div>
+	{#if alert_message}
+		<aside>
+			<p>{alert_message}</p>
 		</aside>
 	{/if}
 </ContentWrap>
