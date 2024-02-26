@@ -1,8 +1,10 @@
 <script>
 	import { page } from '$app/stores';
+
+	export let is_open = false;
 </script>
 
-<aside>
+<aside class:open={is_open}>
 	<nav>
 		<h1>Photo Harvest</h1>
 		<ul>
