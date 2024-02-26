@@ -38,7 +38,7 @@
 		}
 
 		files = undefined;
-		// create_error_alert( drawer_store, `Maximum allowed file size is ${ max_file_size_formatted }.` );
+		message = `Maximum allowed file size is ${ max_file_size_formatted }.`;
 	};
 
 	/** @type {import('./$types').SubmitFunction} */
