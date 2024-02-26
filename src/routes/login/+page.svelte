@@ -11,17 +11,13 @@
 	export let data;
 
 	let client_id = '';
-	let is_submitting = false;
 	/** @type {HTMLElement} */
 	let message_el;
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
-		is_submitting = true;
-
 		return async ( { result } ) => {
 			await applyAction( result );
-			is_submitting = false;
 		};
 	};
 
