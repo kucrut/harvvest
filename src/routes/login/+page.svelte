@@ -1,6 +1,5 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
-	// import { create_error_alert } from '$lib/utils.client';
 	import { afterNavigate, goto } from '$app/navigation';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import TextField from '$lib/components/text-field.svelte';
@@ -12,8 +11,6 @@
 
 	let alert_message = '';
 	let client_id = '';
-	/** @type {HTMLElement} */
-	let message_el;
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
@@ -28,10 +25,6 @@
 		}
 
 		client_id = navigator.userAgent;
-
-		if ( message_el ) {
-			setTimeout( () => message_el.parentElement?.removeChild( message_el ), 5000 );
-		}
 	} );
 
 	$: {
