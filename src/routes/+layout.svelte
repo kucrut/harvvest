@@ -4,6 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import AppMenu from '$lib/components/app-menu.svelte';
 
 	export let data;
 
@@ -47,6 +48,7 @@
 			></button
 		>
 	</hgroup>
+	<AppMenu />
 	<slot />
 </div>
 
