@@ -35,10 +35,10 @@
 	<slot />
 </aside>
 
-<style>
+<style lang="scss">
 	aside {
 		position: fixed;
-		bottom: 0;
+		inset-block-end: 0;
 		block-size: fit-content;
 		inline-size: calc( 100dvw - ( var( --pico-spacing ) * 2 ) );
 		margin: var( --pico-spacing );
@@ -47,8 +47,13 @@
 		border: var( --pico-border-width ) solid var( --pico-muted-border-color );
 		border-radius: var( --pico-border-radius );
 
-		& > :last-child {
+		& > :global( :last-child ) {
 			margin-block-end: unset;
+		}
+
+		@media ( min-width: $br-lg ) {
+			inset-inline-end: 0;
+			inline-size: fit-content;
 		}
 	}
 
