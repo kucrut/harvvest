@@ -1,8 +1,8 @@
 <script>
 	import { copy_to_clipboard } from '$lib/utils.client';
 
-	/** @type {string} */
-	export let data;
+	/** @type {{data: string}} */
+	const { data } = $props();
 </script>
 
 <button on:click={() => copy_to_clipboard( data )}><slot /></button>
