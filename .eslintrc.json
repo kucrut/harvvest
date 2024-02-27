@@ -20,7 +20,7 @@
 	},
 	"overrides": [
 		{
-			"files": [ "*.html", "*.svelte" ],
+			"files": [ "*.svelte" ],
 			"parser": "svelte-eslint-parser"
 		},
 		{

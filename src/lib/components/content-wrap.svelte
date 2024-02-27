@@ -1,5 +1,5 @@
 <script>
-	export let center_content = false;
+	const { center_content = false } = $props();
 </script>
 
 <main class="container-fluid" class:centered={center_content}><slot /></main>

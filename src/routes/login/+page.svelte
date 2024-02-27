@@ -1,18 +1,15 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
-	import { afterNavigate, goto } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import Alert from '$lib/components/alert.svelte';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 
-	/** @type {import('./$types').ActionData}*/
-	export let form;
-	/** @type {import('./$types').PageData} */
-	export let data;
+	const { data, form } = $props();
 
 	/** @type {import('$types').Alert|null} */
-	let alert = null;
-	let client_id = '';
+	let alert = $state( null );
+	let client_id = $state( '' );
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
@@ -21,15 +18,11 @@
 		};
 	};
 
-	afterNavigate( async () => {
-		if ( data.has_auth ) {
-			await goto( '/', { invalidateAll: true } );
-		}
-
+	$effect( () => {
 		client_id = navigator.userAgent;
 	} );
 
-	$: {
+	$effect( () => {
 		if ( data.auth_rejected ) {
 			alert = {
 				message: 'Authorization request was rejected. Please try again.',
@@ -43,7 +36,13 @@
 		} else {
 			alert = null;
 		}
-	}
+	} );
+
+	$effect( () => {
+		if ( data.has_auth ) {
+			goto( '/', { invalidateAll: true } );
+		}
+	} );
 </script>
 
 <svelte:head>
@@ -67,7 +66,7 @@
 </ContentWrap>
 
 {#if alert}
-	<Alert type={alert.type} on:expire={() => ( alert = null )}>
+	<Alert type={alert.type} onexpire={() => ( alert = null )}>
 		<p>{alert.message}</p>
 	</Alert>
 {/if}
