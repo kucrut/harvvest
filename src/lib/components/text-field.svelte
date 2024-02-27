@@ -6,9 +6,9 @@
 <label>
 	<span>{label}</span>
 	{#if multiline}
-		<textarea {value} class="textarea" {...rest} on:blur on:change on:focus on:input />
+		<textarea {value} class="textarea" {...rest} />
 	{:else}
-		<input {value} class="input" {...rest} on:blur on:change on:focus on:input />
+		<input {value} class="input" {...rest} />
 	{/if}
 </label>
 
