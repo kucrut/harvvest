@@ -22,7 +22,7 @@ export function get_session_cookie_options() {
 		httpOnly: true,
 		maxAge: 60 * 60 * 24 * 7,
 		path: '/',
-		sameSite: 'strict',
+		sameSite: 'lax',
 		secure: process.env.NODE_ENV === 'production',
 	};
 }
