@@ -58,10 +58,10 @@
 	}
 
 	.error {
-		border-left: 5px solid var( --pico-form-element-invalid-border-color );
+		border-inline-start: 5px solid var( --pico-form-element-invalid-border-color );
 	}
 
 	.success {
-		border-left: 5px solid var( --pico-form-element-valid-border-color );
+		border-inline-start: 5px solid var( --pico-form-element-valid-border-color );
 	}
 </style>
