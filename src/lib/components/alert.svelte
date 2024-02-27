@@ -1,6 +1,4 @@
 <script>
-	import { onMount } from 'svelte';
-
 	/** @type {{ children: import('svelte').Snippet; timeout?: number; type: import('$types').Alert['type']; onexpire: () => void }} */
 	const { children, timeout = 2000, type = 'message', onexpire } = $props();
 
@@ -21,8 +19,9 @@
 		}
 	}
 
-	onMount( () => {
+	$effect( () => {
 		start();
+		return stop;
 	} );
 </script>
 
