@@ -1,16 +1,14 @@
 <script>
-	/** @type {string} */
-	export let label;
-	export let multiline = false;
-	export let value = '';
+	/** @type {{ label: string; multiline?: boolean; value?: string }} */
+	const { label, multiline = false, value = '', ...rest } = $props();
 </script>
 
 <label>
 	<span>{label}</span>
 	{#if multiline}
-		<textarea {value} class="textarea" {...$$restProps} on:blur on:change on:focus on:input />
+		<textarea {value} class="textarea" {...rest} on:blur on:change on:focus on:input />
 	{:else}
-		<input {value} class="input" {...$$restProps} on:blur on:change on:focus on:input />
+		<input {value} class="input" {...rest} on:blur on:change on:focus on:input />
 	{/if}
 </label>
 
