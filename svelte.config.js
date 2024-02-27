@@ -9,7 +9,6 @@ switch ( process.env.ADAPTER ) {
 	case 'node':
 		adapter = adapter_node( {
 			out: process.env.BUILD_OUT_DIR || 'build',
-			polyfill: false,
 		} );
 		break;
 
