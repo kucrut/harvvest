@@ -25,6 +25,12 @@
 			"options": {
 				"parser": "svelte"
 			}
+		},
+		{
+			"files": [ "*.css", "*.scss" ],
+			"options": {
+				"singleQuote": false
+			}
 		}
 	]
 }
