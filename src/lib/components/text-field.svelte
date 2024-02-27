@@ -1,6 +1,11 @@
 <script>
-	// TODO: Fix typing.
-	/** @type {{label: string; multiline?: boolean; value?: string} & Record<string,string|boolean>} */
+	/**
+	 * @type {{
+	 *   label: string;
+	 *   multiline?: boolean;
+	 *   value?: string;
+	 * } & import("svelte/elements").HTMLInputAttributes & import("svelte/elements").HTMLTextareaAttributes }
+	 */
 	const { label, multiline = false, value = '', ...rest } = $props();
 </script>
 
