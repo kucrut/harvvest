@@ -1,23 +1,18 @@
 <script>
-	import { createEventDispatcher, onMount } from 'svelte';
+	import { onMount } from 'svelte';
 
-	export let timeout = 2000;
-	/** @type {import('$types').Alert['type']} */
-	export let type = 'message';
+	/** @type {{timeout?: number; type: import('$types').Alert['type']; onexpire: () => void}} */
+	const { timeout = 2000, type = 'message', onexpire } = $props();
 
-	const dispatch = createEventDispatcher();
-
-	/** @type {ReturnType<typeof setTimeout>} */
-	let timeout_id;
+	/** @type {ReturnType<typeof setTimeout>|undefined} */
+	let timeout_id = $state( undefined );
 
 	function start() {
 		if ( timeout < 500 ) {
 			return;
 		}
 
-		timeout_id = setTimeout( () => {
-			dispatch( 'expire' );
-		}, timeout );
+		timeout_id = setTimeout( onexpire, timeout );
 	}
 
 	function stop() {
