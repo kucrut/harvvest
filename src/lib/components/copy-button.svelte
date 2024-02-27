@@ -1,11 +1,11 @@
 <script>
 	import { copy_to_clipboard } from '$lib/utils.client';
 
-	/** @type {{ data: string }} */
-	const { data } = $props();
+	/** @type {{ children: import('svelte').Snippet; data: string }} */
+	const { children, data } = $props();
 </script>
 
-<button on:click={() => copy_to_clipboard( data )}><slot /></button>
+<button on:click={() => copy_to_clipboard( data )}>{@render children()}</button>
 
 <style>
 	/* TODO: Move this to reusable class? */
