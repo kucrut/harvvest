@@ -9,7 +9,7 @@
 </script>
 
 <aside class:is-open={is_open}>
-	<button class="close" on:click={close}
+	<button on:click={close}
 		><svg
 			xmlns="http://www.w3.org/2000/svg"
 			class="icon icon-tabler icon-tabler-x"
@@ -55,7 +55,7 @@
 		}
 	}
 
-	.close {
+	button {
 		position: absolute;
 		inset-block-start: var( --pico-spacing );
 		inset-inline-end: var( --pico-spacing );
