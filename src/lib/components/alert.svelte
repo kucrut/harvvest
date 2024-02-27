@@ -1,8 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 
-	/** @type {{ timeout?: number; type: import('$types').Alert['type']; onexpire: () => void }} */
-	const { timeout = 2000, type = 'message', onexpire } = $props();
+	/** @type {{ children: import('svelte').Snippet; timeout?: number; type: import('$types').Alert['type']; onexpire: () => void }} */
+	const { children, timeout = 2000, type = 'message', onexpire } = $props();
 
 	/** @type {ReturnType<typeof setTimeout>|undefined} */
 	let timeout_id = $state( undefined );
@@ -27,7 +27,7 @@
 </script>
 
 <aside class={type} on:mouseenter={stop} on:mouseleave={start} on:pointerenter={stop} on:pointerleave={start}>
-	<slot />
+	{@render children()}
 </aside>
 
 <style lang="scss">
