@@ -36,7 +36,7 @@
 		inset: 0;
 		block-size: 100dvh;
 		max-inline-size: unset;
-		inline-size: min( 35ch, 100vw );
+		inline-size: var( --sidebar-size );
 		padding: var( --pico-spacing );
 		background-color: var( --pico-form-element-background-color );
 		display: grid;

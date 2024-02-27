@@ -6,10 +6,9 @@
 	import { page } from '$app/stores';
 	import Sidebar from '$lib/components/sidebar.svelte';
 
-	const { data } = $props();
+	const { children, data } = $props();
 
 	let is_sidebar_open = $state( false );
-	let sidebar_size = $state( '0' );
 
 	onMount( () => {
 		// TODO: Move this to individual page.
@@ -27,13 +26,9 @@
 			}
 		} );
 	} );
-
-	$effect( () => {
-		sidebar_size = data.user ? 'min( 35ch, 100vw )' : '0';
-	} );
 </script>
 
-<div style="--sidebar-size:{sidebar_size}">
+<div class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
 		<h1>{data.app_name}</h1>
 		<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}
@@ -64,14 +59,19 @@
 		/>
 	{/if}
 
-	<slot />
+	{@render children()}
 </div>
 
 <style lang="scss">
 	div {
 		@media ( min-width: $br-lg ) {
+			--sidebar-size: 0;
 			display: grid;
-			grid-template-columns: var( --sidebar-size ) 1fr;
+
+			&.has-sidebar {
+				--sidebar-size: min( 20rem, 100vw );
+				grid-template-columns: var( --sidebar-size ) 1fr;
+			}
 		}
 	}
 

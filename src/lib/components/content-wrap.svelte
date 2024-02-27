@@ -1,8 +1,11 @@
 <script>
-	const { center_content = false } = $props();
+	/** @type {{center_content?: boolean; children: import('svelte').Snippet}} */
+	const { center_content = false, children } = $props();
 </script>
 
-<main class="container-fluid" class:centered={center_content}><slot /></main>
+<main class="container-fluid" class:centered={center_content}>
+	{@render children()}
+</main>
 
 <style lang="scss">
 	main {
