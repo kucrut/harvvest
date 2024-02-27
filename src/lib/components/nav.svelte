@@ -20,4 +20,10 @@
 	h1 {
 		font-size: 1.25rem;
 	}
+
+	a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.25rem;
+	}
 </style>
