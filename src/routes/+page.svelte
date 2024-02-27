@@ -1,5 +1,4 @@
 <script>
-	import { afterUpdate } from 'svelte';
 	import { applyAction, enhance } from '$app/forms';
 	import { create_data_uri, generate_file_id, remove_file_extension } from '$lib/utils.js';
 	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
@@ -12,39 +11,20 @@
 	import TextField from '$lib/components/text-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
 
-	/** @type {import('./$types').ActionData} */
-	export let form;
+	const { data, form } = $props();
 
 	/** @type {import('$types').Alert|null} */
-	let alert = null;
+	let alert = $state( null );
 	/** @type {'image'|'video'|undefined} */
-	let file_type;
+	let file_type = $state( undefined );
 	/** @type {FileList|undefined} */
-	let files;
-	let is_submitting = false;
-	let last_selected_file = '';
-	let preview_src = '';
-
-	let has_title_touched = false;
-	let title = '';
-
-	$: max_file_size_formatted = pretty_bytes( $page.data.max_file_size );
-
-	const check_file_size = async () => {
-		if ( ! files?.length ) {
-			return;
-		}
-
-		if ( files[ 0 ].size <= $page.data.max_file_size ) {
-			return;
-		}
-
-		files = undefined;
-		alert = {
-			message: `Maximum allowed file size is ${ max_file_size_formatted }.`,
-			type: 'error',
-		};
-	};
+	let files = $state( undefined );
+	let has_title_touched = $state( false );
+	let is_submitting = $state( false );
+	let last_selected_file = $state( '' );
+	let max_file_size_formatted = $state( '' );
+	let preview_src = $state( '' );
+	let title = $state( '' );
 
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement, formData } ) => {
@@ -69,21 +49,63 @@
 		};
 	};
 
-	const intercept_shared_file = async () => {
+	$effect( () => {
+		max_file_size_formatted = pretty_bytes( data.max_file_size || 0 );
+	} );
+
+	$effect( () => {
+		if ( form?.success ) {
+			alert = {
+				message: 'File was successfully uploaded.',
+				type: 'success',
+			};
+		} else if ( form?.error && form?.message ) {
+			alert = {
+				message: form.message,
+				type: 'error',
+			};
+		}
+	} );
+
+	$effect( () => {
+		if ( ! has_title_touched && files?.length ) {
+			title = remove_file_extension( files[ 0 ].name );
+		}
+	} );
+
+	$effect( () => {
+		if ( ! files?.length ) {
+			return;
+		}
+
+		if ( files[ 0 ].size <= ( data.max_file_size || 0 ) ) {
+			return;
+		}
+
+		files = undefined;
+		alert = {
+			message: `Maximum allowed file size is ${ max_file_size_formatted }.`,
+			type: 'error',
+		};
+	} );
+
+	$effect( () => {
 		if ( ! $page.url.searchParams.has( 'share-target' ) ) {
 			return;
 		}
 
-		const shared_file = await retrieve_pwa_shared_file();
-		const container = new DataTransfer();
-		container.items.add( shared_file );
-		files = container.files;
+		( async () => {
+			const shared_file = await retrieve_pwa_shared_file();
+			const container = new DataTransfer();
+			container.items.add( shared_file );
+			files = container.files;
 
-		// Clear `search-target` param.
-		history.replaceState( '', '', '/' );
-	};
+			// Clear `search-target` param.
+			history.replaceState( '', '', '/' );
+		} )();
+	} );
 
-	const update_preview_src = async () => {
+	$effect( () => {
 		if ( ! files?.length ) {
 			last_selected_file = '';
 			preview_src = '';
@@ -98,52 +120,27 @@
 			return;
 		}
 
-		try {
-			if ( file.type.startsWith( 'image/' ) ) {
-				const uri = await create_data_uri( file );
-				preview_src = uri;
-				file_type = 'image';
-			} else if ( file.type.startsWith( 'video/' ) ) {
-				file_type = 'video';
-			} else {
-				file_type = undefined;
+		( async () => {
+			try {
+				if ( file.type.startsWith( 'image/' ) ) {
+					const uri = await create_data_uri( file );
+					preview_src = uri;
+					file_type = 'image';
+				} else if ( file.type.startsWith( 'video/' ) ) {
+					file_type = 'video';
+				} else {
+					file_type = undefined;
+				}
+			} catch ( error ) {
+				preview_src = '';
+				alert = {
+					message: get_error_message( error, 'Failed to create preview image.', false ),
+					type: 'error',
+				};
+			} finally {
+				last_selected_file = file_id;
 			}
-		} catch ( error ) {
-			preview_src = '';
-			alert = {
-				message: get_error_message( error, 'Failed to create preview image.', false ),
-				type: 'error',
-			};
-		} finally {
-			last_selected_file = file_id;
-		}
-	};
-
-	const update_title = () => {
-		if ( ! has_title_touched && files?.length ) {
-			title = remove_file_extension( files[ 0 ].name );
-		}
-	};
-
-	$: {
-		if ( form?.success ) {
-			alert = {
-				message: 'File was successfully uploaded.',
-				type: 'success',
-			};
-		} else if ( form?.error && form?.message ) {
-			alert = {
-				message: form.message,
-				type: 'error',
-			};
-		}
-	}
-
-	afterUpdate( async () => {
-		await intercept_shared_file();
-		await check_file_size();
-		await update_preview_src();
-		update_title();
+		} )();
 	} );
 </script>
 
@@ -151,7 +148,7 @@
 	<title>Photo Harvest</title>
 </svelte:head>
 
-{#if $page.data.user}
+{#if data.user}
 	<ContentWrap>
 		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 			<div>
@@ -195,9 +192,9 @@
 			<TextField required label="Caption" name="caption" />
 			<TextField label="Title" name="title" bind:value={title} on:focus={() => ( has_title_touched = true )} />
 			<TextField multiline label="Description" name="description" />
-			{#if $page.data.terms?.length}
+			{#if data.terms?.length}
 				<!-- eslint-disable-next-line space-in-parens -->
-				{#each $page.data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
+				{#each data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
 					<TermsField {taxonomy} />
 				{/each}
 			{/if}
@@ -207,7 +204,7 @@
 {/if}
 
 {#if alert}
-	<Alert type={alert.type} on:expire={() => ( alert = null )}>
+	<Alert type={alert.type} onexpire={() => ( alert = null )}>
 		<p>{alert.message}</p>
 		{#if form?.success && form?.image_link}
 			<div>
