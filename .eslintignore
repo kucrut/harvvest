@@ -2,4 +2,5 @@
 /docker/*
 /.pnpm/*
 /.svelte-kit/
+*.html
 *.json
