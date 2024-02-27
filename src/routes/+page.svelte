@@ -22,9 +22,10 @@
 	let has_title_touched = $state( false );
 	let is_submitting = $state( false );
 	let last_selected_file = $state( '' );
-	let max_file_size_formatted = $state( '' );
 	let preview_src = $state( '' );
 	let title = $state( '' );
+
+	const max_file_size_formatted = $derived( pretty_bytes( data.max_file_size || 0 ) );
 
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement, formData } ) => {
@@ -48,10 +49,6 @@
 			}
 		};
 	};
-
-	$effect( () => {
-		max_file_size_formatted = pretty_bytes( data.max_file_size || 0 );
-	} );
 
 	$effect( () => {
 		if ( form?.success ) {
