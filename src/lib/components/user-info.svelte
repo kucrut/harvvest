@@ -1,6 +1,6 @@
 <script>
-	/** @type {import('$lib/schema.js').User} */
-	export let user;
+	/** @type {{ user: import('$lib/schema.js').User }} */
+	const { user } = $props();
 </script>
 
 <div>
