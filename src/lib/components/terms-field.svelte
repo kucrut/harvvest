@@ -1,6 +1,6 @@
 <script>
-	/** @type {import("$types").Taxonomy_Terms_Option} */
-	export let taxonomy;
+	/** @type {{ taxonomy: import("$types").Taxonomy_Terms_Option }} */
+	const { taxonomy } = $props();
 </script>
 
 <fieldset>
