@@ -3,9 +3,8 @@
 	import Nav from './nav.svelte';
 	import UserInfo from './user-info.svelte';
 
-	/** @type {() => void } */
-	export let close;
-	export let is_open = false;
+	/** @type {{ close: () => void; is_open?: boolean }} */
+	const { close, is_open = false } = $props();
 </script>
 
 <aside class:is-open={is_open}>
