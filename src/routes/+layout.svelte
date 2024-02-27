@@ -6,7 +6,7 @@
 	import { page } from '$app/stores';
 	import Sidebar from '$lib/components/sidebar.svelte';
 
-	const { data } = $props();
+	const { children, data } = $props();
 
 	let is_sidebar_open = $state( false );
 	let sidebar_size = $state( '0' );
@@ -64,7 +64,7 @@
 		/>
 	{/if}
 
-	<slot />
+	{@render children()}
 </div>
 
 <style lang="scss">
