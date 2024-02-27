@@ -11,6 +11,7 @@
 	let is_sidebar_open = false;
 
 	onMount( () => {
+		// TODO: Move this to individual page.
 		const offline_path = '/offline';
 
 		window.addEventListener( 'offline', () => {
