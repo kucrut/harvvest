@@ -27,8 +27,6 @@
 	} );
 </script>
 
-<!-- Alert component -->
-
 <div>
 	<hgroup class="container-fluid">
 		<h1>{data.app_name}</h1>
