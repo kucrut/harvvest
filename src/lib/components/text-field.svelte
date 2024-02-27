@@ -1,4 +1,5 @@
 <script>
+	// TODO: Fix typing.
 	/** @type {{label: string; multiline?: boolean; value?: string} & Record<string,string|boolean>} */
 	const { label, multiline = false, value = '', ...rest } = $props();
 </script>
