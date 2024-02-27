@@ -1,7 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 
-	/** @type {{timeout?: number; type: import('$types').Alert['type']; onexpire: () => void}} */
+	/** @type {{ timeout?: number; type: import('$types').Alert['type']; onexpire: () => void }} */
 	const { timeout = 2000, type = 'message', onexpire } = $props();
 
 	/** @type {ReturnType<typeof setTimeout>|undefined} */

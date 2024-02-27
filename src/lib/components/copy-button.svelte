@@ -1,7 +1,7 @@
 <script>
 	import { copy_to_clipboard } from '$lib/utils.client';
 
-	/** @type {{data: string}} */
+	/** @type {{ data: string }} */
 	const { data } = $props();
 </script>
 
