@@ -69,7 +69,7 @@
 			display: grid;
 
 			&.has-sidebar {
-				--sidebar-size: min( 35ch, 100vw );
+				--sidebar-size: min( 20rem, 100vw );
 				grid-template-columns: var( --sidebar-size ) 1fr;
 			}
 		}
