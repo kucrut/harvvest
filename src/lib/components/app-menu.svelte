@@ -1,6 +1,7 @@
 <script>
 	import { page } from '$app/stores';
 	import Nav from './nav.svelte';
+	import UserInfo from './user-info.svelte';
 
 	/** @type {() => void } */
 	export let close;
@@ -27,14 +28,7 @@
 	<Nav />
 
 	{#if $page.data.user}
-		<div class="user-info">
-			<img alt="User avatar" src={$page.data.user.avatar_url} />
-			<span>{$page.data.user.name}</span>
-			<a href={$page.data.user.wp_url} target="_blank">{$page.data.user.wp_url}</a>
-			<form action="/logout" method="POST">
-				<button type="submit">Log Out</button>
-			</form>
-		</div>
+		<UserInfo user={$page.data.user} />
 	{/if}
 </aside>
 
@@ -73,24 +67,5 @@
 		@media ( min-width: $br-lg ) {
 			display: none;
 		}
-	}
-
-	.user-info {
-		block-size: fit-content;
-		align-self: self-end;
-		display: grid;
-		column-gap: var( --pico-spacing );
-		grid-template-columns: max-content 1fr;
-	}
-
-	img {
-		width: 48px;
-		grid-row: 1/3;
-		border-radius: var( --pico-border-radius );
-	}
-
-	form {
-		margin-block-start: var( --pico-spacing );
-		grid-column: 1/3;
 	}
 </style>
