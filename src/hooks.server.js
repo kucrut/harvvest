@@ -1,7 +1,8 @@
 import { delete_session_cookies, validate_session } from '$lib/utils.server.js';
+import { sequence } from '@sveltejs/kit/hooks';
 
 /** @type {import('@sveltejs/kit').Handle} */
-export const handle = async ( { event, resolve } ) => {
+async function check_session( { event, resolve } ) {
 	const session_cookie = event.cookies.get( 'session' );
 
 	if ( ! session_cookie ) {
@@ -19,4 +20,6 @@ export const handle = async ( { event, resolve } ) => {
 	}
 
 	return await resolve( event );
-};
+}
+
+export const handle = sequence( check_session );
