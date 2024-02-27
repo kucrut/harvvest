@@ -9,6 +9,7 @@
 	export let data;
 
 	let is_sidebar_open = false;
+	$: sidebar_size = data.user ? 'min( 35ch, 100vw )' : '0';
 
 	onMount( () => {
 		// TODO: Move this to individual page.
@@ -28,7 +29,7 @@
 	} );
 </script>
 
-<div>
+<div style="--sidebar-size:{sidebar_size}">
 	<hgroup class="container-fluid">
 		<h1>{data.app_name}</h1>
 		<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}
@@ -64,11 +65,9 @@
 
 <style lang="scss">
 	div {
-		--menu-size: min( 35ch, 100vw );
-
 		@media ( min-width: $br-lg ) {
 			display: grid;
-			grid-template-columns: var( --menu-size ) 1fr;
+			grid-template-columns: var( --sidebar-size ) 1fr;
 		}
 	}
 
