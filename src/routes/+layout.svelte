@@ -50,12 +50,16 @@
 			></button
 		>
 	</hgroup>
-	<AppMenu
-		close={() => {
-			is_sidebar_open = false;
-		}}
-		is_open={is_sidebar_open}
-	/>
+
+	{#if data.user}
+		<AppMenu
+			close={() => {
+				is_sidebar_open = false;
+			}}
+			is_open={is_sidebar_open}
+		/>
+	{/if}
+
 	<slot />
 </div>
 
