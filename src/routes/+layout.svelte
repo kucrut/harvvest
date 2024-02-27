@@ -4,7 +4,7 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import AppMenu from '$lib/components/app-menu.svelte';
+	import Sidebar from '$lib/components/sidebar.svelte';
 
 	export let data;
 
@@ -52,7 +52,7 @@
 	</hgroup>
 
 	{#if data.user}
-		<AppMenu
+		<Sidebar
 			close={() => {
 				is_sidebar_open = false;
 			}}
