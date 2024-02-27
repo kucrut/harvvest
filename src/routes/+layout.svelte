@@ -6,10 +6,10 @@
 	import { page } from '$app/stores';
 	import Sidebar from '$lib/components/sidebar.svelte';
 
-	export let data;
+	const { data } = $props();
 
-	let is_sidebar_open = false;
-	$: sidebar_size = data.user ? 'min( 35ch, 100vw )' : '0';
+	let is_sidebar_open = $state( false );
+	let sidebar_size = $state( '0' );
 
 	onMount( () => {
 		// TODO: Move this to individual page.
@@ -26,6 +26,10 @@
 				goto( '/' );
 			}
 		} );
+	} );
+
+	$effect( () => {
+		sidebar_size = data.user ? 'min( 35ch, 100vw )' : '0';
 	} );
 </script>
 
