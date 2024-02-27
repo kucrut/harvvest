@@ -10,6 +10,7 @@ declare global {
 			terms?: Array< import('$types').Taxonomy_Terms_Option >;
 		}
 		interface PageData {
+			app_name: string;
 			terms?: Array< import('$types').Taxonomy_Terms_Option >;
 			user?: import('./lib/schema.js').User;
 		}

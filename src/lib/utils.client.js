@@ -1,34 +1,19 @@
 /// <reference lib="dom" />
 
 /**
- * Create alert
+ * Copy text to clipboard
  *
- * @param {ReturnType<import('@skeletonlabs/skeleton').getDrawerStore>} store Drawer store.
- * @param {import('$types').Alert} meta Alert metadata.
+ * @param {string} text Text to copy to clipboard.
  */
-export function create_alert( store, meta ) {
-	store.open( {
-		meta,
-		bgDrawer: 'bg-surface-50',
-		id: 'alert',
-		position: 'bottom',
-		rounded: 'rounded-tr-md rounded-br-none rounded-bl-none rounded-tl-md',
-		regionDrawer: 'p-4 h-max w-full',
-	} );
-}
-
-/**
- * Create error alert
- *
- * @param {ReturnType<import('@skeletonlabs/skeleton').getDrawerStore>} store Drawer store.
- * @param {string} message Error message.
- */
-export function create_error_alert( store, message ) {
-	create_alert( store, {
-		message,
-		title: 'Error',
-		type: 'error',
-	} );
+export async function copy_to_clipboard( text ) {
+	try {
+		if ( navigator?.clipboard?.writeText ) {
+			await navigator.clipboard.writeText( text );
+		}
+	} catch ( err ) {
+		// eslint-disable-next-line no-console
+		console.error( err );
+	}
 }
 
 /**

@@ -1,18 +1,18 @@
 <script>
+	import '../app.scss';
+
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-	import { AppBar, AppShell, Drawer, getDrawerStore, initializeStores } from '@skeletonlabs/skeleton';
-	import Alert from '$lib/components/alert.svelte';
-	import AppMenu from '$lib/components/app-menu.svelte';
-	import AppMenuButton from '$lib/components/app-menu-button.svelte';
-	import '../app.postcss';
+	import Sidebar from '$lib/components/sidebar.svelte';
 
-	initializeStores();
+	export let data;
 
-	const drawer_store = getDrawerStore();
+	let is_sidebar_open = false;
+	$: sidebar_size = data.user ? 'min( 35ch, 100vw )' : '0';
 
 	onMount( () => {
+		// TODO: Move this to individual page.
 		const offline_path = '/offline';
 
 		window.addEventListener( 'offline', () => {
@@ -29,25 +29,83 @@
 	} );
 </script>
 
-<Drawer>
-	{#if $drawer_store.id === 'app-menu'}
-		<AppMenu />
-	{:else if $drawer_store.id === 'alert'}
-		<Alert meta={$drawer_store.meta} on:dismiss={() => drawer_store.close()} />
-	{/if}
-</Drawer>
+<div style="--sidebar-size:{sidebar_size}">
+	<hgroup class="container-fluid">
+		<h1>{data.app_name}</h1>
+		<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}
+			><svg
+				xmlns="http://www.w3.org/2000/svg"
+				aria-hidden="true"
+				width="24"
+				height="24"
+				viewBox="0 0 24 24"
+				stroke-width="1.5"
+				stroke="currentColor"
+				fill="none"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+				><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6l16 0" /><path d="M4 12l16 0" /><path
+					d="M4 18l16 0"
+				/></svg
+			></button
+		>
+	</hgroup>
 
-<AppShell class="h-lvh">
-	<AppBar
-		gridColumns="grid-cols-[1fr_auto_1fr]"
-		slot="header"
-		slotDefault="place-self-center"
-		slotTrail="place-content-end"
-	>
-		<svelte:fragment slot="lead"><AppMenuButton /></svelte:fragment>
-		<h1 class="h2">Photo Harvest</h1>
-		<svelte:fragment slot="trail"><span /></svelte:fragment>
-	</AppBar>
+	{#if data.user}
+		<Sidebar
+			close={() => {
+				is_sidebar_open = false;
+			}}
+			is_open={is_sidebar_open}
+		/>
+	{/if}
 
 	<slot />
-</AppShell>
+</div>
+
+<style lang="scss">
+	div {
+		@media ( min-width: $br-lg ) {
+			display: grid;
+			grid-template-columns: var( --sidebar-size ) 1fr;
+		}
+	}
+
+	hgroup {
+		display: grid;
+		align-items: center;
+		padding-block: var( --pico-spacing );
+
+		@media ( min-width: $br-lg ) {
+			grid-column: 2/-1;
+			grid-row: 1/2;
+		}
+	}
+
+	h1,
+	button {
+		grid-column: 1/1;
+		grid-row: 1/1;
+	}
+
+	h1 {
+		text-align: center;
+		font-size: 1.5rem;
+	}
+
+	button {
+		align-self: self-start;
+		inline-size: fit-content;
+		border: unset;
+		padding: unset;
+
+		@media ( min-width: $br-lg ) {
+			display: none;
+		}
+	}
+
+	svg {
+		display: inline-block;
+		vertical-align: middle;
+	}
+</style>

@@ -1,5 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 </script>
 
@@ -7,10 +8,9 @@
 	<title>Photo Harvest</title>
 </svelte:head>
 
-<ContentWrap>
-	<div class="grid gap-6 place-items-center place-content-center text-center h-full">
+<ContentWrap center_content>
+	<div>
 		<svg
-			class="w-16 text-error-300"
 			fill="none"
 			stroke-linecap="round"
 			stroke-linejoin="round"
@@ -26,8 +26,18 @@
 		>
 		<p>
 			You appear to be offline.<br />
-			You can't use Photo Harvest until you're connected to the internet.
+			You can't use {$page.data.app_name} until you're connected to the internet.
 		</p>
-		<button class="btn variant-filled w-max" type="button" on:click={() => goto( '/' )}>Retry</button>
+		<button type="button" on:click={() => goto( '/' )}>Retry</button>
 	</div>
 </ContentWrap>
+
+<style>
+	div {
+		text-align: center;
+	}
+	svg {
+		color: var( --pico-muted-color );
+		width: 100px;
+	}
+</style>
