@@ -1,6 +1,5 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
-	import { goto } from '$app/navigation';
 	import Alert from '$lib/components/alert.svelte';
 	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import TextField from '$lib/components/text-field.svelte';
@@ -35,12 +34,6 @@
 			};
 		} else {
 			alert = null;
-		}
-	} );
-
-	$effect( () => {
-		if ( data.has_auth ) {
-			goto( '/', { invalidateAll: true } );
 		}
 	} );
 </script>
