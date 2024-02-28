@@ -1,5 +1,4 @@
 <script>
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 </script>
 
@@ -22,7 +21,6 @@
 		You appear to be offline.<br />
 		You can't use {$page.data.app_name} until you're connected to the internet.
 	</p>
-	<button type="button" on:click={() => goto( '/' )}>Retry</button>
 </div>
 
 <style>
