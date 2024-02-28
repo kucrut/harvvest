@@ -6,8 +6,8 @@
 	import { retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import pretty_bytes from 'pretty-bytes';
 	import Alert from '$lib/components/alert.svelte';
-	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import CopyButton from '$lib/components/copy-button.svelte';
+	import Main from '$lib/components/main.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
 
@@ -145,60 +145,58 @@
 	<title>Photo Harvest</title>
 </svelte:head>
 
-{#if data.user}
-	<ContentWrap>
-		<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
-			<div>
-				{#if file_type === 'image' && preview_src}
-					<img alt="" src={preview_src} />
-				{:else if file_type === 'video'}
-					<div>
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							class="w-14"
-							fill="none"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							stroke-width="2"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							><path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><rect
-								width="8"
-								height="6"
-								x="2"
-								y="12"
-								rx="1"
-							/><path d="m10 15.5 4 2.5v-6l-4 2.5" /></svg
-						>
-					</div>
-				{/if}
-				<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-				<input
-					required={! files?.length}
-					accept="image/*,video/*"
-					disabled={is_submitting}
-					name="file"
-					type="file"
-					bind:files
-				/>
-				<small>
-					Click to select an image/video. Maximum file size is <em>{max_file_size_formatted}</em>.
-				</small>
-			</div>
-			<TextField multiline required label="Alternative text" name="alt_text" />
-			<TextField required label="Caption" name="caption" />
-			<TextField label="Title" name="title" bind:value={title} on:focus={() => ( has_title_touched = true )} />
-			<TextField multiline label="Description" name="description" />
-			{#if data.terms?.length}
-				<!-- eslint-disable-next-line space-in-parens -->
-				{#each data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
-					<TermsField {taxonomy} />
-				{/each}
+<Main>
+	<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
+		<div>
+			{#if file_type === 'image' && preview_src}
+				<img alt="" src={preview_src} />
+			{:else if file_type === 'video'}
+				<div>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						class="w-14"
+						fill="none"
+						stroke-linecap="round"
+						stroke-linejoin="round"
+						stroke-width="2"
+						stroke="currentColor"
+						viewBox="0 0 24 24"
+						><path d="M4 22h14a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v4" /><path d="M14 2v4a2 2 0 0 0 2 2h4" /><rect
+							width="8"
+							height="6"
+							x="2"
+							y="12"
+							rx="1"
+						/><path d="m10 15.5 4 2.5v-6l-4 2.5" /></svg
+					>
+				</div>
 			{/if}
-			<button aria-busy={is_submitting} type="submit">{is_submitting ? 'Uploading…' : 'Upload'}</button>
-		</form>
-	</ContentWrap>
-{/if}
+			<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
+			<input
+				required={! files?.length}
+				accept="image/*,video/*"
+				disabled={is_submitting}
+				name="file"
+				type="file"
+				bind:files
+			/>
+			<small>
+				Click to select an image/video. Maximum file size is <em>{max_file_size_formatted}</em>.
+			</small>
+		</div>
+		<TextField multiline required label="Alternative text" name="alt_text" />
+		<TextField required label="Caption" name="caption" />
+		<TextField label="Title" name="title" bind:value={title} on:focus={() => ( has_title_touched = true )} />
+		<TextField multiline label="Description" name="description" />
+		{#if data.terms?.length}
+			<!-- eslint-disable-next-line space-in-parens -->
+			{#each data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
+				<TermsField {taxonomy} />
+			{/each}
+		{/if}
+		<button aria-busy={is_submitting} type="submit">{is_submitting ? 'Uploading…' : 'Upload'}</button>
+	</form>
+</Main>
 
 {#if alert}
 	<Alert type={alert.type} onexpire={() => ( alert = null )}>

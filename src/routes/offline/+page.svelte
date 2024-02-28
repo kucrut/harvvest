@@ -1,43 +1,12 @@
 <script>
-	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-	import ContentWrap from '$lib/components/content-wrap.svelte';
+	import Main from '$lib/components/main.svelte';
+	import Offline from '$lib/components/offline.svelte';
 </script>
 
 <svelte:head>
 	<title>Photo Harvest</title>
 </svelte:head>
 
-<ContentWrap center_content>
-	<div>
-		<svg
-			fill="none"
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			stroke-width="2"
-			stroke="currentColor"
-			viewBox="0 0 24 24"
-			xmlns="http://www.w3.org/2000/svg"
-			><line x1="2" x2="22" y1="2" y2="22" /><path d="M8.5 16.5a5 5 0 0 1 7 0" /><path
-				d="M2 8.82a15 15 0 0 1 4.17-2.65"
-			/><path d="M10.66 5c4.01-.36 8.14.9 11.34 3.76" /><path d="M16.85 11.25a10 10 0 0 1 2.22 1.68" /><path
-				d="M5 13a10 10 0 0 1 5.24-2.76"
-			/><line x1="12" x2="12.01" y1="20" y2="20" /></svg
-		>
-		<p>
-			You appear to be offline.<br />
-			You can't use {$page.data.app_name} until you're connected to the internet.
-		</p>
-		<button type="button" on:click={() => goto( '/' )}>Retry</button>
-	</div>
-</ContentWrap>
-
-<style>
-	div {
-		text-align: center;
-	}
-	svg {
-		color: var( --pico-muted-color );
-		width: 100px;
-	}
-</style>
+<Main center_content>
+	<Offline />
+</Main>

@@ -1,7 +1,7 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
 	import Alert from '$lib/components/alert.svelte';
-	import ContentWrap from '$lib/components/content-wrap.svelte';
+	import Main from '$lib/components/main.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 
 	const { data, form } = $props();
@@ -42,7 +42,7 @@
 	<title>Log In - Photo Harvest</title>
 </svelte:head>
 
-<ContentWrap>
+<Main>
 	<!-- Replace with logo -->
 	<h1>Log In</h1>
 
@@ -56,7 +56,7 @@
 		<input type="hidden" name="client_id" value={client_id} />
 		<button type="submit">Get Authorization</button>
 	</form>
-</ContentWrap>
+</Main>
 
 {#if alert}
 	<Alert type={alert.type} onexpire={() => ( alert = null )}>

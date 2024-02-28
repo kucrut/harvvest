@@ -51,6 +51,7 @@ export const load = async ( { cookies, locals } ) => {
 		return {
 			terms,
 			max_file_size: get_max_file_size(),
+			needs_net: true,
 		};
 	} catch ( error ) {
 		// eslint-disable-next-line no-console

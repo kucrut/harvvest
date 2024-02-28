@@ -1,30 +1,36 @@
 <script>
 	import '../app.scss';
 
-	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import Main from '$lib/components/main.svelte';
+	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
 
 	const { children, data } = $props();
 
+	let is_online = $state( true );
 	let is_sidebar_open = $state( false );
 
-	onMount( () => {
-		// TODO: Move this to individual page.
-		const offline_path = '/offline';
+	$effect( () => {
+		is_online = navigator.onLine;
+	} );
 
-		window.addEventListener( 'offline', () => {
-			if ( $page.url.pathname !== offline_path ) {
-				goto( offline_path );
-			}
-		} );
+	$effect( () => {
+		const set_offline = () => {
+			is_online = false;
+		};
 
-		window.addEventListener( 'online', () => {
-			if ( $page.url.pathname === offline_path ) {
-				goto( '/' );
-			}
-		} );
+		const set_online = () => {
+			is_online = true;
+		};
+
+		window.addEventListener( 'offline', set_offline );
+		window.addEventListener( 'online', set_online );
+
+		return () => {
+			window.removeEventListener( 'offline', set_offline );
+			window.removeEventListener( 'online', set_online );
+		};
 	} );
 </script>
 
@@ -61,14 +67,23 @@
 		/>
 	{/if}
 
-	{@render children()}
+	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
+		{@render children()}
+	{:else}
+		<Main center_content>
+			<Offline />
+		</Main>
+	{/if}
 </div>
 
 <style lang="scss">
 	div {
+		min-block-size: 100dvh;
+		display: grid;
+		grid-template-rows: auto 1fr;
+
 		@media ( min-width: $br-lg ) {
 			--sidebar-size: 0;
-			display: grid;
 
 			&.has-sidebar {
 				--sidebar-size: min( 20rem, 100vw );
