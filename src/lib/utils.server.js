@@ -1,6 +1,5 @@
 import { Encryption } from '@adonisjs/encryption';
 import { env } from '$env/dynamic/private';
-import { redirect } from '@sveltejs/kit';
 import { session_schema } from './schema';
 
 /**
@@ -28,14 +27,13 @@ export function get_session_cookie_options() {
 }
 
 /**
- * Log out
+ * Clear all cookies ;(
  *
  * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  */
-export function logout( cookies ) {
+export function clear_cookies( cookies ) {
 	delete_session_cookies( cookies );
 	cookies.delete( 'app_id', get_session_cookie_options() );
-	redirect( 302, '/login' );
 }
 
 /**
