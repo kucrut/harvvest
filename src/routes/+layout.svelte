@@ -1,31 +1,11 @@
 <script>
 	import '../app.scss';
 
-	import { goto } from '$app/navigation';
-	import { onMount } from 'svelte';
-	import { page } from '$app/stores';
 	import Sidebar from '$lib/components/sidebar.svelte';
 
 	const { children, data } = $props();
 
 	let is_sidebar_open = $state( false );
-
-	onMount( () => {
-		// TODO: Move this to individual page.
-		const offline_path = '/offline';
-
-		window.addEventListener( 'offline', () => {
-			if ( $page.url.pathname !== offline_path ) {
-				goto( offline_path );
-			}
-		} );
-
-		window.addEventListener( 'online', () => {
-			if ( $page.url.pathname === offline_path ) {
-				goto( '/' );
-			}
-		} );
-	} );
 </script>
 
 <div class:has-sidebar={data.user !== undefined}>
