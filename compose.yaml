@@ -1,0 +1,31 @@
+---
+version: "2.7"
+
+networks:
+  proxy:
+    external: true
+    name: ${PROXY_NETWORK_NAME:?}
+
+services:
+  app:
+    container_name: $COMPOSE_PROJECT_NAME
+    build:
+      context: .
+      args:
+        APP_NAME: ${APP_NAME:?}
+    environment:
+      # Required.
+      - APP_NAME=${APP_NAME:?}
+      - APP_SECRET=${APP_SECRET:?}
+      - BODY_SIZE_LIMIT=${BODY_SIZE_LIMIT:?}
+      - PUBLIC_MAX_FILE_SIZE=${PUBLIC_MAX_FILE_SIZE:?}
+      # Optional.
+      - ACCESS_KEYS
+      - WP_AUTH_ENDPOINT
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=http"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.rule=Host(`${DOMAIN:?}`)"
+      - "traefik.http.services.${COMPOSE_PROJECT_NAME}.loadbalancer.server.port=3000"
+    networks:
+      - proxy
