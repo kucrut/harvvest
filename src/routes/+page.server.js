@@ -56,6 +56,9 @@ export const load = async ( { cookies, locals } ) => {
 		terms,
 		max_file_size: get_max_file_size(),
 		needs_net: true,
+		meta: {
+			title: 'Upload Media',
+		},
 	};
 };
 
