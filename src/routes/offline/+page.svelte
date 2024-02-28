@@ -1,14 +1,14 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import ContentWrap from '$lib/components/content-wrap.svelte';
+	import Main from '$lib/components/main.svelte';
 </script>
 
 <svelte:head>
 	<title>Photo Harvest</title>
 </svelte:head>
 
-<ContentWrap center_content>
+<Main center_content>
 	<div>
 		<svg
 			fill="none"
@@ -30,7 +30,7 @@
 		</p>
 		<button type="button" on:click={() => goto( '/' )}>Retry</button>
 	</div>
-</ContentWrap>
+</Main>
 
 <style>
 	div {

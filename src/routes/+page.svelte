@@ -6,8 +6,8 @@
 	import { retrieve_pwa_shared_file } from '$lib/utils.client.js';
 	import pretty_bytes from 'pretty-bytes';
 	import Alert from '$lib/components/alert.svelte';
-	import ContentWrap from '$lib/components/content-wrap.svelte';
 	import CopyButton from '$lib/components/copy-button.svelte';
+	import Main from '$lib/components/main.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
 
@@ -145,7 +145,7 @@
 	<title>Photo Harvest</title>
 </svelte:head>
 
-<ContentWrap>
+<Main>
 	<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 		<div>
 			{#if file_type === 'image' && preview_src}
@@ -196,7 +196,7 @@
 		{/if}
 		<button aria-busy={is_submitting} type="submit">{is_submitting ? 'Uploading…' : 'Upload'}</button>
 	</form>
-</ContentWrap>
+</Main>
 
 {#if alert}
 	<Alert type={alert.type} onexpire={() => ( alert = null )}>

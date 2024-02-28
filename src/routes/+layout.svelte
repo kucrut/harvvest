@@ -2,7 +2,7 @@
 	import '../app.scss';
 
 	import { page } from '$app/stores';
-	import ContentWrap from '$lib/components/content-wrap.svelte';
+	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
 
@@ -70,9 +70,9 @@
 	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
 		{@render children()}
 	{:else}
-		<ContentWrap>
+		<Main>
 			<Offline />
-		</ContentWrap>
+		</Main>
 	{/if}
 </div>
 
