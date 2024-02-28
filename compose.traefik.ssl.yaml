@@ -1,0 +1,15 @@
+---
+# Compose file for deployment with Traefik with SSL (via Letsencrypt). See https://traefik.io/
+# NOTE: Make sure your Traefik instance has `gzip` and `redirect-to-https` middlewares.
+
+version: "2.7"
+
+services:
+  app:
+    labels:
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=redirect-to-https@file"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.entrypoints=https"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.middlewares=gzip@file"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.rule=Host(`${DOMAIN}`)"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.tls=true"
