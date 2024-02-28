@@ -26,11 +26,11 @@ export const load = async ( { cookies, locals } ) => {
 	}
 
 	const auth = locals.session.auth;
+	/** @type {import('$types').Taxonomy_Terms_Option[]} */
+	const terms = [];
 
 	try {
 		const taxonomies = await get_taxonomies( locals.session.api_url, auth, 'view', { type: 'attachment' } );
-		/** @type {import('$types').Taxonomy_Terms_Option[]} */
-		const terms = [];
 
 		for ( const tax of taxonomies ) {
 			try {
@@ -47,16 +47,16 @@ export const load = async ( { cookies, locals } ) => {
 				continue;
 			}
 		}
-
-		return {
-			terms,
-			max_file_size: get_max_file_size(),
-			needs_net: true,
-		};
 	} catch ( error ) {
 		// eslint-disable-next-line no-console
 		console.log( error );
 	}
+
+	return {
+		terms,
+		max_file_size: get_max_file_size(),
+		needs_net: true,
+	};
 };
 
 /** @type {import('./$types').Actions} */
