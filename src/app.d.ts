@@ -14,6 +14,9 @@ declare global {
 			needs_net?: boolean;
 			terms?: Array< import('$types').Taxonomy_Terms_Option >;
 			user?: import('./lib/schema.js').User;
+			meta: {
+				title: string;
+			};
 		}
 		// interface Platform {}
 	}

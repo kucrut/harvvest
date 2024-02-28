@@ -141,10 +141,6 @@
 	} );
 </script>
 
-<svelte:head>
-	<title>Photo Harvest</title>
-</svelte:head>
-
 <Main>
 	<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 		<div>
