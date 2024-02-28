@@ -6,6 +6,8 @@ COPY . /app
 WORKDIR /app
 
 FROM base AS build
+ARG APP_NAME
+ENV APP_NAME=${APP_NAME}
 RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
 RUN ADAPTER=node BUILD_OUT_DIR=/app/build pnpm run build
 
