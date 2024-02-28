@@ -78,9 +78,12 @@
 
 <style lang="scss">
 	div {
+		min-block-size: 100dvh;
+		display: grid;
+		grid-template-rows: auto 1fr;
+
 		@media ( min-width: $br-lg ) {
 			--sidebar-size: 0;
-			display: grid;
 
 			&.has-sidebar {
 				--sidebar-size: min( 20rem, 100vw );
