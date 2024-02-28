@@ -1,5 +1,4 @@
 <nav>
-	<h1>Photo Harvest</h1>
 	<ul>
 		<li>
 			<a href="https://gitlab.com/kucrut/photo-harvest">
@@ -17,10 +16,6 @@
 </nav>
 
 <style>
-	h1 {
-		font-size: 1.25rem;
-	}
-
 	a {
 		display: inline-flex;
 		align-items: center;

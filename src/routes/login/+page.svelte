@@ -38,10 +38,6 @@
 	} );
 </script>
 
-<svelte:head>
-	<title>Log In - Photo Harvest</title>
-</svelte:head>
-
 <Main>
 	<!-- Replace with logo -->
 	<h1>Log In</h1>
