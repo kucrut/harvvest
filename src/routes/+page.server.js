@@ -1,8 +1,8 @@
+import { clear_cookies } from '$lib/utils.server';
 import { create_media, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/public';
-import { fail } from '@sveltejs/kit';
+import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
-import { logout } from '$lib/utils.server';
 import pretty_bytes from 'pretty-bytes';
 
 function get_max_file_size() {
@@ -21,8 +21,8 @@ function invalid_value( message ) {
 /** @type {import('./$types').PageServerLoad} */
 export const load = async ( { cookies, locals } ) => {
 	if ( ! locals.session ) {
-		logout( cookies );
-		return;
+		clear_cookies( cookies );
+		redirect( 302, '/login' );
 	}
 
 	const auth = locals.session.auth;
@@ -66,8 +66,8 @@ export const load = async ( { cookies, locals } ) => {
 export const actions = {
 	default: async ( { cookies, locals, request } ) => {
 		if ( ! locals.session ) {
-			logout( cookies );
-			return;
+			clear_cookies( cookies );
+			redirect( 302, '/login' );
 		}
 
 		const data = await request.formData();
