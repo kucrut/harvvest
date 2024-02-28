@@ -26,8 +26,8 @@ export const actions = {
 			redirect( 302, redirect_path );
 		}
 
-		// Wrapped in try/catch to prevent errors from leaking in case (for example) the app password
-		// has been manually deleted.
+		// Wrapped in try/catch to prevent errors from leaking in case
+		// (for example) the app password has been manually deleted.
 		try {
 			const all_app_pass = await get_app_passwords( locals.session.api_url, locals.session.auth, 'me', 'edit' );
 			const app_pass = all_app_pass.find( item => item.app_id === app_id );
