@@ -1,46 +1,10 @@
 <script>
-	import Offline from './offline.svelte';
-
-	/**
-	 * @type {{
-	 *   center_content?: boolean;
-	 *   children: import('svelte').Snippet;
-	 *   needs_net?: boolean;
-	 * }}
-	 */
-	const { center_content = false, children, needs_net = false } = $props();
-
-	let is_online = $state( true );
-
-	$effect( () => {
-		is_online = navigator.onLine;
-	} );
-
-	$effect( () => {
-		const set_offline = () => {
-			is_online = false;
-		};
-
-		const set_online = () => {
-			is_online = true;
-		};
-
-		window.addEventListener( 'offline', set_offline );
-		window.addEventListener( 'online', set_online );
-
-		return () => {
-			window.removeEventListener( 'offline', set_offline );
-			window.removeEventListener( 'online', set_online );
-		};
-	} );
+	/** @type {{center_content?: boolean; children: import('svelte').Snippet}} */
+	const { center_content = false, children } = $props();
 </script>
 
 <main class="container-fluid" class:centered={center_content}>
-	{#if ! needs_net || ( needs_net && is_online )}
-		{@render children()}
-	{:else}
-		<Offline />
-	{/if}
+	{@render children()}
 </main>
 
 <style lang="scss">
