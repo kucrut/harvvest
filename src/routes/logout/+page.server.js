@@ -1,6 +1,6 @@
-import { redirect } from '@sveltejs/kit';
-import { logout } from '$lib/utils.server.js';
+import { clear_cookies } from '$lib/utils.server.js';
 import { delete_app_password, get_app_passwords } from '@kucrut/wp-api-helpers';
+import { redirect } from '@sveltejs/kit';
 
 /** @type {import('./$types').PageServerLoad} */
 export const load = () => {
@@ -11,8 +11,8 @@ export const load = () => {
 export const actions = {
 	async default( { cookies, locals } ) {
 		if ( ! locals.session ) {
-			logout( cookies );
-			return;
+			clear_cookies( cookies );
+			redirect( 302, '/login' );
 		}
 
 		const app_id = cookies.get( 'app_id' );
@@ -20,7 +20,8 @@ export const actions = {
 		if ( ! app_id ) {
 			// eslint-disable-next-line no-console
 			console.warn( '[FIXME] Logout action: `app_id` not found in cookies.' );
-			logout( cookies );
+			clear_cookies( cookies );
+			redirect( 302, '/login' );
 		}
 
 		// Wrapped in try/catch to prevent errors from leaking in case (for example) the app password
@@ -36,7 +37,8 @@ export const actions = {
 			// eslint-disable-next-line no-console
 			console.error( 'Logout action: ', error );
 		} finally {
-			logout( cookies );
+			clear_cookies( cookies );
+			redirect( 302, '/login' );
 		}
 	},
 };
