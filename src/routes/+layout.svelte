@@ -1,11 +1,37 @@
 <script>
 	import '../app.scss';
 
+	import { page } from '$app/stores';
+	import ContentWrap from '$lib/components/content-wrap.svelte';
+	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
 
 	const { children, data } = $props();
 
+	let is_online = $state( true );
 	let is_sidebar_open = $state( false );
+
+	$effect( () => {
+		is_online = navigator.onLine;
+	} );
+
+	$effect( () => {
+		const set_offline = () => {
+			is_online = false;
+		};
+
+		const set_online = () => {
+			is_online = true;
+		};
+
+		window.addEventListener( 'offline', set_offline );
+		window.addEventListener( 'online', set_online );
+
+		return () => {
+			window.removeEventListener( 'offline', set_offline );
+			window.removeEventListener( 'online', set_online );
+		};
+	} );
 </script>
 
 <div class:has-sidebar={data.user !== undefined}>
@@ -41,7 +67,13 @@
 		/>
 	{/if}
 
-	{@render children()}
+	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
+		{@render children()}
+	{:else}
+		<ContentWrap>
+			<Offline />
+		</ContentWrap>
+	{/if}
 </div>
 
 <style lang="scss">
