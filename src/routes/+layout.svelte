@@ -70,7 +70,7 @@
 	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
 		{@render children()}
 	{:else}
-		<Main>
+		<Main center_content>
 			<Offline />
 		</Main>
 	{/if}
