@@ -34,6 +34,10 @@
 	} );
 </script>
 
+<svelte:head>
+	<title>{$page.data.meta.title} — {$page.data.app_name}</title>
+</svelte:head>
+
 <div class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
 		<h1>{data.app_name}</h1>
