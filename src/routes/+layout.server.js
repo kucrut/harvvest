@@ -1,9 +1,9 @@
-import { env } from '$env/dynamic/private';
+import { APP_NAME } from '$env/static/private';
 
 /** @type {import('./$types').LayoutServerLoad} */
 export const load = async ( { locals } ) => {
 	const data = {
-		app_name: env.APP_NAME,
+		app_name: APP_NAME,
 	};
 
 	if ( ! locals.session ) {
