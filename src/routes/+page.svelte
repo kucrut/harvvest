@@ -96,6 +96,12 @@
 					type: 'error',
 				};
 			}}
+			ontypeerror={() => {
+				alert = {
+					message: 'Only images and videos are allowed.',
+					type: 'error',
+				};
+			}}
 		/>
 		<TextField disabled={is_submitting} required label="Alternative text" name="alt_text" />
 		<TextField disabled={is_submitting} required label="Caption" name="caption" />
