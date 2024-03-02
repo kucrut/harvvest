@@ -88,7 +88,15 @@ export const load = async ( { cookies, locals, url } ) => {
 		redirect( 302, '/' );
 	}
 
-	const new_session = await handle_wp_auth( url );
+	/** @type {import('$lib/schema').Session|undefined} */
+	let new_session;
+
+	try {
+		new_session = await handle_wp_auth( url );
+	} catch {
+		// This could be caused by manually setting URL params, so let's clean it up.
+		redirect( 302, '/login' );
+	}
 
 	if ( new_session ) {
 		set_session_cookies( cookies, new_session );
