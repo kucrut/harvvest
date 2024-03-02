@@ -2,7 +2,6 @@ import { Encryption } from '@adonisjs/encryption';
 import { env } from '$env/dynamic/private';
 import { session_schema } from './schema';
 
-export const APP_ID_COOKIE_NAME = 'app_id';
 const SESSION_COOKIE_NAME = 'session';
 
 /**
