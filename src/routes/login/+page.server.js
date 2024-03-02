@@ -1,6 +1,11 @@
 import { APP_ID_COOKIE_NAME, get_session_cookie_options, set_session_cookies } from '$lib/utils.server.js';
 import { create_basic_auth_string, get_error_message } from '@kucrut/wp-api-helpers/utils';
-import { discover, get_app_password_auth_endpoint, get_single_user } from '@kucrut/wp-api-helpers';
+import {
+	discover,
+	get_app_password_auth_endpoint,
+	get_current_app_password,
+	get_single_user,
+} from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
 import { is_valid_http_url } from '$lib/utils';
@@ -65,6 +70,7 @@ async function handle_wp_auth( url ) {
 	const api_url = await discover( wp_url );
 	const auth = create_basic_auth_string( username, password );
 	const { avatar_urls, name } = await get_single_user( 'me', api_url, auth );
+	const { app_id, uuid } = await get_current_app_password( api_url, auth );
 
 	const avatar_size = Object.keys( avatar_urls )
 		.map( s => Number( s ) )
@@ -73,9 +79,11 @@ async function handle_wp_auth( url ) {
 
 	return {
 		api_url,
+		app_id,
 		name,
 		wp_url,
 		auth,
+		auth_uuid: uuid,
 		avatar_url: avatar_urls[ avatar_size ],
 	};
 }
