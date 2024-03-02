@@ -2,13 +2,16 @@ import { Encryption } from '@adonisjs/encryption';
 import { env } from '$env/dynamic/private';
 import { session_schema } from './schema';
 
+export const APP_ID_COOKIE_NAME = 'app_id';
+const SESSION_COOKIE_NAME = 'session';
+
 /**
  * Delete session cookies
  *
  * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  */
 export function delete_session_cookies( cookies ) {
-	cookies.delete( 'session', get_session_cookie_options() );
+	cookies.delete( SESSION_COOKIE_NAME, get_session_cookie_options() );
 }
 
 /**
@@ -33,18 +36,24 @@ export function get_session_cookie_options() {
  */
 export function clear_cookies( cookies ) {
 	delete_session_cookies( cookies );
-	cookies.delete( 'app_id', get_session_cookie_options() );
+	cookies.delete( APP_ID_COOKIE_NAME, get_session_cookie_options() );
 }
 
 /**
- * Validate session
+ * Get session
  *
- * @param {string} session_cookie Session cookie value.
+ * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  * @throws {typeof import('zod').ZodError} Zod error.
- * @return {import('./schema').Session} Session object.
+ * @return {import('./schema').Session|undefined} Session object.
  */
-export function validate_session( session_cookie ) {
-	const json = JSON.parse( session_cookie );
+export function get_session( cookies ) {
+	const raw = cookies.get( SESSION_COOKIE_NAME );
+
+	if ( ! raw ) {
+		return undefined;
+	}
+
+	const json = JSON.parse( raw );
 	const session = session_schema.parse( {
 		...json,
 		auth: new Encryption( { secret: env.APP_SECRET } ).decrypt( json.auth ),
@@ -65,5 +74,5 @@ export function set_session_cookies( cookies, data ) {
 		auth: new Encryption( { secret: env.APP_SECRET } ).encrypt( data.auth ),
 	} );
 
-	cookies.set( 'session', session, get_session_cookie_options() );
+	cookies.set( SESSION_COOKIE_NAME, session, get_session_cookie_options() );
 }

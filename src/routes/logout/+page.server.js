@@ -1,4 +1,4 @@
-import { clear_cookies } from '$lib/utils.server.js';
+import { APP_ID_COOKIE_NAME, clear_cookies } from '$lib/utils.server.js';
 import { delete_app_password, get_app_passwords } from '@kucrut/wp-api-helpers';
 import { redirect } from '@sveltejs/kit';
 
@@ -17,7 +17,7 @@ export const actions = {
 			redirect( 302, redirect_path );
 		}
 
-		const app_id = cookies.get( 'app_id' );
+		const app_id = cookies.get( APP_ID_COOKIE_NAME );
 
 		if ( ! app_id ) {
 			// eslint-disable-next-line no-console
