@@ -3,7 +3,7 @@
 	import { remove_file_extension } from '$lib/utils.js';
 	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { page } from '$app/stores';
-	import { retrieve_pwa_shared_file } from '$lib/utils.client.js';
+	import { handle_pwa_share } from '$lib/utils.client.js';
 	import pretty_bytes from 'pretty-bytes';
 	import Alert from '$lib/components/alert.svelte';
 	import CopyButton from '$lib/components/copy-button.svelte';
@@ -67,19 +67,13 @@
 	} );
 
 	$effect( () => {
-		if ( ! $page.url.searchParams.has( 'share-target' ) ) {
-			return;
+		if ( $page.url.searchParams.has( 'share-target' ) ) {
+			( async () => {
+				files = await handle_pwa_share();
+				// Clear `search-target` param.
+				history.replaceState( '', '', '/' );
+			} )();
 		}
-
-		( async () => {
-			const shared_file = await retrieve_pwa_shared_file();
-			const container = new DataTransfer();
-			container.items.add( shared_file );
-			files = container.files;
-
-			// Clear `search-target` param.
-			history.replaceState( '', '', '/' );
-		} )();
 	} );
 </script>
 
