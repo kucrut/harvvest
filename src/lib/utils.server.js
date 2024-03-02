@@ -36,7 +36,6 @@ export function get_session_cookie_options() {
  */
 export function clear_cookies( cookies ) {
 	delete_session_cookies( cookies );
-	cookies.delete( APP_ID_COOKIE_NAME, get_session_cookie_options() );
 }
 
 /**
