@@ -7,7 +7,7 @@ import { readFileSync, writeFileSync } from 'node:fs';
 function svg_sprite() {
 	const icon_names = [ 'code', 'file-video', 'menu', 'tent', 'wifi-off', 'x' ];
 	const source_dir = 'node_modules/lucide-static/icons';
-	const target_file = 'src/lib/components/sprite.svg';
+	const target_file = 'src/lib/components/sprite.svelte';
 
 	return {
 		name: 'dz-svg-sprite',
