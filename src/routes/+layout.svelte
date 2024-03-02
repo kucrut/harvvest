@@ -6,7 +6,7 @@
 	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
-	import SvgSprite from '$lib/components/sprite.svelte';
+	import SvgSprite from '$lib/components/svg-sprite.svelte';
 
 	const { children, data } = $props();
 
