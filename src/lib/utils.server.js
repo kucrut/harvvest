@@ -39,14 +39,20 @@ export function clear_cookies( cookies ) {
 }
 
 /**
- * Validate session
+ * Get session
  *
- * @param {string} session_cookie Session cookie value.
+ * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  * @throws {typeof import('zod').ZodError} Zod error.
- * @return {import('./schema').Session} Session object.
+ * @return {import('./schema').Session|undefined} Session object.
  */
-export function validate_session( session_cookie ) {
-	const json = JSON.parse( session_cookie );
+export function get_session( cookies ) {
+	const raw = cookies.get( SESSION_COOKIE_NAME );
+
+	if ( ! raw ) {
+		return undefined;
+	}
+
+	const json = JSON.parse( raw );
 	const session = session_schema.parse( {
 		...json,
 		auth: new Encryption( { secret: env.APP_SECRET } ).decrypt( json.auth ),
