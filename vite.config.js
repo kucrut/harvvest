@@ -52,7 +52,8 @@ function svg_sprite() {
 
 					return `<symbol id="icon-${ name }" ${ attrs }>${ children }</symbol>`;
 				} )
-				.join( '' );
+				.join( '' )
+				.trim();
 
 			if ( ! html ) {
 				return;
