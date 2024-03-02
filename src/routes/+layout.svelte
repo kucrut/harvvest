@@ -118,7 +118,6 @@
 	}
 
 	button {
-		align-self: self-start;
 		inline-size: fit-content;
 		border: unset;
 		padding: unset;
