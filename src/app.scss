@@ -19,6 +19,10 @@
 	font-size: 100%;
 }
 
+button:has( svg ) {
+	display: inline-flex;
+}
+
 .visually-hidden {
 	border: 0;
 	clip: rect( 1px, 1px, 1px, 1px );
@@ -44,8 +48,4 @@
 	&:focus {
 		inset-block-start: var( --pico-spacing );
 	}
-}
-
-button:has( svg ) {
-	display: inline-flex;
 }
