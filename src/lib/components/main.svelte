@@ -3,7 +3,7 @@
 	const { center_content = false, children } = $props();
 </script>
 
-<main class="container-fluid" class:centered={center_content}>
+<main class="container-fluid" class:centered={center_content} id="content">
 	{@render children()}
 </main>
 

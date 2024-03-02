@@ -42,6 +42,10 @@
 
 <div class="svg-sprite"><SvgSprite /></div>
 
+{#if data.user}
+	<a class="screen-reader-shortcut" href="#content" role="button">Skip to main content</a>
+{/if}
+
 <div class="app" class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
 		<h1>{data.app_name}</h1>
