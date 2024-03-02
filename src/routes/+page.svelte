@@ -1,16 +1,16 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
-	import { remove_file_extension } from '$lib/utils.js';
 	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
-	import { page } from '$app/stores';
 	import { handle_pwa_share } from '$lib/utils.client.js';
+	import { page } from '$app/stores';
+	import { remove_file_extension } from '$lib/utils.js';
 	import pretty_bytes from 'pretty-bytes';
 	import Alert from '$lib/components/alert.svelte';
 	import CopyButton from '$lib/components/copy-button.svelte';
 	import Main from '$lib/components/main.svelte';
-	import TextField from '$lib/components/text-field.svelte';
-	import TermsField from '$lib/components/terms-field.svelte';
 	import MediaUploadField from '$lib/components/media-upload-field.svelte';
+	import TermsField from '$lib/components/terms-field.svelte';
+	import TextField from '$lib/components/text-field.svelte';
 
 	const { data, form } = $props();
 
