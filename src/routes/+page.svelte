@@ -13,6 +13,7 @@
 	import TextField from '$lib/components/text-field.svelte';
 
 	const { data, form } = $props();
+	const max_file_size_formatted = $derived( pretty_bytes( data.max_file_size || 0 ) );
 
 	/** @type {import('$types').Alert|null} */
 	let alert = $state( null );
@@ -22,8 +23,6 @@
 	let has_title_touched = $state( false );
 	let is_submitting = $state( false );
 	let title = $state( '' );
-
-	const max_file_size_formatted = $derived( pretty_bytes( data.max_file_size || 0 ) );
 
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement, formData } ) => {
