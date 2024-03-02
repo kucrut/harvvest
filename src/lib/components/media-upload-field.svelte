@@ -9,9 +9,10 @@
 	 *   max_file_size: number;
 	 *   onpreviewerror?: (error: unknown, file: File) => void;
 	 *   onsizeerror?: (file: File) => void;
+	 *   ontypeerror?: (file: File) => void;
 	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type' > }
 	 */
-	let { files, max_file_size, onpreviewerror, onsizeerror, ...rest } = $props();
+	let { files, max_file_size, onpreviewerror, onsizeerror, ontypeerror, ...rest } = $props();
 
 	/** @type {'image'|'video'|undefined} */
 	let file_type = $state( undefined );
@@ -20,6 +21,10 @@
 
 	$effect( () => {
 		if ( files?.length && ! [ 'image', 'video' ].includes( files[ 0 ].type.split( '/' )[ 0 ] ) ) {
+			if ( ontypeerror ) {
+				ontypeerror( files[ 0 ] );
+			}
+
 			files = undefined;
 		}
 	} );
