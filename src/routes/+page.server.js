@@ -1,4 +1,3 @@
-import { clear_cookies } from '$lib/utils.server';
 import { create_media, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/public';
 import { fail, redirect } from '@sveltejs/kit';
@@ -19,9 +18,8 @@ function invalid_value( message ) {
 }
 
 /** @type {import('./$types').PageServerLoad} */
-export const load = async ( { cookies, locals } ) => {
+export const load = async ( { locals } ) => {
 	if ( ! locals.session ) {
-		clear_cookies( cookies );
 		redirect( 302, '/login' );
 	}
 
@@ -64,9 +62,8 @@ export const load = async ( { cookies, locals } ) => {
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-	default: async ( { cookies, locals, request } ) => {
+	default: async ( { locals, request } ) => {
 		if ( ! locals.session ) {
-			clear_cookies( cookies );
 			redirect( 302, '/login' );
 		}
 

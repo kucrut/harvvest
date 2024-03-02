@@ -7,6 +7,7 @@ declare global {
 		// interface Error {}
 		interface Locals {
 			session?: import('./lib/schema').Session;
+			session_error?: string;
 			terms?: Array< import('$types').Taxonomy_Terms_Option >;
 		}
 		interface PageData {

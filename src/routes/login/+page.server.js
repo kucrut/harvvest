@@ -1,9 +1,14 @@
-import { APP_ID_COOKIE_NAME, get_session_cookie_options, set_session_cookies } from '$lib/utils.server.js';
 import { create_basic_auth_string, get_error_message } from '@kucrut/wp-api-helpers/utils';
-import { discover, get_app_password_auth_endpoint, get_single_user } from '@kucrut/wp-api-helpers';
+import {
+	discover,
+	get_app_password_auth_endpoint,
+	get_current_app_password,
+	get_single_user,
+} from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
 import { is_valid_http_url } from '$lib/utils';
+import { set_session_cookies } from '$lib/utils.server.js';
 
 function get_access_keys() {
 	if ( ! env.ACCESS_KEYS ) {
@@ -65,6 +70,7 @@ async function handle_wp_auth( url ) {
 	const api_url = await discover( wp_url );
 	const auth = create_basic_auth_string( username, password );
 	const { avatar_urls, name } = await get_single_user( 'me', api_url, auth );
+	const { app_id, uuid } = await get_current_app_password( api_url, auth );
 
 	const avatar_size = Object.keys( avatar_urls )
 		.map( s => Number( s ) )
@@ -73,9 +79,11 @@ async function handle_wp_auth( url ) {
 
 	return {
 		api_url,
+		app_id,
 		name,
 		wp_url,
 		auth,
+		auth_uuid: uuid,
 		avatar_url: avatar_urls[ avatar_size ],
 	};
 }
@@ -88,7 +96,15 @@ export const load = async ( { cookies, locals, url } ) => {
 		redirect( 302, '/' );
 	}
 
-	const new_session = await handle_wp_auth( url );
+	/** @type {import('$lib/schema').Session|undefined} */
+	let new_session;
+
+	try {
+		new_session = await handle_wp_auth( url );
+	} catch {
+		// This could be caused by manually setting URL params, so let's clean it up.
+		redirect( 302, '/login' );
+	}
 
 	if ( new_session ) {
 		set_session_cookies( cookies, new_session );
@@ -99,6 +115,7 @@ export const load = async ( { cookies, locals, url } ) => {
 		auth_rejected: url.searchParams.get( 'success' ) === 'false',
 		require_access_key: get_access_keys().length > 0,
 		require_wp_url: ! get_wp_auth_endpoint_from_env(),
+		session_error: locals.session_error,
 		meta: {
 			title: 'Log In',
 		},
@@ -107,7 +124,7 @@ export const load = async ( { cookies, locals, url } ) => {
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-	default: async ( { cookies, request } ) => {
+	default: async ( { request } ) => {
 		const data = await request.formData();
 
 		if ( ! is_access_key_valid( data.get( 'access_key' ) ) ) {
@@ -150,9 +167,6 @@ export const actions = {
 
 		const app_id = crypto.randomUUID();
 		const auth_url = new URL( endpoint );
-
-		// This will be used when revoking the app password on logout.
-		cookies.set( APP_ID_COOKIE_NAME, app_id, get_session_cookie_options() );
 
 		auth_url.searchParams.append( 'app_id', app_id );
 		auth_url.searchParams.append( 'app_name', `${ env.APP_NAME } - ${ client_id }` );
