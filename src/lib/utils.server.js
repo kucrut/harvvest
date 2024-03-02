@@ -2,13 +2,15 @@ import { Encryption } from '@adonisjs/encryption';
 import { env } from '$env/dynamic/private';
 import { session_schema } from './schema';
 
+const SESSION_COOKIE_NAME = 'session';
+
 /**
  * Delete session cookies
  *
  * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  */
 export function delete_session_cookies( cookies ) {
-	cookies.delete( 'session', get_session_cookie_options() );
+	cookies.delete( SESSION_COOKIE_NAME, get_session_cookie_options() );
 }
 
 /**
@@ -65,5 +67,5 @@ export function set_session_cookies( cookies, data ) {
 		auth: new Encryption( { secret: env.APP_SECRET } ).encrypt( data.auth ),
 	} );
 
-	cookies.set( 'session', session, get_session_cookie_options() );
+	cookies.set( SESSION_COOKIE_NAME, session, get_session_cookie_options() );
 }
