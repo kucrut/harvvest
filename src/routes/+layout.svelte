@@ -6,6 +6,7 @@
 	import MenuIcon from 'lucide-svelte/icons/menu';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
+	import SvgSprite from '$lib/components/sprite.svelte';
 
 	const { children, data } = $props();
 
@@ -39,6 +40,8 @@
 	<title>{$page.data.meta.title} — {$page.data.app_name}</title>
 </svelte:head>
 
+<div class="svg-sprite"><SvgSprite /></div>
+
 <div class="app" class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
 		<h1>{data.app_name}</h1>
@@ -66,6 +69,13 @@
 </div>
 
 <style lang="scss">
+	.svg-sprite {
+		block-size: 0;
+		inline-size: 0;
+		position: absolute;
+		visibility: hidden;
+	}
+
 	.app {
 		min-block-size: 100dvh;
 		display: grid;
