@@ -46,17 +46,21 @@
 		};
 	};
 
+	/**
+	 * Set alert
+	 *
+	 * @param {string} message Alert message.
+	 * @param {import('$types').Alert['type']} type Alert type.
+	 */
+	const set_alert = ( message, type = 'error' ) => {
+		alert = { message, type };
+	};
+
 	$effect( () => {
 		if ( form?.success ) {
-			alert = {
-				message: 'File was successfully uploaded.',
-				type: 'success',
-			};
+			set_alert( 'File was successfully uploaded.', 'success' );
 		} else if ( form?.error && form?.message ) {
-			alert = {
-				message: form.message,
-				type: 'error',
-			};
+			set_alert( form.message );
 		}
 	} );
 
@@ -84,24 +88,9 @@
 			disabled={is_submitting}
 			max_file_size={data.max_file_size || 0}
 			name="file"
-			onpreviewerror={error => {
-				alert = {
-					message: get_error_message( error, 'Failed to create preview image.', false ),
-					type: 'error',
-				};
-			}}
-			onsizeerror={() => {
-				alert = {
-					message: `Maximum allowed file size is ${ max_file_size_formatted }.`,
-					type: 'error',
-				};
-			}}
-			ontypeerror={() => {
-				alert = {
-					message: 'Only images and videos are allowed.',
-					type: 'error',
-				};
-			}}
+			onpreviewerror={error => set_alert( get_error_message( error, 'Failed to create preview image.', false ) )}
+			onsizeerror={() => set_alert( `Maximum allowed file size is ${ max_file_size_formatted }.` )}
+			ontypeerror={() => set_alert( 'Only images and videos are allowed.' )}
 		/>
 		<TextField disabled={is_submitting} required label="Alternative text" name="alt_text" />
 		<TextField disabled={is_submitting} required label="Caption" name="caption" />
