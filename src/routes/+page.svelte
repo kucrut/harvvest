@@ -144,25 +144,26 @@
 
 <Main>
 	<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
-		<div>
+		<label>
 			{#if file_type === 'image' && preview_src}
 				<img alt="" src={preview_src} />
 			{:else if file_type === 'video'}
 				<div><Icon name="file-video" width="72" height="72" /></div>
 			{/if}
-			<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-			<input
-				required={! files?.length}
-				accept="image/*,video/*"
-				disabled={is_submitting}
-				name="file"
-				type="file"
-				bind:files
-			/>
-			<small>
-				Click to select an image/video. Maximum file size is <em>{max_file_size_formatted}</em>.
-			</small>
-		</div>
+			<small>Click to select an image/video. Maximum file size is <em>{max_file_size_formatted}</em>.</small>
+
+			<span class="visually-hidden">
+				<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
+				<input
+					required={! files?.length}
+					accept="image/*,video/*"
+					disabled={is_submitting}
+					name="file"
+					type="file"
+					bind:files
+				/>
+			</span>
+		</label>
 		<TextField multiline required label="Alternative text" name="alt_text" />
 		<TextField required label="Caption" name="caption" />
 		<TextField label="Title" name="title" bind:value={title} on:focus={() => ( has_title_touched = true )} />
@@ -190,6 +191,14 @@
 {/if}
 
 <style>
+	label {
+		border: var( --pico-border-width ) dashed var( --pico-form-element-border-color );
+		border-radius: var( --pico-border-radius );
+		padding: var( --pico-form-element-spacing-vertical ) var( --pico-form-element-spacing-horizontal );
+		background-color: var( --pico-form-element-background-color );
+		text-align: center;
+	}
+
 	img {
 		max-width: 100%;
 		height: auto;
