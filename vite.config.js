@@ -5,9 +5,28 @@ import { readFileSync, writeFileSync } from 'node:fs';
 
 /** @return {import('vite').Plugin} Vite plugin. */
 function svg_sprite() {
+	const excluded_attributes = [ 'class', 'height', 'width', 'xmlns' ];
 	const icon_names = [ 'code', 'file-video', 'menu', 'tent', 'wifi-off', 'x' ];
 	const source_dir = 'node_modules/lucide-static/icons';
 	const target_file = 'src/lib/components/sprite.svelte';
+
+	/**
+	 * Translate svg attributes to symbol attributes
+	 *
+	 * @param {string[]} Attribute pair.
+	 * @return {string} Translated attribute pair.
+	 */
+	const attributes = ( [ key, value ] ) => {
+		if ( excluded_attributes.includes( key ) ) {
+			return '';
+		}
+
+		if ( key === 'stroke-width' ) {
+			return 'stroke-width="1"';
+		}
+
+		return `${ key }="${ value }"`;
+	};
 
 	return {
 		name: 'dz-svg-sprite',
@@ -17,8 +36,21 @@ function svg_sprite() {
 				.map( name => {
 					const content = readFileSync( `${ source_dir }/${ name }.svg`, { encoding: 'utf-8' } );
 					const parsed = parse( content );
-					const svg_content = parsed.querySelector( 'svg' )?.removeWhitespace().childNodes.join( '' );
-					return svg_content ? `<symbol id="icon-${ name }">${ svg_content }</symbol>` : '';
+					const svg = parsed.querySelector( 'svg' );
+
+					if ( ! svg ) {
+						return '';
+					}
+
+					const children = svg.removeWhitespace().childNodes.join( '' );
+
+					if ( ! children ) {
+						return '';
+					}
+
+					const attrs = Object.entries( svg.attributes ).map( attributes ).join( ' ' );
+
+					return `<symbol id="icon-${ name }" ${ attrs }>${ children }</symbol>`;
 				} )
 				.join( '' );
 
@@ -26,9 +58,7 @@ function svg_sprite() {
 				return;
 			}
 
-			const sprite = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1"><defs>${ html }</defs></svg>`;
-
-			writeFileSync( `${ config.root }/${ target_file }`, sprite, { encoding: 'utf-8' } );
+			writeFileSync( `${ config.root }/${ target_file }`, `<svg>${ html }</svg>`, { encoding: 'utf-8' } );
 		},
 	};
 }
