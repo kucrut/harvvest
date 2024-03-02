@@ -113,10 +113,16 @@
 				};
 			}}
 		/>
-		<TextField multiline required label="Alternative text" name="alt_text" />
-		<TextField required label="Caption" name="caption" />
-		<TextField label="Title" name="title" bind:value={title} on:focus={() => ( has_title_touched = true )} />
-		<TextField multiline label="Description" name="description" />
+		<TextField disabled={is_submitting} required label="Alternative text" name="alt_text" />
+		<TextField disabled={is_submitting} required label="Caption" name="caption" />
+		<TextField
+			bind:value={title}
+			disabled={is_submitting}
+			label="Title"
+			name="title"
+			onfocus={() => ( has_title_touched = true )}
+		/>
+		<TextField disabled={is_submitting} label="Description" name="description" />
 		{#if data.terms?.length}
 			<!-- eslint-disable-next-line space-in-parens -->
 			{#each data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
