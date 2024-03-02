@@ -2,6 +2,7 @@ import { Encryption } from '@adonisjs/encryption';
 import { env } from '$env/dynamic/private';
 import { session_schema } from './schema';
 
+export const APP_ID_COOKIE_NAME = 'app_id';
 const SESSION_COOKIE_NAME = 'session';
 
 /**
@@ -35,7 +36,7 @@ export function get_session_cookie_options() {
  */
 export function clear_cookies( cookies ) {
 	delete_session_cookies( cookies );
-	cookies.delete( 'app_id', get_session_cookie_options() );
+	cookies.delete( APP_ID_COOKIE_NAME, get_session_cookie_options() );
 }
 
 /**
