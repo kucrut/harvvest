@@ -1,5 +1,6 @@
 .DS_Store
 node_modules
+/src/lib/components/sprite.svg
 /build
 /.svelte-kit
 /package
