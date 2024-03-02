@@ -48,7 +48,7 @@
 
 <div class="app" class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
-		<h1>{data.app_name}</h1>
+		<h1>{$page.data.meta.title}</h1>
 		{#if data.user}
 			<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}><Icon name="menu" /></button>
 		{/if}
