@@ -8,9 +8,10 @@
 	 *   files?: FileList;
 	 *   max_file_size: number;
 	 *   onpreviewerror?: (error: unknown, file: File) => void;
+	 *   onsizeerror?: (file: File) => void;
 	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'required' | 'type' > }
 	 */
-	let { files, max_file_size, onpreviewerror, ...rest } = $props();
+	let { files, max_file_size, onpreviewerror, onsizeerror, ...rest } = $props();
 
 	/** @type {'image'|'video'|undefined} */
 	let file_type = $state( undefined );
@@ -53,6 +54,22 @@
 				last_selected_file = file_id;
 			}
 		} )();
+	} );
+
+	$effect( () => {
+		if ( ! files?.length ) {
+			return;
+		}
+
+		if ( files[ 0 ].size <= ( max_file_size || 0 ) ) {
+			return;
+		}
+
+		if ( onsizeerror ) {
+			onsizeerror( files[ 0 ] );
+		}
+
+		files = undefined;
 	} );
 </script>
 

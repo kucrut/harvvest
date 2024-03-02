@@ -67,22 +67,6 @@
 	} );
 
 	$effect( () => {
-		if ( ! files?.length ) {
-			return;
-		}
-
-		if ( files[ 0 ].size <= ( data.max_file_size || 0 ) ) {
-			return;
-		}
-
-		files = undefined;
-		alert = {
-			message: `Maximum allowed file size is ${ max_file_size_formatted }.`,
-			type: 'error',
-		};
-	} );
-
-	$effect( () => {
 		if ( ! $page.url.searchParams.has( 'share-target' ) ) {
 			return;
 		}
@@ -109,6 +93,12 @@
 			onpreviewerror={error => {
 				alert = {
 					message: get_error_message( error, 'Failed to create preview image.', false ),
+					type: 'error',
+				};
+			}}
+			onsizeerror={() => {
+				alert = {
+					message: `Maximum allowed file size is ${ max_file_size_formatted }.`,
 					type: 'error',
 				};
 			}}
