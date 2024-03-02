@@ -74,9 +74,9 @@
 </script>
 
 <label>
-	{#if file_type === 'image' && preview_src}
+	{#if preview_src && file_type === 'image'}
 		<img alt="" src={preview_src} />
-	{:else if file_type === 'video'}
+	{:else if preview_src && file_type === 'video'}
 		<div><Icon name="file-video" width="72" height="72" /></div>
 	{/if}
 
