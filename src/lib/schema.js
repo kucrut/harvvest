@@ -12,6 +12,7 @@ export const user_schema = z.object( {
 export const session_schema = user_schema.extend( {
 	api_url: z.string().url(),
 	auth: z.string(),
+	auth_uuid: z.string(),
 } );
 
 /** @typedef {z.infer<session_schema>} Session */
