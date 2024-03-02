@@ -56,6 +56,9 @@ devDependencies:
   eslint-plugin-svelte:
     specifier: 2.36.0-next.6
     version: 2.36.0-next.6(eslint@8.57.0)(svelte@5.0.0-next.68)
+  lucide-static:
+    specifier: ^0.344.0
+    version: 0.344.0
   lucide-svelte:
     specifier: ^0.343.0
     version: 0.343.0(svelte@5.0.0-next.68)
@@ -4347,6 +4350,10 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       yallist: 4.0.0
+    dev: true
+
+  /lucide-static@0.344.0:
+    resolution: {integrity: sha512-ZHAEpjrKIJ9O6aQFSqpjsgbPizT9D6NAds9CDptWF7IEBswhuZsE+pw6O6ApgtgvI6rmxVpe8wuXT/ED+nMhuQ==}
     dev: true
 
   /lucide-svelte@0.343.0(svelte@5.0.0-next.68):
