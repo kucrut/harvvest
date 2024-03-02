@@ -39,7 +39,7 @@
 	<title>{$page.data.meta.title} — {$page.data.app_name}</title>
 </svelte:head>
 
-<div class:has-sidebar={data.user !== undefined}>
+<div class="app" class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
 		<h1>{data.app_name}</h1>
 		{#if data.user}
@@ -66,7 +66,7 @@
 </div>
 
 <style lang="scss">
-	div {
+	.app {
 		min-block-size: 100dvh;
 		display: grid;
 		grid-template-rows: auto 1fr;
