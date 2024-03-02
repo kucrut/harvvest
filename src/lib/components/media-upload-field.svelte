@@ -93,6 +93,7 @@
 		padding: var( --pico-form-element-spacing-vertical ) var( --pico-form-element-spacing-horizontal );
 		background-color: var( --pico-form-element-background-color );
 		text-align: center;
+		margin-block-end: var( --pico-spacing );
 	}
 
 	img {
