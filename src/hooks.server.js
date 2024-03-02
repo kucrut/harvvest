@@ -18,7 +18,7 @@ async function check_session( { event, resolve } ) {
 		if ( error instanceof ZodError ) {
 			delete_session_cookies( event.cookies );
 		} else {
-			event.locals.session_error = String( error );
+			event.locals.session_error = `Unable to validate session. Please check you can access your WordPress site.`;
 		}
 	}
 
