@@ -105,6 +105,12 @@
 		background-color: var( --pico-form-element-background-color );
 		text-align: center;
 		margin-block-end: var( --pico-spacing );
+
+		&:has( input:focus ) {
+			border-color: var( --pico-form-element-active-border-color );
+			border-style: solid;
+			box-shadow: 0 0 0 var( --pico-outline-width ) var( --pico-form-element-focus-color );
+		}
 	}
 
 	img {
