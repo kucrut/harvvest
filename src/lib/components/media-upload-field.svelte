@@ -19,6 +19,12 @@
 	let preview_src = $state( '' );
 
 	$effect( () => {
+		if ( files?.length && ! [ 'image', 'video' ].includes( files[ 0 ].type.split( '/' )[ 0 ] ) ) {
+			files = undefined;
+		}
+	} );
+
+	$effect( () => {
 		if ( ! files?.length ) {
 			last_selected_file = '';
 			preview_src = '';
@@ -83,7 +89,7 @@
 	<small>Click to select an image/video. Maximum file size is <em>{pretty_bytes( max_file_size )}</em>.</small>
 
 	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-	<input {...rest} class="visually-hidden" required={! files?.length} accept="image/*,video/*" type="file" bind:files />
+	<input {...rest} accept="image/*,video/*" class="visually-hidden" required={! files?.length} type="file" bind:files />
 </label>
 
 <style>
