@@ -41,7 +41,7 @@
 </script>
 
 <Main>
-	<h1><Icon name="tent" width="80" height="80" /><span class="visually-hidden">Log In</span></h1>
+	<div><Icon name="tent" width="80" height="80" /></div>
 
 	<form method="POST" use:enhance={handle_submit}>
 		{#if data.require_wp_url}
@@ -69,7 +69,7 @@
 {/if}
 
 <style>
-	h1 {
+	div {
 		text-align: center;
 	}
 
