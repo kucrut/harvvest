@@ -45,3 +45,7 @@
 		inset-block-start: var( --pico-spacing );
 	}
 }
+
+button:has( svg ) {
+	display: inline-flex;
+}
