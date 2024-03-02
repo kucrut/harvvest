@@ -1,8 +1,8 @@
+import { APP_ID_COOKIE_NAME, get_session_cookie_options, set_session_cookies } from '$lib/utils.server.js';
 import { create_basic_auth_string, get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { discover, get_app_password_auth_endpoint, get_single_user } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
-import { get_session_cookie_options, set_session_cookies } from '$lib/utils.server.js';
 import { is_valid_http_url } from '$lib/utils';
 
 function get_access_keys() {
@@ -152,7 +152,7 @@ export const actions = {
 		const auth_url = new URL( endpoint );
 
 		// This will be used when revoking the app password on logout.
-		cookies.set( 'app_id', app_id, get_session_cookie_options() );
+		cookies.set( APP_ID_COOKIE_NAME, app_id, get_session_cookie_options() );
 
 		auth_url.searchParams.append( 'app_id', app_id );
 		auth_url.searchParams.append( 'app_name', `${ env.APP_NAME } - ${ client_id }` );
