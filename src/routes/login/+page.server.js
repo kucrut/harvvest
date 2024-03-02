@@ -115,6 +115,7 @@ export const load = async ( { cookies, locals, url } ) => {
 		auth_rejected: url.searchParams.get( 'success' ) === 'false',
 		require_access_key: get_access_keys().length > 0,
 		require_wp_url: ! get_wp_auth_endpoint_from_env(),
+		session_error: locals.session_error,
 		meta: {
 			title: 'Log In',
 		},
