@@ -2,9 +2,11 @@
 	import '../app.scss';
 
 	import { page } from '$app/stores';
+	import Icon from '$lib/components/icon.svelte';
 	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
+	import SvgSprite from '$lib/components/svg-sprite.svelte';
 
 	const { children, data } = $props();
 
@@ -38,27 +40,13 @@
 	<title>{$page.data.meta.title} — {$page.data.app_name}</title>
 </svelte:head>
 
-<div class:has-sidebar={data.user !== undefined}>
+<div class="svg-sprite"><SvgSprite /></div>
+
+<div class="app" class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
 		<h1>{data.app_name}</h1>
 		{#if data.user}
-			<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}
-				><svg
-					xmlns="http://www.w3.org/2000/svg"
-					aria-hidden="true"
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					stroke-width="1.5"
-					stroke="currentColor"
-					fill="none"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					><path stroke="none" d="M0 0h24v24H0z" fill="none" /><path d="M4 6l16 0" /><path d="M4 12l16 0" /><path
-						d="M4 18l16 0"
-					/></svg
-				></button
-			>
+			<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}><Icon name="menu" /></button>
 		{/if}
 	</hgroup>
 
@@ -81,7 +69,14 @@
 </div>
 
 <style lang="scss">
-	div {
+	.svg-sprite {
+		block-size: 0;
+		inline-size: 0;
+		position: absolute;
+		visibility: hidden;
+	}
+
+	.app {
 		min-block-size: 100dvh;
 		display: grid;
 		grid-template-rows: auto 1fr;

@@ -1,6 +1,7 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
 	import Alert from '$lib/components/alert.svelte';
+	import Icon from '$lib/components/icon.svelte';
 	import Main from '$lib/components/main.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 
@@ -39,8 +40,7 @@
 </script>
 
 <Main>
-	<!-- Replace with logo -->
-	<h1>Log In</h1>
+	<h1><Icon name="tent" width="80" height="80" /><span class="visually-hidden">Log In</span></h1>
 
 	<form method="POST" use:enhance={handle_submit}>
 		{#if data.require_wp_url}
@@ -63,7 +63,6 @@
 <style>
 	h1 {
 		text-align: center;
-		margin-block: calc( var( --pico-spacing ) * 2 );
 	}
 
 	form {
