@@ -31,3 +31,17 @@
 	width: 1px;
 	word-wrap: normal !important;
 }
+
+.screen-reader-shortcut {
+	position: absolute;
+	inset-block-start: -1000em;
+	inset-inline-start: var( --pico-spacing );
+	display: block;
+	z-index: 100000;
+	inline-size: auto;
+	block-size: auto;
+
+	&:focus {
+		inset-block-start: var( --pico-spacing );
+	}
+}
