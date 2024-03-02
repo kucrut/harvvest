@@ -9,7 +9,7 @@
 	 *   max_file_size: number;
 	 *   onpreviewerror?: (error: unknown, file: File) => void;
 	 *   onsizeerror?: (file: File) => void;
-	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'required' | 'type' > }
+	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type' > }
 	 */
 	let { files, max_file_size, onpreviewerror, onsizeerror, ...rest } = $props();
 
