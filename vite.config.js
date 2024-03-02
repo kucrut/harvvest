@@ -48,7 +48,7 @@ function svg_sprite() {
 						return '';
 					}
 
-					const attrs = Object.entries( svg.attributes ).map( attributes ).join( ' ' );
+					const attrs = Object.entries( svg.attributes ).map( attributes ).join( ' ' ).trim();
 
 					return `<symbol id="icon-${ name }" ${ attrs }>${ children }</symbol>`;
 				} )
