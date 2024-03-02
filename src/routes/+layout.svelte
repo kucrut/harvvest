@@ -2,8 +2,8 @@
 	import '../app.scss';
 
 	import { page } from '$app/stores';
+	import Icon from '$lib/components/icon.svelte';
 	import Main from '$lib/components/main.svelte';
-	import MenuIcon from 'lucide-svelte/icons/menu';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
 	import SvgSprite from '$lib/components/sprite.svelte';
@@ -46,7 +46,7 @@
 	<hgroup class="container-fluid">
 		<h1>{data.app_name}</h1>
 		{#if data.user}
-			<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}><MenuIcon /></button>
+			<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}><Icon name="menu" /></button>
 		{/if}
 	</hgroup>
 

@@ -7,10 +7,10 @@
 	import pretty_bytes from 'pretty-bytes';
 	import Alert from '$lib/components/alert.svelte';
 	import CopyButton from '$lib/components/copy-button.svelte';
+	import Icon from '$lib/components/icon.svelte';
 	import Main from '$lib/components/main.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
-	import VideoIcon from 'lucide-svelte/icons/file-video';
 
 	const { data, form } = $props();
 
@@ -148,7 +148,7 @@
 			{#if file_type === 'image' && preview_src}
 				<img alt="" src={preview_src} />
 			{:else if file_type === 'video'}
-				<div><VideoIcon size="72" /></div>
+				<div><Icon name="file-video" width="72" height="72" /></div>
 			{/if}
 			<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 			<input

@@ -1,12 +1,12 @@
 <script>
-	import Code from 'lucide-svelte/icons/code';
+	import Icon from '$lib/components/icon.svelte';
 </script>
 
 <nav>
 	<ul>
 		<li>
 			<a href="https://gitlab.com/kucrut/photo-harvest">
-				<Code aria-hidden="true" /><span>Source Code</span>
+				<Icon name="code" /><span>Source Code</span>
 			</a>
 		</li>
 	</ul>

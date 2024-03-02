@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import CloseIcon from 'lucide-svelte/icons/x';
+	import Icon from '$lib/components/icon.svelte';
 	import Nav from './nav.svelte';
 	import UserInfo from './user-info.svelte';
 
@@ -9,7 +9,7 @@
 </script>
 
 <aside class:is-open={is_open}>
-	<button on:click={close}><CloseIcon /></button>
+	<button on:click={close}><Icon name="x" /></button>
 
 	<Nav />
 

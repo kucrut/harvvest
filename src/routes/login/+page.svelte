@@ -1,7 +1,7 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
 	import Alert from '$lib/components/alert.svelte';
-	import Icon from 'lucide-svelte/icons/tent';
+	import Icon from '$lib/components/icon.svelte';
 	import Main from '$lib/components/main.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 
@@ -40,7 +40,7 @@
 </script>
 
 <Main>
-	<h1><Icon aria-hidden="true" size="80" /><span class="visually-hidden">Log In</span></h1>
+	<h1><Icon name="tent" width="80" height="80" /><span class="visually-hidden">Log In</span></h1>
 
 	<form method="POST" use:enhance={handle_submit}>
 		{#if data.require_wp_url}
