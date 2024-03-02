@@ -26,7 +26,7 @@ function svg_sprite() {
 				return;
 			}
 
-			const sprite = `<?xml version="1.0" encoding="utf-8"?><svg xmlns="http://www.w3.org/2000/svg" version="1.1"><defs>${ html }</defs></svg>`;
+			const sprite = `<svg xmlns="http://www.w3.org/2000/svg" version="1.1"><defs>${ html }</defs></svg>`;
 
 			writeFileSync( `${ config.root }/${ target_file }`, sprite, { encoding: 'utf-8' } );
 		},
