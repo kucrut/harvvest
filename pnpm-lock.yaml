@@ -59,9 +59,6 @@ devDependencies:
   lucide-static:
     specifier: ^0.344.0
     version: 0.344.0
-  lucide-svelte:
-    specifier: ^0.343.0
-    version: 0.343.0(svelte@5.0.0-next.68)
   node-html-parser:
     specifier: ^6.1.12
     version: 6.1.12
@@ -4413,14 +4410,6 @@ packages:
 
   /lucide-static@0.344.0:
     resolution: {integrity: sha512-ZHAEpjrKIJ9O6aQFSqpjsgbPizT9D6NAds9CDptWF7IEBswhuZsE+pw6O6ApgtgvI6rmxVpe8wuXT/ED+nMhuQ==}
-    dev: true
-
-  /lucide-svelte@0.343.0(svelte@5.0.0-next.68):
-    resolution: {integrity: sha512-TkNQBnKU2+4gJFKZJtYmYt+uSIzqwCJf3x/MemMJyv/1WGW+1sej2aYuxoiIwqy5+0txw+OcGeNJF5sbHd6nxA==}
-    peerDependencies:
-      svelte: ^3 || ^4 || ^5.0.0-next.42
-    dependencies:
-      svelte: 5.0.0-next.68
     dev: true
 
   /magic-string@0.30.7:
