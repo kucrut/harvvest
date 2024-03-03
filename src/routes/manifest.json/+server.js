@@ -3,13 +3,13 @@ import { env } from '$env/dynamic/private';
 export function GET() {
 	return new Response(
 		JSON.stringify( {
-			background_color: '#faf8fc',
+			background_color: 'rgb(251, 252, 252)',
 			display: 'fullscreen',
 			id: '/',
 			name: env.APP_NAME,
 			short_name: env.APP_NAME,
 			start_url: '/',
-			theme_color: '#f2eef7',
+			theme_color: 'rgb(251, 252, 252)',
 			icons: [
 				{
 					src: 'images/svelte-android-chrome-192.png',
