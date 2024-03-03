@@ -22,7 +22,7 @@
 	}
 
 	img {
-		width: 64px;
+		inline-size: 64px;
 		grid-row: 1/3;
 		border-radius: var( --pico-border-radius );
 	}

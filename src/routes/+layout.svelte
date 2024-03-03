@@ -90,6 +90,7 @@
 
 			&.has-sidebar {
 				--sidebar-size: min( 20rem, 100vw );
+
 				grid-template-columns: var( --sidebar-size ) 1fr;
 			}
 		}
