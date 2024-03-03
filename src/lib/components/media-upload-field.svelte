@@ -104,7 +104,9 @@
 		padding: var( --pico-form-element-spacing-vertical ) var( --pico-form-element-spacing-horizontal );
 		background-color: var( --pico-form-element-background-color );
 		text-align: center;
+		text-wrap: balance;
 		margin-block-end: var( --pico-spacing );
+		position: relative;
 
 		&:has( input:focus ) {
 			border-color: var( --pico-form-element-active-border-color );
@@ -120,5 +122,11 @@
 		display: block;
 		margin-inline: auto;
 		margin-block: var( --pico-spacing );
+	}
+
+	input.visually-hidden {
+		inset: 0;
+		margin: unset;
+		height: 100%;
 	}
 </style>
