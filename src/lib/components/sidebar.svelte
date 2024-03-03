@@ -21,6 +21,7 @@
 <style lang="scss">
 	aside {
 		position: fixed;
+		z-index: 100;
 		inset: 0;
 		block-size: 100dvh;
 		max-inline-size: unset;
@@ -36,6 +37,7 @@
 		}
 
 		@media ( min-width: $br-lg ) {
+			z-index: initial;
 			transform: unset;
 			grid-row: 1/-1;
 		}
