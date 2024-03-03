@@ -85,23 +85,23 @@
 </script>
 
 <label>
+	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
+	<input {...rest} accept="image/*,video/*" class="visually-hidden" required={! files?.length} type="file" bind:files />
+
 	{#if preview_src && file_type === 'image'}
 		<img alt="" src={preview_src} />
 	{:else if preview_src && file_type === 'video'}
 		<div><Icon name="file-video" width="72" height="72" /></div>
 	{/if}
 
-	<small>Click to select an image/video. Maximum file size is <em>{pretty_bytes( max_file_size )}</em>.</small>
-
-	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-	<input {...rest} accept="image/*,video/*" class="visually-hidden" required={! files?.length} type="file" bind:files />
+	<span>Click to select an image/video. Maximum file size is <em>{pretty_bytes( max_file_size )}</em>.</span>
 </label>
 
 <style>
 	label {
 		border: var( --pico-border-width ) dashed var( --pico-form-element-border-color );
 		border-radius: var( --pico-border-radius );
-		padding: var( --pico-form-element-spacing-vertical ) var( --pico-form-element-spacing-horizontal );
+		padding: 1.5rem var( --pico-form-element-spacing-horizontal );
 		background-color: var( --pico-form-element-background-color );
 		text-align: center;
 		text-wrap: balance;
@@ -128,5 +128,6 @@
 		inset: 0;
 		margin: unset;
 		height: 100%;
+		z-index: -1;
 	}
 </style>
