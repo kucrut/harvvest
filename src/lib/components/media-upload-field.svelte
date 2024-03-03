@@ -101,7 +101,7 @@
 	label {
 		border: var( --pico-border-width ) dashed var( --pico-form-element-border-color );
 		border-radius: var( --pico-border-radius );
-		padding: var( --pico-form-element-spacing-vertical ) var( --pico-form-element-spacing-horizontal );
+		padding: 1.5rem var( --pico-form-element-spacing-horizontal );
 		background-color: var( --pico-form-element-background-color );
 		text-align: center;
 		text-wrap: balance;
