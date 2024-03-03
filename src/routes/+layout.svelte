@@ -99,6 +99,7 @@
 		display: grid;
 		align-items: center;
 		padding-block: var( --pico-spacing );
+		margin-block-start: var( --pico-spacing );
 
 		@media ( min-width: $br-lg ) {
 			grid-column: 2/-1;
