@@ -101,7 +101,8 @@
 	label {
 		border: var( --pico-border-width ) dashed var( --pico-form-element-border-color );
 		border-radius: var( --pico-border-radius );
-		padding: 1.5rem var( --pico-form-element-spacing-horizontal );
+		padding-block: 1.5rem;
+		padding-inline: var( --pico-form-element-spacing-horizontal );
 		background-color: var( --pico-form-element-background-color );
 		text-align: center;
 		text-wrap: balance;
@@ -116,8 +117,8 @@
 	}
 
 	img {
-		max-width: 100%;
-		height: auto;
+		max-inline-size: 100%;
+		block-size: auto;
 		border-radius: var( --pico-border-radius );
 		display: block;
 		margin-inline: auto;
@@ -127,7 +128,7 @@
 	input.visually-hidden {
 		inset: 0;
 		margin: unset;
-		height: 100%;
+		block-size: 100%;
 		z-index: -1;
 	}
 </style>
