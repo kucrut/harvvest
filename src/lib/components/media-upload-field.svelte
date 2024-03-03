@@ -85,6 +85,9 @@
 </script>
 
 <label>
+	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
+	<input {...rest} accept="image/*,video/*" class="visually-hidden" required={! files?.length} type="file" bind:files />
+
 	{#if preview_src && file_type === 'image'}
 		<img alt="" src={preview_src} />
 	{:else if preview_src && file_type === 'video'}
@@ -92,9 +95,6 @@
 	{/if}
 
 	<small>Click to select an image/video. Maximum file size is <em>{pretty_bytes( max_file_size )}</em>.</small>
-
-	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-	<input {...rest} accept="image/*,video/*" class="visually-hidden" required={! files?.length} type="file" bind:files />
 </label>
 
 <style>
@@ -128,5 +128,6 @@
 		inset: 0;
 		margin: unset;
 		height: 100%;
+		z-index: -1;
 	}
 </style>
