@@ -24,24 +24,24 @@ export function GET() {
 			],
 			screenshots: [
 				{
-					src: 'images/screenshot-mobile.webp',
-					sizes: '350x738',
-					type: 'image/webp',
 					form_factor: 'narrow',
 					label: 'Media Upload Screen',
+					sizes: '350x738',
+					src: 'images/screenshot-mobile.webp',
+					type: 'image/webp',
 				},
 				{
-					src: 'images/screenshot-desktop.webp',
-					sizes: '1280x807',
-					type: 'image/webp',
 					form_factor: 'wide',
 					label: 'Media Upload Screen',
+					sizes: '1280x807',
+					src: 'images/screenshot-desktop.webp',
+					type: 'image/webp',
 				},
 			],
 			share_target: {
 				action: '/?share-target',
-				method: 'POST',
 				enctype: 'multipart/form-data',
+				method: 'POST',
 				params: {
 					files: [
 						{
