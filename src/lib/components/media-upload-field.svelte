@@ -94,7 +94,7 @@
 		<div><Icon name="file-video" width="72" height="72" /></div>
 	{/if}
 
-	<small>Click to select an image/video. Maximum file size is <em>{pretty_bytes( max_file_size )}</em>.</small>
+	<span>Click to select an image/video. Maximum file size is <em>{pretty_bytes( max_file_size )}</em>.</span>
 </label>
 
 <style>
