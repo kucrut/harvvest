@@ -9,6 +9,8 @@ networks:
 services:
   app:
     container_name: $COMPOSE_PROJECT_NAME
+    pull_policy: build
+    restart: always
     build:
       context: .
       args:
