@@ -10,7 +10,7 @@
 		"preview": "vite preview",
 		"format:check": "prettier --check .",
 		"format:fix": "prettier --write .",
-		"lint": "pnpm format:check && pnpm lint:js && pnpm types:check",
+		"lint": "pnpm format:check && pnpm lint:css && pnpm lint:js && pnpm types:check",
 		"lint:css": "stylelint '**/*.html' '**/*.css' '**/*.pcss' '**/*.postcss' '**/*.scss' '**/*.svelte'",
 		"lint:js": "eslint --ext .cjs,.html,.js,.svelte,.ts .",
 		"lint:js:fix": "eslint --fix --ext .cjs,.html,.js,.svelte,.ts .",
