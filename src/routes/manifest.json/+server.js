@@ -28,14 +28,14 @@ export function GET() {
 					sizes: '350x738',
 					type: 'image/webp',
 					form_factor: 'narrow',
-					label: 'Upload screen of Photo Harvest',
+					label: 'Media Upload Screen',
 				},
 				{
 					src: 'images/screenshot-desktop.webp',
 					sizes: '1280x807',
 					type: 'image/webp',
 					form_factor: 'wide',
-					label: 'Upload screen of Photo Harvest',
+					label: 'Media Upload Screen',
 				},
 			],
 			share_target: {
