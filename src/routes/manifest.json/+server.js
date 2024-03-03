@@ -1,11 +1,13 @@
+import { env } from '$env/dynamic/private';
+
 export function GET() {
 	return new Response(
 		JSON.stringify( {
 			background_color: '#faf8fc',
 			display: 'fullscreen',
 			id: '/',
-			name: 'Photo Harvest',
-			short_name: 'Photo Harvest',
+			name: env.APP_NAME,
+			short_name: env.APP_NAME,
 			start_url: '/',
 			theme_color: '#f2eef7',
 			icons: [
