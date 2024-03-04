@@ -22,10 +22,13 @@
 	/** @type {HTMLInputElement} */
 	let input;
 
-	const clear_file = () => {
-		files = null;
-		input.value = '';
-	};
+	const clear_file = () => ( files = null );
+
+	$effect( () => {
+		if ( ! files?.length ) {
+			input.value = '';
+		}
+	} );
 
 	$effect( () => {
 		if ( files?.length && ! [ 'image', 'video' ].includes( files[ 0 ].type.split( '/' )[ 0 ] ) ) {
