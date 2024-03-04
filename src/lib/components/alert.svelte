@@ -1,6 +1,6 @@
 <script>
 	/** @type {{ children: import('svelte').Snippet; timeout?: number; type: import('$types').Alert['type']; onexpire: () => void }} */
-	const { children, timeout = 2000, type = 'message', onexpire } = $props();
+	const { children, timeout = 5000, type = 'message', onexpire } = $props();
 
 	/** @type {ReturnType<typeof setTimeout>|undefined} */
 	let timeout_id = $state( undefined );
