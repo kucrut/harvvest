@@ -19,7 +19,7 @@ export async function copy_to_clipboard( text ) {
 /**
  * Handle file shared by PWA
  *
- * @return {Promise<FileList|undefined>} Files.
+ * @return {Promise<FileList>} Files.
  */
 export async function handle_pwa_share() {
 	const shared_file = await retrieve_pwa_shared_file();
