@@ -2,7 +2,7 @@
 	import '../app.scss';
 
 	import { page } from '$app/stores';
-	import Icon from '$lib/components/icon.svelte';
+	import IconButton from '$lib/components/icon-button.svelte';
 	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
@@ -47,7 +47,7 @@
 	<hgroup class="container-fluid">
 		<h1>{$page.data.meta.title}</h1>
 		{#if data.user}
-			<button class="outline" on:click={() => ( is_sidebar_open = ! is_sidebar_open )}><Icon name="menu" /></button>
+			<IconButton icon="menu" label="Menu" onclick={() => ( is_sidebar_open = ! is_sidebar_open )} />
 		{/if}
 	</hgroup>
 
@@ -96,26 +96,21 @@
 			grid-column: 2/-1;
 			grid-row: 1/2;
 		}
-	}
 
-	h1,
-	button {
-		grid-column: 1/1;
-		grid-row: 1/1;
+		:global( button ) {
+			grid-column: 1/1;
+			grid-row: 1/1;
+
+			@media ( min-width: $br-lg ) {
+				display: none;
+			}
+		}
 	}
 
 	h1 {
+		grid-column: 1/1;
+		grid-row: 1/1;
 		text-align: center;
 		font-size: 1.5rem;
-	}
-
-	button {
-		inline-size: fit-content;
-		border: unset;
-		padding: unset;
-
-		@media ( min-width: $br-lg ) {
-			display: none;
-		}
 	}
 </style>
