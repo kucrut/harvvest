@@ -112,7 +112,11 @@
 </Main>
 
 {#if alert}
-	<Alert type={alert.type} onexpire={() => ( alert = null )}>
+	<Alert
+		timeout={form?.success && form?.image_link ? 0 : undefined}
+		type={alert.type}
+		onexpire={() => ( alert = null )}
+	>
 		<p>{alert.message}</p>
 		{#if form?.success && form?.image_link}
 			<div>
