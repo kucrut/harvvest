@@ -1,12 +1,20 @@
 <script>
-	/** @type {{ children: import('svelte').Snippet; timeout?: number; type: import('$types').Alert['type']; onexpire: () => void }} */
-	const { children, timeout = 5000, type = 'message', onexpire } = $props();
+	/**
+	 * @type {{
+	 *   children: import('svelte').Snippet;
+	 *   persisent?: boolean;
+	 *   timeout?: number;
+	 *   type: import('$types').Alert['type'];
+	 *   onexpire: () => void;
+	 * }}
+	 */
+	const { children, persisent = false, timeout = 5000, type = 'message', onexpire } = $props();
 
 	/** @type {ReturnType<typeof setTimeout>|undefined} */
 	let timeout_id = $state( undefined );
 
 	function start() {
-		if ( timeout < 500 ) {
+		if ( persisent || timeout < 500 ) {
 			return;
 		}
 
