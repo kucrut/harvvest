@@ -42,6 +42,7 @@
 
 	$effect( () => {
 		if ( ! files?.length ) {
+			file_type = undefined;
 			last_selected_file = '';
 			preview_src = '';
 
@@ -58,8 +59,7 @@
 		( async () => {
 			try {
 				if ( file.type.startsWith( 'image/' ) ) {
-					const uri = await create_data_uri( file );
-					preview_src = uri;
+					preview_src = await create_data_uri( file );
 					file_type = 'image';
 				} else if ( file.type.startsWith( 'video/' ) ) {
 					file_type = 'video';
@@ -109,13 +109,11 @@
 		type="file"
 	/>
 	<span>
-		{#if preview_src}
-			{#if file_type === 'image'}
-				<img alt="" src={preview_src} />
-			{:else if file_type === 'video'}
-				<Icon name="file-video" width="72" height="72" />
-			{/if}
-		{:else}{/if}
+		{#if preview_src && file_type === 'image'}
+			<img alt="" src={preview_src} />
+		{:else if file_type === 'video'}
+			<Icon name="file-video" width="125" height="125" />
+		{/if}
 	</span>
 </div>
 
@@ -130,10 +128,16 @@
 	}
 
 	span:not( :empty ) {
-		block-size: 150px;
+		block-size: 125px;
 		overflow: clip;
 		margin-block-end: var( --pico-spacing );
-		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		& :global( svg ) {
+			color: var( --pico-form-element-border-color );
+		}
 	}
 
 	img {
