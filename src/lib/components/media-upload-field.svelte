@@ -19,13 +19,18 @@
 	let last_selected_file = $state( '' );
 	let preview_src = $state( '' );
 
+	/** @type {HTMLInputElement} */
+	let input;
+
+	const clear_file = () => ( input.value = '' );
+
 	$effect( () => {
 		if ( files?.length && ! [ 'image', 'video' ].includes( files[ 0 ].type.split( '/' )[ 0 ] ) ) {
 			if ( ontypeerror ) {
 				ontypeerror( files[ 0 ] );
 			}
 
-			files = undefined;
+			clear_file();
 		}
 	} );
 
@@ -80,7 +85,7 @@
 			onsizeerror( files[ 0 ] );
 		}
 
-		files = undefined;
+		clear_file();
 	} );
 </script>
 
@@ -88,7 +93,15 @@
 	<label for="file">Choose file to upload (max. <em>{pretty_bytes( max_file_size )})</em></label>
 
 	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-	<input {...rest} accept="image/*,video/*" bind:files id="file" required={! files?.length} type="file" />
+	<input
+		{...rest}
+		accept="image/*,video/*"
+		bind:files
+		bind:this={input}
+		id="file"
+		required={! files?.length}
+		type="file"
+	/>
 	<span>
 		{#if preview_src}
 			{#if file_type === 'image'}
