@@ -12,12 +12,12 @@ export function GET() {
 			theme_color: 'rgb(251, 252, 252)',
 			icons: [
 				{
-					src: 'images/svelte-android-chrome-192.png',
+					src: 'images/icon-192.png',
 					sizes: '192x192',
 					type: 'image/png',
 				},
 				{
-					src: 'images/svelte-android-chrome-512.png',
+					src: 'images/icon-512.png',
 					sizes: '512x512',
 					type: 'image/png',
 				},
@@ -27,14 +27,14 @@ export function GET() {
 					form_factor: 'narrow',
 					label: 'Media Upload Screen',
 					sizes: '350x738',
-					src: 'images/screenshot-mobile.webp',
+					src: 'images/ss-upload-mobile.webp',
 					type: 'image/webp',
 				},
 				{
 					form_factor: 'wide',
 					label: 'Media Upload Screen',
 					sizes: '1280x807',
-					src: 'images/screenshot-desktop.webp',
+					src: 'images/ss-upload-desktop.webp',
 					type: 'image/webp',
 				},
 			],

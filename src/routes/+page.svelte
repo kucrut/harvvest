@@ -91,8 +91,8 @@
 			onsizeerror={() => set_alert( `Maximum allowed file size is ${ max_file_size_formatted }.` )}
 			ontypeerror={() => set_alert( 'Only images and videos are allowed.' )}
 		/>
-		<TextField disabled={is_submitting} required label="Alternative text" name="alt_text" />
-		<TextField disabled={is_submitting} required label="Caption" name="caption" />
+		<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
+		<TextField required disabled={is_submitting} label="Caption" name="caption" />
 		<TextField
 			bind:value={title}
 			disabled={is_submitting}
@@ -100,7 +100,7 @@
 			name="title"
 			onfocus={() => ( has_title_touched = true )}
 		/>
-		<TextField disabled={is_submitting} label="Description" name="description" />
+		<TextField multiline disabled={is_submitting} label="Description" name="description" />
 		{#if data.terms?.length}
 			<!-- eslint-disable-next-line space-in-parens -->
 			{#each data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
