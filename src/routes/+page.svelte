@@ -113,6 +113,7 @@
 
 {#if alert}
 	<Alert
+		persisent={form?.success && form?.image_link ? true : false}
 		timeout={form?.success && form?.image_link ? 0 : undefined}
 		type={alert.type}
 		onexpire={() => ( alert = null )}
