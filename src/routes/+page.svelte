@@ -18,8 +18,8 @@
 	/** @type {import('$types').Alert|null} */
 	let alert = $state( null );
 	/** @type {'image'|'video'|undefined} */
-	/** @type {FileList|undefined} */
-	let files = $state( undefined );
+	/** @type {FileList|null} */
+	let files = $state( null );
 	let has_title_touched = $state( false );
 	let is_submitting = $state( false );
 	let title = $state( '' );
@@ -39,7 +39,7 @@
 
 			if ( result.type === 'success' ) {
 				formElement.reset();
-				files = undefined;
+				files = null;
 				has_title_touched = false;
 			}
 		};
