@@ -6,7 +6,6 @@
 	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
-	import SvgSprite from '$lib/components/svg-sprite.svelte';
 
 	const { children, data } = $props();
 
@@ -40,8 +39,6 @@
 	<title>{$page.data.meta.title} — {$page.data.app_name}</title>
 </svelte:head>
 
-<div class="svg-sprite"><SvgSprite /></div>
-
 {#if data.user}
 	<a class="screen-reader-shortcut" href="#content" role="button">Skip to main content</a>
 {/if}
@@ -73,13 +70,6 @@
 </div>
 
 <style lang="scss">
-	.svg-sprite {
-		block-size: 0;
-		inline-size: 0;
-		position: absolute;
-		visibility: hidden;
-	}
-
 	.app {
 		min-block-size: 100dvh;
 		display: grid;
@@ -127,10 +117,5 @@
 		@media ( min-width: $br-lg ) {
 			display: none;
 		}
-	}
-
-	svg {
-		display: inline-block;
-		vertical-align: middle;
 	}
 </style>

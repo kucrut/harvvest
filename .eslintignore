@@ -2,6 +2,6 @@
 /docker/*
 /.pnpm/*
 /.svelte-kit/
-/src/lib/components/svg-sprite.svelte
+/src/lib/components/svg-sprite.svg
 *.html
 *.json

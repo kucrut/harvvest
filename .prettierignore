@@ -3,6 +3,6 @@
 /build*
 /docker/*
 /node_modules/**
-/src/lib/components/svg-sprite.svelte
+/src/lib/components/svg-sprite.svg
 CHANGELOG.md
 pnpm-lock.yaml
