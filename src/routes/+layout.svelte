@@ -6,7 +6,6 @@
 	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
-	import SvgSprite from '$lib/components/svg-sprite.svelte';
 
 	const { children, data } = $props();
 
@@ -39,8 +38,6 @@
 <svelte:head>
 	<title>{$page.data.meta.title} — {$page.data.app_name}</title>
 </svelte:head>
-
-<div class="svg-sprite"><SvgSprite /></div>
 
 {#if data.user}
 	<a class="screen-reader-shortcut" href="#content" role="button">Skip to main content</a>
