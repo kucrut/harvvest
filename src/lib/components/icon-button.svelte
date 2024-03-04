@@ -17,7 +17,8 @@
 
 <style>
 	button {
-		size: fit-content;
+		block-size: fit-content;
+		inline-size: fit-content;
 		border: unset;
 		padding: unset;
 	}
