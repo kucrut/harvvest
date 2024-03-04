@@ -91,8 +91,8 @@
 			onsizeerror={() => set_alert( `Maximum allowed file size is ${ max_file_size_formatted }.` )}
 			ontypeerror={() => set_alert( 'Only images and videos are allowed.' )}
 		/>
-		<TextField multiline required={is_submitting} label="Alternative text" name="alt_text" />
-		<TextField required={is_submitting} label="Caption" name="caption" />
+		<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
+		<TextField required disabled={is_submitting} label="Caption" name="caption" />
 		<TextField
 			bind:value={title}
 			disabled={is_submitting}
