@@ -49,3 +49,10 @@ button:has( svg ) {
 		inset-block-start: var( --pico-spacing );
 	}
 }
+
+.svg-sprite {
+	block-size: 0;
+	inline-size: 0;
+	position: absolute;
+	visibility: hidden;
+}

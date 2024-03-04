@@ -70,13 +70,6 @@
 </div>
 
 <style lang="scss">
-	.svg-sprite {
-		block-size: 0;
-		inline-size: 0;
-		position: absolute;
-		visibility: hidden;
-	}
-
 	.app {
 		min-block-size: 100dvh;
 		display: grid;
@@ -124,10 +117,5 @@
 		@media ( min-width: $br-lg ) {
 			display: none;
 		}
-	}
-
-	svg {
-		display: inline-block;
-		vertical-align: middle;
 	}
 </style>
