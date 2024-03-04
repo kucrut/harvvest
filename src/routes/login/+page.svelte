@@ -71,6 +71,7 @@
 <style>
 	div {
 		text-align: center;
+		margin-block-end: calc( 2 * var( --pico-spacing ) );
 	}
 
 	form {
