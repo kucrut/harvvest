@@ -96,7 +96,7 @@
 </script>
 
 <div>
-	<label for="file">Choose file to upload (max. <em>{pretty_bytes( max_file_size )})</em></label>
+	<label for="file">Choose file to upload (max. {pretty_bytes( max_file_size )})</label>
 
 	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 	<input
