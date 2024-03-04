@@ -5,7 +5,7 @@
 
 	/**
 	 * @type {{
-	 *   files?: FileList;
+	 *   files: FileList|null;
 	 *   max_file_size: number;
 	 *   onpreviewerror?: (error: unknown, file: File) => void;
 	 *   onsizeerror?: (file: File) => void;
@@ -22,7 +22,10 @@
 	/** @type {HTMLInputElement} */
 	let input;
 
-	const clear_file = () => ( input.value = '' );
+	const clear_file = () => {
+		files = null;
+		input.value = '';
+	};
 
 	$effect( () => {
 		if ( files?.length && ! [ 'image', 'video' ].includes( files[ 0 ].type.split( '/' )[ 0 ] ) ) {
