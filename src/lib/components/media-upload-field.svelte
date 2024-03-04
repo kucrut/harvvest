@@ -5,7 +5,7 @@
 
 	/**
 	 * @type {{
-	 *   files?: FileList;
+	 *   files: FileList|null;
 	 *   max_file_size: number;
 	 *   onpreviewerror?: (error: unknown, file: File) => void;
 	 *   onsizeerror?: (file: File) => void;
@@ -19,18 +19,30 @@
 	let last_selected_file = $state( '' );
 	let preview_src = $state( '' );
 
+	/** @type {HTMLInputElement} */
+	let input;
+
+	const clear_file = () => ( files = null );
+
+	$effect( () => {
+		if ( ! files?.length ) {
+			input.value = '';
+		}
+	} );
+
 	$effect( () => {
 		if ( files?.length && ! [ 'image', 'video' ].includes( files[ 0 ].type.split( '/' )[ 0 ] ) ) {
 			if ( ontypeerror ) {
 				ontypeerror( files[ 0 ] );
 			}
 
-			files = undefined;
+			clear_file();
 		}
 	} );
 
 	$effect( () => {
 		if ( ! files?.length ) {
+			file_type = undefined;
 			last_selected_file = '';
 			preview_src = '';
 
@@ -47,8 +59,7 @@
 		( async () => {
 			try {
 				if ( file.type.startsWith( 'image/' ) ) {
-					const uri = await create_data_uri( file );
-					preview_src = uri;
+					preview_src = await create_data_uri( file );
 					file_type = 'image';
 				} else if ( file.type.startsWith( 'video/' ) ) {
 					file_type = 'video';
@@ -80,49 +91,61 @@
 			onsizeerror( files[ 0 ] );
 		}
 
-		files = undefined;
+		clear_file();
 	} );
 </script>
 
-<label>
+<div>
+	<label for="file">Choose file to upload (max. {pretty_bytes( max_file_size )})</label>
+
 	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-	<input {...rest} accept="image/*,video/*" class="visually-hidden" required={! files?.length} type="file" bind:files />
-
-	{#if preview_src && file_type === 'image'}
-		<img alt="" src={preview_src} />
-	{:else if preview_src && file_type === 'video'}
-		<div><Icon name="file-video" width="72" height="72" /></div>
-	{/if}
-
-	<span>Click to select an image/video. Maximum file size is <em>{pretty_bytes( max_file_size )}</em>.</span>
-</label>
+	<input
+		{...rest}
+		accept="image/*,video/*"
+		bind:files
+		bind:this={input}
+		id="file"
+		required={! files?.length}
+		type="file"
+	/>
+	<span>
+		{#if preview_src && file_type === 'image'}
+			<img alt="" src={preview_src} />
+		{:else if file_type === 'video'}
+			<Icon name="file-video" width="125" height="125" />
+		{/if}
+	</span>
+</div>
 
 <style>
-	label {
-		border: var( --pico-border-width ) dashed var( --pico-form-element-border-color );
-		border-radius: var( --pico-border-radius );
-		padding-block: 1.5rem;
-		padding-inline: var( --pico-form-element-spacing-horizontal );
-		background-color: var( --pico-form-element-background-color );
-		text-align: center;
-		text-wrap: balance;
-		margin-block-end: var( --pico-spacing );
-		position: relative;
+	div {
+		display: flex;
+		flex-direction: column;
+	}
 
-		&:has( input:focus ) {
-			border-color: var( --pico-form-element-active-border-color );
-			border-style: solid;
-			box-shadow: 0 0 0 var( --pico-outline-width ) var( --pico-form-element-focus-color );
+	input {
+		appearance: none;
+	}
+
+	span:not( :empty ) {
+		block-size: 125px;
+		overflow: clip;
+		margin-block-end: var( --pico-spacing );
+		display: flex;
+		align-items: center;
+		justify-content: center;
+
+		& :global( svg ) {
+			color: var( --pico-form-element-border-color );
 		}
 	}
 
 	img {
-		max-inline-size: 100%;
-		block-size: auto;
+		object-fit: contain;
 		border-radius: var( --pico-border-radius );
-		display: block;
-		margin-inline: auto;
-		margin-block: var( --pico-spacing );
+		margin: unset;
+		max-block-size: 100%;
+		max-inline-size: 100%;
 	}
 
 	input.visually-hidden {

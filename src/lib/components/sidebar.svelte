@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import Icon from '$lib/components/icon.svelte';
+	import IconButton from '$lib/components/icon-button.svelte';
 	import Nav from './nav.svelte';
 	import UserInfo from './user-info.svelte';
 
@@ -9,7 +9,7 @@
 </script>
 
 <aside class:is-open={is_open}>
-	<button on:click={close}><Icon name="x" /></button>
+	<IconButton class="close" icon="x" label="Close sidebar" onclick={close} />
 
 	<Nav />
 
@@ -41,19 +41,15 @@
 			transform: unset;
 			grid-row: 1/-1;
 		}
-	}
 
-	button {
-		position: absolute;
-		inset-block-start: var( --pico-spacing );
-		inset-inline-end: var( --pico-spacing );
-		background: unset;
-		border: unset;
-		padding: unset;
-		color: inherit;
+		> :global( .close ) {
+			position: absolute;
+			inset-block-start: var( --pico-spacing );
+			inset-inline-end: var( --pico-spacing );
 
-		@media ( min-width: $br-lg ) {
-			display: none;
+			@media ( min-width: $br-lg ) {
+				display: none;
+			}
 		}
 	}
 </style>

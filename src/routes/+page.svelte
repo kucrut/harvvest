@@ -18,8 +18,8 @@
 	/** @type {import('$types').Alert|null} */
 	let alert = $state( null );
 	/** @type {'image'|'video'|undefined} */
-	/** @type {FileList|undefined} */
-	let files = $state( undefined );
+	/** @type {FileList|null} */
+	let files = $state( null );
 	let has_title_touched = $state( false );
 	let is_submitting = $state( false );
 	let title = $state( '' );
@@ -39,7 +39,7 @@
 
 			if ( result.type === 'success' ) {
 				formElement.reset();
-				files = undefined;
+				files = null;
 				has_title_touched = false;
 			}
 		};
@@ -112,7 +112,12 @@
 </Main>
 
 {#if alert}
-	<Alert type={alert.type} onexpire={() => ( alert = null )}>
+	<Alert
+		persisent={form?.success && form?.image_link ? true : false}
+		timeout={form?.success && form?.image_link ? 0 : undefined}
+		type={alert.type}
+		onexpire={() => ( alert = null )}
+	>
 		<p>{alert.message}</p>
 		{#if form?.success && form?.image_link}
 			<div>
