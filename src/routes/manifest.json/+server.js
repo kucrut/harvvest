@@ -12,12 +12,12 @@ export function GET() {
 			theme_color: 'rgb(251, 252, 252)',
 			icons: [
 				{
-					src: 'images/svelte-android-chrome-192.png',
+					src: 'images/icon-192.png',
 					sizes: '192x192',
 					type: 'image/png',
 				},
 				{
-					src: 'images/svelte-android-chrome-512.png',
+					src: 'images/icon-512.png',
 					sizes: '512x512',
 					type: 'image/png',
 				},
