@@ -1,5 +1,6 @@
 import { Encryption } from '@adonisjs/encryption';
 import { env } from '$env/dynamic/private';
+import { is_valid_http_url } from './utils';
 import { session_schema } from './schema';
 
 const SESSION_COOKIE_NAME = 'session';
@@ -26,6 +27,23 @@ export function get_session_cookie_options() {
 		sameSite: 'lax',
 		secure: process.env.NODE_ENV === 'production',
 	};
+}
+
+/**
+ * Get WP auth endpoint as set in environment variables as WP_AUTH_ENDPOINT
+ *
+ * @return {string|undefined} WP auth endpoint URL or undefined.
+ */
+export function get_wp_auth_endpoint_from_env() {
+	if ( typeof env.WP_AUTH_ENDPOINT !== 'string' || ! env.WP_AUTH_ENDPOINT ) {
+		return undefined;
+	}
+
+	if ( is_valid_http_url( env.WP_AUTH_ENDPOINT ) ) {
+		return env.WP_AUTH_ENDPOINT;
+	}
+
+	return undefined;
 }
 
 /**
