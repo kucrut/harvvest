@@ -16,14 +16,17 @@ services:
       args:
         APP_NAME: ${APP_NAME:?}
     environment:
+      # See https://kit.svelte.dev/docs/adapter-node#environment-variables-origin-protocolheader-hostheader-and-port-header
+      - HOST_HEADER=x-forwarded-host
+      - PROTOCOL_HEADER=x-forwarded-proto
       # Required.
-      - APP_NAME=${APP_NAME:?}
       - APP_SECRET=${APP_SECRET:?}
       - BODY_SIZE_LIMIT=${BODY_SIZE_LIMIT:?}
       - PUBLIC_MAX_FILE_SIZE=${PUBLIC_MAX_FILE_SIZE:?}
       # Optional.
       - ACCESS_KEYS
       - WP_AUTH_ENDPOINT
+      - WP_INTERNAL_URL
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.entrypoints=http"
