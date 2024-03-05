@@ -1,19 +1,17 @@
-FROM node:lts-alpine AS base
-ENV PNPM_HOME="/pnpm"
-ENV PATH="$PNPM_HOME:$PATH"
-RUN corepack enable
-COPY . /app
-WORKDIR /app
+FROM node:alpine
 
-FROM base AS build
+COPY . /src
+
 ARG APP_NAME
-ENV APP_NAME=${APP_NAME}
-RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
-RUN ADAPTER=node BUILD_OUT_DIR=/app/build pnpm run build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store \
+	export PNPM_HOME="/pnpm" \
+	&& export PATH="$PNPM_HOME:$PATH" \
+	&& corepack enable \
+	&& pnpm install --dir=/src --frozen-lockfile \
+	&& ADAPTER=node APP_NAME=${APP_NAME} BUILD_OUT_DIR=/app pnpm run --dir=/src build \
+	&& cp /src/package.json /app/ \
+	&& rm -rf /src
 
-FROM base
-COPY --from=build /app/build /app
-COPY --from=build /app/package.json /app/
 WORKDIR /app
 EXPOSE 3000
 CMD [ "node", "/app" ]
