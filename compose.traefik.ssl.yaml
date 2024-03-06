@@ -6,6 +6,9 @@ version: "2.7"
 
 services:
   app:
+    environment:
+      - NODE_ENV=production
+      - ORIGIN=https://${DOMAIN}
     labels:
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}.middlewares=redirect-to-https@file"
       - "traefik.http.routers.${COMPOSE_PROJECT_NAME}-secure.entrypoints=https"

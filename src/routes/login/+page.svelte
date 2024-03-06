@@ -14,6 +14,15 @@
 	const handle_submit = () => {
 		return async ( { result } ) => {
 			await applyAction( result );
+
+			// @ts-expect-error Special case.
+			if ( ! result.type && result.message ) {
+				alert = {
+					// @ts-expect-error Special case.
+					message: result.message,
+					type: 'error',
+				};
+			}
 		};
 	};
 
