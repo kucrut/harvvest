@@ -36,7 +36,7 @@
 </script>
 
 <svelte:head>
-	<title>{$page.data.meta.title} — {$page.data.app_name}</title>
+	<title>{$page.data.meta?.title} — {$page.data.app_name}</title>
 </svelte:head>
 
 {#if data.user}
@@ -45,7 +45,7 @@
 
 <div class="app" class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
-		<h1>{$page.data.meta.title}</h1>
+		<h1 class:visually-hidden={$page.data.hide_title}>{$page.data.meta.title}</h1>
 		{#if data.user}
 			<IconButton icon="menu" label="Menu" onclick={() => ( is_sidebar_open = ! is_sidebar_open )} />
 		{/if}
