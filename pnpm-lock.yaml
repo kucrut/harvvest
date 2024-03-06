@@ -104,6 +104,9 @@ devDependencies:
   typescript:
     specifier: ^5.3.3
     version: 5.3.3
+  ua-parser-js:
+    specifier: 2.0.0-beta.2
+    version: 2.0.0-beta.2
   vite:
     specifier: ^5.1.5
     version: 5.1.5(@types/node@20.11.25)(sass@1.71.1)
@@ -6007,6 +6010,10 @@ packages:
     resolution: {integrity: sha512-pXWcraxM0uxAS+tN0AG/BF2TyqmHO014Z070UsJ+pFvYuRSq8KH8DmWpnbXe0pEPDHXZV3FcAbJkijJ5oNEnWw==}
     engines: {node: '>=14.17'}
     hasBin: true
+    dev: true
+
+  /ua-parser-js@2.0.0-beta.2:
+    resolution: {integrity: sha512-v1tudz3YJqB2lFtmhs/Wh2aPNsOatJBeCQp5s67rgx7UprG1pkOgzm8H1jXabaMZBXH9cWU3gePSgBTe3lFeRA==}
     dev: true
 
   /unbox-primitive@1.0.2:

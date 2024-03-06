@@ -9,7 +9,6 @@
 
 	/** @type {import('$types').Alert|null} */
 	let alert = $state( null );
-	let client_id = $state( '' );
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
@@ -17,10 +16,6 @@
 			await applyAction( result );
 		};
 	};
-
-	$effect.pre( () => {
-		client_id = navigator.userAgent;
-	} );
 
 	$effect.pre( () => {
 		if ( data.session_error ) {
@@ -47,18 +42,19 @@
 </script>
 
 <Main>
-	<div><Icon name="tent" width="80" height="80" /></div>
+	<div>
+		<Icon name="tent" width="80" height="80" />
 
-	<form method="POST" use:enhance={handle_submit}>
-		{#if data.require_wp_url}
-			<TextField autocomplete="url" required label="WordPress URL" name="url" type="url" />
-		{/if}
-		{#if data.require_access_key}
-			<TextField autocomplete="on" required label="Access Key" name="access_key" type="text" />
-		{/if}
-		<input type="hidden" name="client_id" value={client_id} />
-		<button type="submit">Get Authorization</button>
-	</form>
+		<form method="POST" use:enhance={handle_submit}>
+			{#if data.require_wp_url}
+				<TextField autocomplete="url" required label="WordPress URL" name="url" type="url" />
+			{/if}
+			{#if data.require_access_key}
+				<TextField autocomplete="on" required label="Access Key" name="access_key" type="text" />
+			{/if}
+			<button type="submit">Get Authorization</button>
+		</form>
+	</div>
 </Main>
 
 {#if alert}
@@ -69,8 +65,12 @@
 
 <style>
 	div {
-		text-align: center;
-		margin-block-end: calc( 2 * var( --pico-spacing ) );
+		display: flex;
+		flex-direction: column;
+		gap: calc( 2 * var( --pico-spacing ) );
+		align-items: center;
+		max-inline-size: max-content;
+		margin-inline: auto;
 	}
 
 	form {

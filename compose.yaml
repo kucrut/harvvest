@@ -26,6 +26,7 @@ services:
       - PUBLIC_MAX_FILE_SIZE=${PUBLIC_MAX_FILE_SIZE:?}
       # Optional.
       - ACCESS_KEYS
+      - ORIGIN
       - WP_AUTH_ENDPOINT
       - WP_INTERNAL_URL
     labels:
