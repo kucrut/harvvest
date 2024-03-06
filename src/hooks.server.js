@@ -71,19 +71,7 @@ export async function handleFetch( { request, fetch } ) {
 
 	const wp_url = new URL( wp_auth_endpoint );
 
-	if ( ! request.url.startsWith( wp_url.origin ) ) {
-		return fetch( request );
-	}
-
-	const auth = request.headers.get( 'Authorization' );
-
-	return fetch(
-		new Request( request.url.replace( wp_url.origin, env.WP_INTERNAL_URL ), {
-			...request,
-			headers: {
-				...request.headers,
-				...( auth ? { Authorization: auth } : {} ),
-			},
-		} ),
-	);
+	return request.url.startsWith( wp_url.origin )
+		? fetch( new Request( request.url.replace( wp_url.origin, env.WP_INTERNAL_URL ), request ) )
+		: fetch( request );
 }
