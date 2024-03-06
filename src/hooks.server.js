@@ -25,9 +25,9 @@ async function check_session( { event, resolve } ) {
 			let message;
 
 			if ( error instanceof WP_REST_Error ) {
-				message = `\nError: ${ error.message } (${ error.code })`;
+				message = `Error: ${ error.message } (${ error.code })`;
 			} else if ( error instanceof Error ) {
-				message = `\nError: ${ error.message }`;
+				message = `Error: ${ error.message }`;
 			} else {
 				message = `Error: Unable to validate session. Please check you can access your WordPress site.`;
 			}
