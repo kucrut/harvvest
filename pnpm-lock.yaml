@@ -9,8 +9,8 @@ devDependencies:
     specifier: ^6.0.1
     version: 6.0.1
   '@kucrut/wp-api-helpers':
-    specifier: ^0.5.0
-    version: 0.5.0(zod@3.22.4)
+    specifier: ^0.6.0
+    version: 0.6.0(zod@3.22.4)
   '@picocss/pico':
     specifier: ^2.0.6
     version: 2.0.6
@@ -33,8 +33,8 @@ devDependencies:
     specifier: ^0.6.0
     version: 0.6.0
   '@types/node':
-    specifier: ^20.11.24
-    version: 20.11.24
+    specifier: ^20.11.25
+    version: 20.11.25
   '@typescript-eslint/eslint-plugin':
     specifier: ^7.1.1
     version: 7.1.1(@typescript-eslint/parser@7.1.1)(eslint@8.57.0)(typescript@5.3.3)
@@ -42,8 +42,8 @@ devDependencies:
     specifier: ^7.1.1
     version: 7.1.1(eslint@8.57.0)(typescript@5.3.3)
   '@wordpress/eslint-plugin':
-    specifier: ^17.9.0
-    version: 17.9.0(@babel/core@7.24.0)(eslint@8.57.0)(typescript@5.3.3)(wp-prettier@3.0.3)
+    specifier: ^17.10.0
+    version: 17.10.0(@babel/core@7.24.0)(eslint@8.57.0)(typescript@5.3.3)(wp-prettier@3.0.3)
   autoprefixer:
     specifier: ^10.4.18
     version: 10.4.18(postcss@8.4.35)
@@ -106,7 +106,7 @@ devDependencies:
     version: 5.3.3
   vite:
     specifier: ^5.1.5
-    version: 5.1.5(@types/node@20.11.24)(sass@1.71.1)
+    version: 5.1.5(@types/node@20.11.25)(sass@1.71.1)
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -1727,8 +1727,8 @@ packages:
       '@jridgewell/sourcemap-codec': 1.4.15
     dev: true
 
-  /@kucrut/wp-api-helpers@0.5.0(zod@3.22.4):
-    resolution: {integrity: sha512-R0pl2WqTOXFsWJ7PXmB0j7djcxcxac+ue/m/Xsmtyq5S7rHS0Hlu15fwaETPTRFP5iAfNx7zXo84lnP4JM5wbA==}
+  /@kucrut/wp-api-helpers@0.6.0(zod@3.22.4):
+    resolution: {integrity: sha512-FZ9AJfvMCPjRJrRmQOHLQvDRhKwT1YMri6D01pSgEniS7oDK7XYzdFiYFZAOo5iT+L1Zf+Cn9ilZR4NYYSgqJA==}
     peerDependencies:
       zod: ^3.22.4
     dependencies:
@@ -2032,7 +2032,7 @@ packages:
       sirv: 2.0.4
       svelte: 5.0.0-next.71
       tiny-glob: 0.2.9
-      vite: 5.1.5(@types/node@20.11.24)(sass@1.71.1)
+      vite: 5.1.5(@types/node@20.11.25)(sass@1.71.1)
     dev: true
 
   /@sveltejs/vite-plugin-svelte-inspector@2.0.0(@sveltejs/vite-plugin-svelte@3.0.2)(svelte@5.0.0-next.71)(vite@5.1.5):
@@ -2046,7 +2046,7 @@ packages:
       '@sveltejs/vite-plugin-svelte': 3.0.2(svelte@5.0.0-next.71)(vite@5.1.5)
       debug: 4.3.4
       svelte: 5.0.0-next.71
-      vite: 5.1.5(@types/node@20.11.24)(sass@1.71.1)
+      vite: 5.1.5(@types/node@20.11.25)(sass@1.71.1)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2065,7 +2065,7 @@ packages:
       magic-string: 0.30.8
       svelte: 5.0.0-next.71
       svelte-hmr: 0.15.3(svelte@5.0.0-next.71)
-      vite: 5.1.5(@types/node@20.11.24)(sass@1.71.1)
+      vite: 5.1.5(@types/node@20.11.25)(sass@1.71.1)
       vitefu: 0.2.5(vite@5.1.5)
     transitivePeerDependencies:
       - supports-color
@@ -2091,8 +2091,8 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
-  /@types/node@20.11.24:
-    resolution: {integrity: sha512-Kza43ewS3xoLgCEpQrsT+xRo/EJej1y0kVYGiLFE1NEODXGzTfwiC6tXTLMQskn1X4/Rjlh0MQUvx9W+L9long==}
+  /@types/node@20.11.25:
+    resolution: {integrity: sha512-TBHyJxk2b7HceLVGFcpAUjsa5zIdsPWlR6XHfyGzd0SFu+/NFgQgMAl96MSDZgQDvJAvV6BKsFOrt6zIL09JDw==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -2451,8 +2451,8 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@wordpress/babel-plugin-import-jsx-pragma@4.35.0(@babel/core@7.24.0):
-    resolution: {integrity: sha512-vPXtucxv4wvmV17OoCIQ7d8JeFIsN/FcCdDx0lJEukI3aF+zMKV9fr2MZjEi5n3Rgf8j8ekpgLdG2OGp2EWP3Q==}
+  /@wordpress/babel-plugin-import-jsx-pragma@4.36.0(@babel/core@7.24.0):
+    resolution: {integrity: sha512-xgBy9HnA0xL5e0Ipku7Ga3QimrfwTQ3njnN79mT8wNcim2APIlyiWSG3GndTdPoSGdrxGPv2ZrpqBdKsiGzoWQ==}
     engines: {node: '>=14'}
     peerDependencies:
       '@babel/core': ^7.12.9
@@ -2460,8 +2460,8 @@ packages:
       '@babel/core': 7.24.0
     dev: true
 
-  /@wordpress/babel-preset-default@7.36.0:
-    resolution: {integrity: sha512-nedcc2ldSKkrsEjHc9Tm3X1+7anLOljLTahDXv2uqx4fIQVJoLhfkU/GcrKkncjkubVjkij4ykjA8L8FfkaD2g==}
+  /@wordpress/babel-preset-default@7.37.0:
+    resolution: {integrity: sha512-XE9NUIoc428MHP3p6DMNjRV4Df97K9JHkzXwOwJjjHp00ce2ckh4wSkZh287Zi1X+uNcrROERtSp4jjWHUhvHA==}
     engines: {node: '>=14'}
     dependencies:
       '@babel/core': 7.24.0
@@ -2470,9 +2470,9 @@ packages:
       '@babel/preset-env': 7.24.0(@babel/core@7.24.0)
       '@babel/preset-typescript': 7.23.3(@babel/core@7.24.0)
       '@babel/runtime': 7.24.0
-      '@wordpress/babel-plugin-import-jsx-pragma': 4.35.0(@babel/core@7.24.0)
-      '@wordpress/browserslist-config': 5.35.0
-      '@wordpress/warning': 2.52.0
+      '@wordpress/babel-plugin-import-jsx-pragma': 4.36.0(@babel/core@7.24.0)
+      '@wordpress/browserslist-config': 5.36.0
+      '@wordpress/warning': 2.53.0
       browserslist: 4.23.0
       core-js: 3.36.0
       react: 18.2.0
@@ -2480,13 +2480,13 @@ packages:
       - supports-color
     dev: true
 
-  /@wordpress/browserslist-config@5.35.0:
-    resolution: {integrity: sha512-hybMVNdGXvKxN1P9Vc2YBxYJqKM1wA9clsx94qjVh73Q1f47olshmwsqp0whDV0piDBReD0irJsz9jszhd8Z1A==}
+  /@wordpress/browserslist-config@5.36.0:
+    resolution: {integrity: sha512-D4Y+MhZHAW4mDNFxHGacVpZgOmkkL9k5+TuVchC8cVSdpAt0VSkzKsXAumoQuEYUXyio/NMkhnU153FO+ci3cQ==}
     engines: {node: '>=14'}
     dev: true
 
-  /@wordpress/eslint-plugin@17.9.0(@babel/core@7.24.0)(eslint@8.57.0)(typescript@5.3.3)(wp-prettier@3.0.3):
-    resolution: {integrity: sha512-vPDxa5TwidfU0B3DMxje0Xv2fHT8tY/ar9i305y7oH2ug86RKFo62JZ2lUAA5g+eUCCA+ZV/pLO8lSZo9w3XEQ==}
+  /@wordpress/eslint-plugin@17.10.0(@babel/core@7.24.0)(eslint@8.57.0)(typescript@5.3.3)(wp-prettier@3.0.3):
+    resolution: {integrity: sha512-fMmMzBMR8z7p2yYTMtEEnzoYmdFdv0HdrM2b7s9693fYxtYQv/FaxUKdep6slMiVt/DBoPUmuDGgZsttzOTwng==}
     engines: {node: '>=14', npm: '>=6.14.4'}
     peerDependencies:
       '@babel/core': '>=7'
@@ -2503,8 +2503,8 @@ packages:
       '@babel/eslint-parser': 7.23.10(@babel/core@7.24.0)(eslint@8.57.0)
       '@typescript-eslint/eslint-plugin': 6.21.0(@typescript-eslint/parser@6.21.0)(eslint@8.57.0)(typescript@5.3.3)
       '@typescript-eslint/parser': 6.21.0(eslint@8.57.0)(typescript@5.3.3)
-      '@wordpress/babel-preset-default': 7.36.0
-      '@wordpress/prettier-config': 3.9.0(wp-prettier@3.0.3)
+      '@wordpress/babel-preset-default': 7.37.0
+      '@wordpress/prettier-config': 3.10.0(wp-prettier@3.0.3)
       cosmiconfig: 7.1.0
       eslint: 8.57.0
       eslint-config-prettier: 8.10.0(eslint@8.57.0)
@@ -2528,8 +2528,8 @@ packages:
       - supports-color
     dev: true
 
-  /@wordpress/prettier-config@3.9.0(wp-prettier@3.0.3):
-    resolution: {integrity: sha512-CUCAZAAFDYgE6JG6x8U/kJ94tMyKkeRyNNcbPHK/R4oR+9T1bTbT2rWVQ9VFC2M6yNEP7uwZU9ufdYcSn5bq7g==}
+  /@wordpress/prettier-config@3.10.0(wp-prettier@3.0.3):
+    resolution: {integrity: sha512-0zA3K1zDyRjUhTY+zKfBvQMKqEbYK/hC3NOabEWZ++pvT5JYJrD7ZVXE+l5TDVd/d2rqxM0eLssh/yIyWyaeSQ==}
     engines: {node: '>=14'}
     peerDependencies:
       prettier: '>=3'
@@ -2537,8 +2537,8 @@ packages:
       prettier: /wp-prettier@3.0.3
     dev: true
 
-  /@wordpress/warning@2.52.0:
-    resolution: {integrity: sha512-dmPSi6h/DeAwSOeD3NQKeFnileyNNhI4QecIiRZ79Tk1QIcz90wOQR7BAbZcpzJdN6Q30bc98Vfhtj8w0xpfOQ==}
+  /@wordpress/warning@2.53.0:
+    resolution: {integrity: sha512-53O09aUJgEuGcCVTHQcxvqjeU79rHF6fw9VSZwv6lYfZTwwtxwMHGPF6hUp12NeR+bqYGsUz2Ls6gzSHaAE2Zw==}
     engines: {node: '>=12'}
     dev: true
 
@@ -6073,7 +6073,7 @@ packages:
       spdx-expression-parse: 3.0.1
     dev: true
 
-  /vite@5.1.5(@types/node@20.11.24)(sass@1.71.1):
+  /vite@5.1.5(@types/node@20.11.25)(sass@1.71.1):
     resolution: {integrity: sha512-BdN1xh0Of/oQafhU+FvopafUp6WaYenLU/NFoL5WyJL++GxkNfieKzBhM24H3HVsPQrlAqB7iJYTHabzaRed5Q==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -6101,7 +6101,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.11.24
+      '@types/node': 20.11.25
       esbuild: 0.19.12
       postcss: 8.4.35
       rollup: 4.12.0
@@ -6118,7 +6118,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 5.1.5(@types/node@20.11.24)(sass@1.71.1)
+      vite: 5.1.5(@types/node@20.11.25)(sass@1.71.1)
     dev: true
 
   /which-boxed-primitive@1.0.2:
