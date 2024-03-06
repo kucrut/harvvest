@@ -9,7 +9,6 @@
 
 	/** @type {import('$types').Alert|null} */
 	let alert = $state( null );
-	let client_id = $state( '' );
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
@@ -17,10 +16,6 @@
 			await applyAction( result );
 		};
 	};
-
-	$effect.pre( () => {
-		client_id = navigator.userAgent;
-	} );
 
 	$effect.pre( () => {
 		if ( data.session_error ) {
@@ -57,7 +52,6 @@
 			{#if data.require_access_key}
 				<TextField autocomplete="on" required label="Access Key" name="access_key" type="text" />
 			{/if}
-			<input type="hidden" name="client_id" value={client_id} />
 			<button type="submit">Get Authorization</button>
 		</form>
 	</div>
