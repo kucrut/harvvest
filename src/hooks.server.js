@@ -64,5 +64,10 @@ export async function handleFetch( { request, fetch } ) {
 		return fetch( request );
 	}
 
-	return fetch( new Request( request.url.replace( wp_url.origin, env.WP_INTERNAL_URL ), request ) );
+	return fetch(
+		new Request( request.url.replace( wp_url.origin, env.WP_INTERNAL_URL ), {
+			...request,
+			credentials: 'include',
+		} ),
+	);
 }
