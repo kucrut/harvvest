@@ -19,7 +19,7 @@
 		};
 	};
 
-	$effect( () => {
+	$effect.pre( () => {
 		client_id = navigator.userAgent;
 	} );
 
