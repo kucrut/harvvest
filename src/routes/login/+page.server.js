@@ -8,7 +8,12 @@ import {
 } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
-import { get_session_cookie_options, get_wp_auth_endpoint_from_env, set_session_cookies } from '$lib/utils.server.js';
+import {
+	generate_client_id,
+	get_session_cookie_options,
+	get_wp_auth_endpoint_from_env,
+	set_session_cookies,
+} from '$lib/utils.server.js';
 import { is_valid_http_url } from '$lib/utils';
 
 function get_access_keys() {
@@ -154,7 +159,10 @@ export const actions = {
 		const auth_url = new URL( endpoint );
 
 		auth_url.searchParams.append( 'app_id', app_id );
-		// auth_url.searchParams.append( 'app_name', `${ APP_NAME } - ${ client_id }` );
+		auth_url.searchParams.append(
+			'app_name',
+			`${ APP_NAME } - ${ generate_client_id( request.headers.get( 'user-agent' ) ) }`,
+		);
 		auth_url.searchParams.append( 'success_url', request.url );
 
 		redirect( 303, auth_url );
