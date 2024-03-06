@@ -12,6 +12,7 @@ declare global {
 		}
 		interface PageData {
 			app_name: string;
+			hide_title?: boolean;
 			needs_net?: boolean;
 			terms?: Array< import('$types').Taxonomy_Terms_Option >;
 			user?: import('./lib/schema.js').User;
