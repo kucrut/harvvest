@@ -55,6 +55,16 @@
 		alert = { message, type };
 	};
 
+	$effect.pre( () => {
+		if ( $page.url.searchParams.has( 'share-target' ) ) {
+			( async () => {
+				files = await handle_pwa_share();
+				// Clear `search-target` param.
+				history.replaceState( '', '', '/' );
+			} )();
+		}
+	} );
+
 	$effect( () => {
 		if ( form?.success ) {
 			set_alert( 'File was successfully uploaded.', 'success' );
@@ -66,16 +76,6 @@
 	$effect( () => {
 		if ( ! has_title_touched && files?.length ) {
 			title = remove_file_extension( files[ 0 ].name );
-		}
-	} );
-
-	$effect( () => {
-		if ( $page.url.searchParams.has( 'share-target' ) ) {
-			( async () => {
-				files = await handle_pwa_share();
-				// Clear `search-target` param.
-				history.replaceState( '', '', '/' );
-			} )();
 		}
 	} );
 </script>
