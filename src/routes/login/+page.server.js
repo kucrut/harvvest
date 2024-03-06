@@ -100,11 +100,14 @@ export const load = async ( { cookies, locals, url } ) => {
 		redirect( 302, '/' );
 	}
 
+	const session_error = cookies.get( 'session_error' );
+	cookies.delete( 'session_error', { path: '/' } );
+
 	return {
+		session_error,
 		auth_rejected: url.searchParams.get( 'success' ) === 'false',
 		require_access_key: get_access_keys().length > 0,
 		require_wp_url: ! get_wp_auth_endpoint_from_env(),
-		session_error: locals.session_error,
 		meta: {
 			title: 'Log In',
 		},
