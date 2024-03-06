@@ -8,7 +8,7 @@ import {
 } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
-import { get_wp_auth_endpoint_from_env, set_session_cookies } from '$lib/utils.server.js';
+import { get_session_cookie_options, get_wp_auth_endpoint_from_env, set_session_cookies } from '$lib/utils.server.js';
 import { is_valid_http_url } from '$lib/utils';
 
 function get_access_keys() {
@@ -101,7 +101,7 @@ export const load = async ( { cookies, locals, url } ) => {
 	}
 
 	const session_error = cookies.get( 'session_error' );
-	cookies.delete( 'session_error', { path: '/' } );
+	cookies.delete( 'session_error', get_session_cookie_options() );
 
 	return {
 		session_error,
