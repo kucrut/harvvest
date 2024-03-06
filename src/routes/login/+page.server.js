@@ -1,3 +1,4 @@
+import { APP_NAME } from '$env/static/private';
 import { create_basic_auth_string, get_error_message } from '@kucrut/wp-api-helpers/utils';
 import {
 	discover,
@@ -7,8 +8,8 @@ import {
 } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
+import { get_wp_auth_endpoint_from_env, set_session_cookies } from '$lib/utils.server.js';
 import { is_valid_http_url } from '$lib/utils';
-import { set_session_cookies } from '$lib/utils.server.js';
 
 function get_access_keys() {
 	if ( ! env.ACCESS_KEYS ) {
@@ -18,18 +19,6 @@ function get_access_keys() {
 	const keys = env.ACCESS_KEYS.split( ',' ).filter( k => typeof k === 'string' && k !== '' );
 
 	return keys;
-}
-
-function get_wp_auth_endpoint_from_env() {
-	if ( typeof env.WP_AUTH_ENDPOINT !== 'string' || ! env.WP_AUTH_ENDPOINT ) {
-		return undefined;
-	}
-
-	if ( is_valid_http_url( env.WP_AUTH_ENDPOINT ) ) {
-		return env.WP_AUTH_ENDPOINT;
-	}
-
-	return undefined;
 }
 
 /**
@@ -169,7 +158,7 @@ export const actions = {
 		const auth_url = new URL( endpoint );
 
 		auth_url.searchParams.append( 'app_id', app_id );
-		auth_url.searchParams.append( 'app_name', `${ env.APP_NAME } - ${ client_id }` );
+		auth_url.searchParams.append( 'app_name', `${ APP_NAME } - ${ client_id }` );
 		auth_url.searchParams.append( 'success_url', request.url );
 
 		redirect( 303, auth_url );
