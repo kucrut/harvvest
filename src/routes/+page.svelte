@@ -20,7 +20,9 @@
 	/** @type {'image'|'video'|undefined} */
 	/** @type {FileList|null} */
 	let files = $state( null );
+	let has_title_touched = $state( false );
 	let is_submitting = $state( false );
+	let title = $state( '' );
 
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement, formData } ) => {
@@ -70,6 +72,12 @@
 			set_alert( form.message );
 		}
 	} );
+
+	$effect( () => {
+		if ( ! has_title_touched && files?.length ) {
+			title = remove_file_extension( files[ 0 ].name );
+		}
+	} );
 </script>
 
 <Main>
@@ -85,7 +93,13 @@
 		/>
 		<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
 		<TextField required disabled={is_submitting} label="Caption" name="caption" />
-		<TextField disabled={is_submitting} label="Title" name="title" />
+		<TextField
+			bind:value={title}
+			disabled={is_submitting}
+			label="Title"
+			name="title"
+			onfocus={() => ( has_title_touched = true )}
+		/>
 		<TextField multiline disabled={is_submitting} label="Description" name="description" />
 		{#if data.terms?.length}
 			<!-- eslint-disable-next-line space-in-parens -->
