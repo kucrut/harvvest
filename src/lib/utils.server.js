@@ -2,6 +2,7 @@ import { Encryption } from '@adonisjs/encryption';
 import { env } from '$env/dynamic/private';
 import { is_valid_http_url } from './utils';
 import { session_schema } from './schema';
+import { UAParser } from 'ua-parser-js';
 
 const SESSION_COOKIE_NAME = 'session';
 
@@ -21,6 +22,30 @@ export function clear_cookies( cookies ) {
  */
 export function delete_session_cookies( cookies ) {
 	cookies.delete( SESSION_COOKIE_NAME, get_session_cookie_options() );
+}
+
+/**
+ * Generate client ID
+ *
+ * @param {string|null=} user_agent User agent.
+ */
+export function generate_client_id( user_agent ) {
+	if ( typeof user_agent !== 'string' || user_agent === '' ) {
+		return 'Unknown Browser';
+	}
+
+	const parsed = new UAParser( user_agent );
+	const result = parsed.getResult();
+
+	const parts = [
+		result.browser.name,
+		result.browser.major || result.browser.version,
+		'on',
+		result.os.name,
+		result.os.version,
+	];
+
+	return parts.filter( p => p !== '' ).join( ' ' );
 }
 
 /**
