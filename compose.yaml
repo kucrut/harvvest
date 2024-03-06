@@ -18,6 +18,7 @@ services:
     environment:
       # See https://kit.svelte.dev/docs/adapter-node#environment-variables-origin-protocolheader-hostheader-and-port-header
       - HOST_HEADER=x-forwarded-host
+      - PORT_HEADER=x-forwarded-port
       - PROTOCOL_HEADER=x-forwarded-proto
       # Required.
       - APP_SECRET=${APP_SECRET:?}
