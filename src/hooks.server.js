@@ -2,7 +2,7 @@ import { delete_session_cookies, get_session, get_wp_auth_endpoint_from_env } fr
 import { env } from '$env/dynamic/private';
 import { get_current_app_password } from '@kucrut/wp-api-helpers';
 import { sequence } from '@sveltejs/kit/hooks';
-import { set_fetch } from '@kucrut/wp-api-helpers/utils';
+import { set_fetch, WP_REST_Error } from '@kucrut/wp-api-helpers/utils';
 import { ZodError } from 'zod';
 import svg_sprite from '$lib/components/svg-sprite.svg?raw';
 
@@ -18,10 +18,26 @@ async function check_session( { event, resolve } ) {
 		await get_current_app_password( session.api_url, session.auth );
 		event.locals.session = session;
 	} catch ( error ) {
+		let session_error = '';
+
+		// The cookie is messed up.
 		if ( error instanceof ZodError ) {
 			delete_session_cookies( event.cookies );
+		} else if ( error instanceof WP_REST_Error ) {
+			session_error =
+				error.data.status === 401
+					? 'Your previous authorization has been revoked.'
+					: `Error: ${ error.message } (${ error.code })`;
+			delete_session_cookies( event.cookies );
 		} else {
-			event.locals.session_error = `Unable to validate session. Please check you can access your WordPress site.`;
+			session_error =
+				error instanceof Error
+					? `Error: ${ error.message }`
+					: `Error: Unable to validate session. Please check you can access your WordPress site.`;
+		}
+
+		if ( session_error ) {
+			event.cookies.set( 'session_error', session_error, { path: '/' } );
 		}
 	}
 
@@ -60,19 +76,7 @@ export async function handleFetch( { request, fetch } ) {
 
 	const wp_url = new URL( wp_auth_endpoint );
 
-	if ( ! request.url.startsWith( wp_url.origin ) ) {
-		return fetch( request );
-	}
-
-	const auth = request.headers.get( 'Authorization' );
-
-	return fetch(
-		new Request( request.url.replace( wp_url.origin, env.WP_INTERNAL_URL ), {
-			...request,
-			headers: {
-				...request.headers,
-				...( auth ? { Authorization: auth } : {} ),
-			},
-		} ),
-	);
+	return request.url.startsWith( wp_url.origin )
+		? fetch( new Request( request.url.replace( wp_url.origin, env.WP_INTERNAL_URL ), request ) )
+		: fetch( request );
 }
