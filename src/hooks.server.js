@@ -2,7 +2,7 @@ import { delete_session_cookies, get_session, get_wp_auth_endpoint_from_env } fr
 import { env } from '$env/dynamic/private';
 import { get_current_app_password } from '@kucrut/wp-api-helpers';
 import { sequence } from '@sveltejs/kit/hooks';
-import { set_fetch } from '@kucrut/wp-api-helpers/utils';
+import { set_fetch, WP_REST_Error } from '@kucrut/wp-api-helpers/utils';
 import { ZodError } from 'zod';
 import svg_sprite from '$lib/components/svg-sprite.svg?raw';
 
@@ -21,7 +21,18 @@ async function check_session( { event, resolve } ) {
 		if ( error instanceof ZodError ) {
 			delete_session_cookies( event.cookies );
 		} else {
-			event.locals.session_error = `Unable to validate session. Please check you can access your WordPress site.`;
+			/** @type {string} */
+			let message;
+
+			if ( error instanceof WP_REST_Error ) {
+				message = `\nError: ${ error.message } (${ error.code })`;
+			} else if ( error instanceof Error ) {
+				message = `\nError: ${ error.message }`;
+			} else {
+				message = `Error: Unable to validate session. Please check you can access your WordPress site.`;
+			}
+
+			event.locals.session_error = message;
 		}
 	}
 
