@@ -127,14 +127,6 @@ export const actions = {
 			} );
 		}
 
-		const client_id = data.get( 'client_id' );
-		if ( typeof client_id !== 'string' || ! client_id ) {
-			return fail( 400, {
-				error: true,
-				message: 'All fields are required.',
-			} );
-		}
-
 		let endpoint = get_wp_auth_endpoint_from_env();
 
 		if ( ! endpoint ) {
@@ -162,7 +154,7 @@ export const actions = {
 		const auth_url = new URL( endpoint );
 
 		auth_url.searchParams.append( 'app_id', app_id );
-		auth_url.searchParams.append( 'app_name', `${ APP_NAME } - ${ client_id }` );
+		// auth_url.searchParams.append( 'app_name', `${ APP_NAME } - ${ client_id }` );
 		auth_url.searchParams.append( 'success_url', request.url );
 
 		redirect( 303, auth_url );
