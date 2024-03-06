@@ -64,10 +64,15 @@ export async function handleFetch( { request, fetch } ) {
 		return fetch( request );
 	}
 
+	const auth = request.headers.get( 'Authorization' );
+
 	return fetch(
 		new Request( request.url.replace( wp_url.origin, env.WP_INTERNAL_URL ), {
 			...request,
-			credentials: 'include',
+			headers: {
+				...request.headers,
+				...( auth ? { Authorization: auth } : {} ),
+			},
 		} ),
 	);
 }
