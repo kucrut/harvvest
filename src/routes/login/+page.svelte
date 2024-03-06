@@ -10,7 +10,6 @@
 	/** @type {import('$types').Alert|null} */
 	let alert = $state( null );
 	let client_id = $state( '' );
-	let session_error = $state( data.session_error );
 
 	/** @type {import('@sveltejs/kit').SubmitFunction}*/
 	const handle_submit = () => {
@@ -21,6 +20,15 @@
 
 	$effect.pre( () => {
 		client_id = navigator.userAgent;
+	} );
+
+	$effect.pre( () => {
+		if ( data.session_error ) {
+			alert = {
+				message: data.session_error,
+				type: 'error',
+			};
+		}
 	} );
 
 	$effect( () => {
@@ -34,8 +42,6 @@
 				message: form.message,
 				type: 'error',
 			};
-		} else {
-			alert = null;
 		}
 	} );
 </script>
@@ -54,13 +60,6 @@
 		<button type="submit">Get Authorization</button>
 	</form>
 </Main>
-
-<!-- Can't set this in the alert state as somehow it got immediately erased on render. -->
-{#if session_error}
-	<Alert timeout={3000} type="error" onexpire={() => ( session_error = '' )}>
-		<p>{data.session_error}</p>
-	</Alert>
-{/if}
 
 {#if alert}
 	<Alert type={alert.type} onexpire={() => ( alert = null )}>
