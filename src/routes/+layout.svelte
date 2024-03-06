@@ -12,7 +12,7 @@
 	let is_online = $state( true );
 	let is_sidebar_open = $state( false );
 
-	$effect( () => {
+	$effect.pre( () => {
 		is_online = navigator.onLine;
 	} );
 
