@@ -18,22 +18,26 @@ async function check_session( { event, resolve } ) {
 		await get_current_app_password( session.api_url, session.auth );
 		event.locals.session = session;
 	} catch ( error ) {
+		let session_error = '';
+
 		// The cookie is messed up.
 		if ( error instanceof ZodError ) {
 			delete_session_cookies( event.cookies );
 		} else if ( error instanceof WP_REST_Error ) {
-			event.locals.session_error =
+			session_error =
 				error.data.status === 401
 					? 'Your previous authorization has been revoked.'
 					: `Error: ${ error.message } (${ error.code })`;
 			delete_session_cookies( event.cookies );
 		} else {
-			const message =
+			session_error =
 				error instanceof Error
 					? `Error: ${ error.message }`
 					: `Error: Unable to validate session. Please check you can access your WordPress site.`;
+		}
 
-			event.locals.session_error = message;
+		if ( session_error ) {
+			event.cookies.set( 'session_error', session_error, { path: '/' } );
 		}
 	}
 
