@@ -21,7 +21,7 @@ export function delete_session_cookies( cookies ) {
  */
 export function get_session_cookie_options() {
 	return {
-		domain: new URL( env.ORIGIN ).hostname,
+		domain: env.ORIGIN ? new URL( env.ORIGIN ).hostname : undefined,
 		httpOnly: true,
 		maxAge: 60 * 60 * 24 * 7,
 		path: '/',
