@@ -6,17 +6,14 @@
 	 * @type {{
 	 *   files: FileList|null;
 	 *   max_file_size: number;
-	 *   onpreviewerror?: (error: unknown, file: File) => void;
 	 *   onsizeerror?: (file: File) => void;
 	 *   ontypeerror?: (file: File) => void;
 	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type' > }
 	 */
-	let { files, max_file_size, onpreviewerror, onsizeerror, ontypeerror, ...rest } = $props();
+	let { files, max_file_size, onsizeerror, ontypeerror, ...rest } = $props();
 
 	/** @type {HTMLInputElement} */
 	let input;
-	/** @type {unknown} */
-	let preview_error = $state();
 	let preview_src = $state( '' );
 
 	const clear_file = () => ( files = null );
@@ -47,7 +44,6 @@
 		// Only create preview for images smaller than 512kb.
 		if ( current_file.size > 524288 ) {
 			preview_src = '';
-			preview_error = null;
 			return;
 		}
 
@@ -67,12 +63,6 @@
 			}
 
 			clear_file();
-		}
-	} );
-
-	$effect( () => {
-		if ( current_file && preview_error && onpreviewerror ) {
-			onpreviewerror( preview_error, current_file );
 		}
 	} );
 
