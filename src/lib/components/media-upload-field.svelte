@@ -17,6 +17,8 @@
 	/** @type {string|undefined} */
 	let preview_src = $state();
 
+	const icon_props = { height: 125, width: 125 };
+
 	const clear_file = () => ( files = null );
 
 	const current_file = $derived.by( () => ( files?.length ? files[ 0 ] : undefined ) );
@@ -92,10 +94,10 @@
 			{#if preview_src}
 				<img alt="" src={preview_src} />
 			{:else}
-				<Icon name="file-image" width="125" height="125" />
+				<Icon {...icon_props} name="file-image" />
 			{/if}
 		{:else if file_type === 'video'}
-			<Icon name="file-video" width="125" height="125" />
+			<Icon {...icon_props} name="file-video" />
 		{/if}
 	</span>
 </div>
