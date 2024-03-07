@@ -110,8 +110,13 @@
 		type="file"
 	/>
 	<span>
-		{#if file_type === 'image' && preview_src}
-			<img alt="" src={preview_src} />
+		{#if file_type === 'image'}
+			{#if preview_src}
+				<img alt="" src={preview_src} />
+			{:else}
+				<Icon name="file-image" width="125" height="125" />
+				<small>No preview for files bigger than 512kb.</small>
+			{/if}
 		{:else if file_type === 'video'}
 			<Icon name="file-video" width="125" height="125" />
 		{/if}
