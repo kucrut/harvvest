@@ -5,7 +5,6 @@
 		PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE,
 	} from '$lib/constants.js';
 	import { applyAction, enhance } from '$app/forms';
-	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { handle_pwa_share } from '$lib/utils.client.js';
 	import { page } from '$app/stores';
 	import { remove_file_extension } from '$lib/utils.js';
@@ -92,7 +91,6 @@
 			disabled={is_submitting}
 			max_file_size={data.max_file_size || 0}
 			name="file"
-			onpreviewerror={error => set_alert( get_error_message( error, 'Failed to create preview image.', false ) )}
 			onsizeerror={() => set_alert( `Maximum allowed file size is ${ max_file_size_formatted }.` )}
 			ontypeerror={() => set_alert( 'Only images and videos are allowed.' )}
 		/>

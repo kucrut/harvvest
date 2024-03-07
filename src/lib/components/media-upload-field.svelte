@@ -1,5 +1,4 @@
 <script>
-	import { create_data_uri } from '$lib/utils.js';
 	import pretty_bytes from 'pretty-bytes';
 	import Icon from './icon.svelte';
 
@@ -7,18 +6,18 @@
 	 * @type {{
 	 *   files: FileList|null;
 	 *   max_file_size: number;
-	 *   onpreviewerror?: (error: unknown, file: File) => void;
 	 *   onsizeerror?: (file: File) => void;
 	 *   ontypeerror?: (file: File) => void;
 	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type' > }
 	 */
-	let { files, max_file_size, onpreviewerror, onsizeerror, ontypeerror, ...rest } = $props();
+	let { files, max_file_size, onsizeerror, ontypeerror, ...rest } = $props();
 
 	/** @type {HTMLInputElement} */
 	let input;
-	/** @type {unknown} */
-	let preview_error = $state();
-	let preview_src = $state( '' );
+	/** @type {string|undefined} */
+	let preview_src = $state();
+
+	const icon_props = { height: 125, width: 125 };
 
 	const clear_file = () => ( files = null );
 
@@ -41,29 +40,6 @@
 	} );
 
 	$effect( () => {
-		if ( ! current_file || file_type !== 'image' ) {
-			return;
-		}
-
-		// Only create preview for images smaller than 512kb.
-		if ( current_file.size > 524288 ) {
-			preview_src = '';
-			preview_error = null;
-			return;
-		}
-
-		( async () => {
-			try {
-				preview_src = await create_data_uri( current_file );
-				preview_error = null;
-			} catch ( error ) {
-				preview_src = '';
-				preview_error = error;
-			}
-		} )();
-	} );
-
-	$effect( () => {
 		if ( ! current_file ) {
 			input.value = '';
 		}
@@ -80,12 +56,6 @@
 	} );
 
 	$effect( () => {
-		if ( current_file && preview_error && onpreviewerror ) {
-			onpreviewerror( preview_error, current_file );
-		}
-	} );
-
-	$effect( () => {
 		if ( current_file && current_file.size > max_file_size ) {
 			if ( onsizeerror ) {
 				onsizeerror( current_file );
@@ -93,6 +63,16 @@
 
 			clear_file();
 		}
+	} );
+
+	$effect( () => {
+		preview_src = current_file && file_type === 'image' ? URL.createObjectURL( current_file ) : undefined;
+
+		return () => {
+			if ( preview_src ) {
+				URL.revokeObjectURL( preview_src );
+			}
+		};
 	} );
 </script>
 
@@ -114,11 +94,10 @@
 			{#if preview_src}
 				<img alt="" src={preview_src} />
 			{:else}
-				<Icon name="file-image" width="125" height="125" />
-				<small>No preview for files bigger than 512kb.</small>
+				<Icon {...icon_props} name="file-image" />
 			{/if}
 		{:else if file_type === 'video'}
-			<Icon name="file-video" width="125" height="125" />
+			<Icon {...icon_props} name="file-video" />
 		{/if}
 	</span>
 </div>
