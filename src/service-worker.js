@@ -7,7 +7,7 @@
 
 import {
 	PWA_SHARE_READY_ACTION,
-	PWA_SHARE_TARGET_PARAM,
+	PWA_SHARE_TARGET_SEARCH_PARAM,
 	PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION,
 	PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH,
 	PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE,
@@ -138,7 +138,7 @@ sw.addEventListener( 'fetch', event => {
 	if (
 		event.request.method === 'POST' &&
 		url.pathname === PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE &&
-		url.searchParams.has( PWA_SHARE_TARGET_PARAM )
+		url.searchParams.has( PWA_SHARE_TARGET_SEARCH_PARAM )
 	) {
 		// Redirect client to the proper URL so it can catch the shared file without resending data.
 		event.respondWith( Response.redirect( PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH ) );
