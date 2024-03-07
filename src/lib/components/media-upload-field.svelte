@@ -138,6 +138,7 @@
 		overflow: clip;
 		margin-block-end: var( --pico-spacing );
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 
