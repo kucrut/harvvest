@@ -1,4 +1,5 @@
 import { env } from '$env/dynamic/private';
+import { PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH } from '$lib/constants';
 
 export function GET() {
 	return new Response(
@@ -39,7 +40,7 @@ export function GET() {
 				},
 			],
 			share_target: {
-				action: '/?share-target',
+				action: PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH,
 				enctype: 'multipart/form-data',
 				method: 'POST',
 				params: {

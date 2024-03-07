@@ -11,6 +11,7 @@
 	import MediaUploadField from '$lib/components/media-upload-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
 	import TextField from '$lib/components/text-field.svelte';
+	import { PWA_SHARE_TARGET_PARAM } from '$lib/constants.js';
 
 	const { data, form } = $props();
 	const max_file_size_formatted = $derived( pretty_bytes( data.max_file_size || 0 ) );
@@ -56,7 +57,7 @@
 	};
 
 	$effect.pre( () => {
-		if ( $page.url.searchParams.has( 'share-target' ) ) {
+		if ( $page.url.searchParams.has( PWA_SHARE_TARGET_PARAM ) ) {
 			( async () => {
 				files = await handle_pwa_share();
 				// Clear `search-target` param.
