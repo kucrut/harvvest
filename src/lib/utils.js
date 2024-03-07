@@ -28,16 +28,6 @@ export function create_data_uri( file ) {
 }
 
 /**
- * Generate file ID
- *
- * @param {File} file File object.
- * @return {string} File ID.
- */
-export function generate_file_id( file ) {
-	return `${ file.name }${ file.name }${ file.size }${ file.lastModified }`;
-}
-
-/**
  * Check if string is a valid HTTP/HTTPS URL.
  *
  * @param {string} url URL string to check.
