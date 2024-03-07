@@ -1,5 +1,9 @@
 <script>
-	import { PWA_SHARE_TARGET_SEARCH_PARAM, PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME } from '$lib/constants.js';
+	import {
+		PWA_SHARE_TARGET_SEARCH_PARAM,
+		PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME,
+		PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE,
+	} from '$lib/constants.js';
 	import { applyAction, enhance } from '$app/forms';
 	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { handle_pwa_share } from '$lib/utils.client.js';
@@ -61,7 +65,7 @@
 			( async () => {
 				files = await handle_pwa_share();
 				// Clear `search-target` param.
-				history.replaceState( '', '', '/' );
+				history.replaceState( '', '', PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE );
 			} )();
 		}
 	} );
