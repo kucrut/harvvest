@@ -1,6 +1,6 @@
 /// <reference lib="dom" />
 
-import { PWA_SHARE_READY_ACTION } from './constants';
+import { PWA_SHARE_READY_ACTION, PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION } from './constants';
 
 /**
  * Copy text to clipboard
@@ -42,7 +42,7 @@ export async function retrieve_pwa_shared_file() {
 	return new Promise( resolve => {
 		/** @param {MessageEvent} event */
 		const onmessage = event => {
-			if ( event.data.action !== 'load-image' ) {
+			if ( event.data.action !== PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION ) {
 				return;
 			}
 

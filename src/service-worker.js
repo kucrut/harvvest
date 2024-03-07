@@ -8,6 +8,7 @@
 import {
 	PWA_SHARE_READY_ACTION,
 	PWA_SHARE_TARGET_PARAM,
+	PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION,
 	PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH,
 	PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE,
 } from '$lib/constants';
@@ -97,7 +98,7 @@ const handle_share = async event => {
 	const file = data.get( 'file' );
 
 	// Send the file to the client via post message's event.data.
-	client.postMessage( { file, action: 'load-image' } );
+	client.postMessage( { file, action: PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION } );
 };
 
 sw.addEventListener( 'install', event => {
@@ -133,12 +134,13 @@ sw.addEventListener( 'fetch', event => {
 		return;
 	}
 
+	// Handle file shared to the PWA.
 	if (
 		event.request.method === 'POST' &&
 		url.pathname === PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE &&
 		url.searchParams.has( PWA_SHARE_TARGET_PARAM )
 	) {
-		// Redirect so the user can refresh the page without resending data.
+		// Redirect client to the proper URL so it can catch the shared file without resending data.
 		event.respondWith( Response.redirect( PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH ) );
 		event.waitUntil( handle_share( event ) );
 
