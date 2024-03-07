@@ -5,7 +5,12 @@
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
 
-import { PWA_SHARE_READY_ACTION, PWA_SHARE_TARGET_PARAM, PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH } from '$lib/constants';
+import {
+	PWA_SHARE_READY_ACTION,
+	PWA_SHARE_TARGET_PARAM,
+	PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH,
+	PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE,
+} from '$lib/constants';
 import { build, files, version, prerendered } from '$service-worker';
 
 const sw = /** @type {ServiceWorkerGlobalScope} */ ( /** @type {unknown} */ ( self ) );
@@ -128,7 +133,11 @@ sw.addEventListener( 'fetch', event => {
 		return;
 	}
 
-	if ( event.request.method === 'POST' && url.pathname === '/' && url.searchParams.has( PWA_SHARE_TARGET_PARAM ) ) {
+	if (
+		event.request.method === 'POST' &&
+		url.pathname === PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE &&
+		url.searchParams.has( PWA_SHARE_TARGET_PARAM )
+	) {
 		// Redirect so the user can refresh the page without resending data.
 		event.respondWith( Response.redirect( PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH ) );
 		event.waitUntil( handle_share( event ) );
