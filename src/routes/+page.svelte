@@ -1,4 +1,9 @@
 <script>
+	import {
+		PWA_SHARE_TARGET_SEARCH_PARAM,
+		PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME,
+		PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE,
+	} from '$lib/constants.js';
 	import { applyAction, enhance } from '$app/forms';
 	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { handle_pwa_share } from '$lib/utils.client.js';
@@ -28,7 +33,7 @@
 	const handle_submit = ( { formElement, formData } ) => {
 		// Re-use file shared to our PWA.
 		if ( files?.length ) {
-			formData.set( 'file', files[ 0 ] );
+			formData.set( PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME, files[ 0 ] );
 		}
 
 		is_submitting = true;
@@ -56,11 +61,11 @@
 	};
 
 	$effect.pre( () => {
-		if ( $page.url.searchParams.has( 'share-target' ) ) {
+		if ( $page.url.searchParams.has( PWA_SHARE_TARGET_SEARCH_PARAM ) ) {
 			( async () => {
 				files = await handle_pwa_share();
-				// Clear `search-target` param.
-				history.replaceState( '', '', '/' );
+				// Clear PWA share target search param.
+				history.replaceState( '', '', PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE );
 			} )();
 		}
 	} );

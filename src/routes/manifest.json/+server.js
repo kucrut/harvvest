@@ -1,3 +1,4 @@
+import { PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME, PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH } from '$lib/constants';
 import { env } from '$env/dynamic/private';
 
 export function GET() {
@@ -26,7 +27,7 @@ export function GET() {
 				{
 					form_factor: 'narrow',
 					label: 'Media Upload Screen',
-					sizes: '350x738',
+					sizes: '350x758',
 					src: 'images/ss-upload-mobile.webp',
 					type: 'image/webp',
 				},
@@ -39,13 +40,13 @@ export function GET() {
 				},
 			],
 			share_target: {
-				action: '/?share-target',
+				action: PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH,
 				enctype: 'multipart/form-data',
 				method: 'POST',
 				params: {
 					files: [
 						{
-							name: 'file',
+							name: PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME,
 							accept: [ 'image/*', 'video/*' ],
 						},
 					],

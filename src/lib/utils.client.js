@@ -1,5 +1,7 @@
 /// <reference lib="dom" />
 
+import { PWA_SHARE_READY_ACTION, PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION } from './constants';
+
 /**
  * Copy text to clipboard
  *
@@ -40,7 +42,7 @@ export async function retrieve_pwa_shared_file() {
 	return new Promise( resolve => {
 		/** @param {MessageEvent} event */
 		const onmessage = event => {
-			if ( event.data.action !== 'load-image' ) {
+			if ( event.data.action !== PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION ) {
 				return;
 			}
 
@@ -50,8 +52,8 @@ export async function retrieve_pwa_shared_file() {
 
 		navigator.serviceWorker.addEventListener( 'message', onmessage );
 
-		// This message is picked up by the service worker -
-		// it's how it knows we're ready to receive the file.
-		navigator.serviceWorker.controller?.postMessage( 'share-ready' );
+		// Send message to the service worker to let it know
+		// that we're ready to receive the shared file.
+		navigator.serviceWorker.controller?.postMessage( PWA_SHARE_READY_ACTION );
 	} );
 }

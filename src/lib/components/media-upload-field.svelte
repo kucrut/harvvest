@@ -45,6 +45,13 @@
 			return;
 		}
 
+		// Only create preview for images smaller than 512kb.
+		if ( current_file.size > 524288 ) {
+			preview_src = '';
+			preview_error = null;
+			return;
+		}
+
 		( async () => {
 			try {
 				preview_src = await create_data_uri( current_file );
@@ -87,8 +94,6 @@
 			clear_file();
 		}
 	} );
-
-	$inspect( preview_src );
 </script>
 
 <div>
@@ -105,8 +110,13 @@
 		type="file"
 	/>
 	<span>
-		{#if file_type === 'image' && preview_src}
-			<img alt="" src={preview_src} />
+		{#if file_type === 'image'}
+			{#if preview_src}
+				<img alt="" src={preview_src} />
+			{:else}
+				<Icon name="file-image" width="125" height="125" />
+				<small>No preview for files bigger than 512kb.</small>
+			{/if}
 		{:else if file_type === 'video'}
 			<Icon name="file-video" width="125" height="125" />
 		{/if}
@@ -128,6 +138,7 @@
 		overflow: clip;
 		margin-block-end: var( --pico-spacing );
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 

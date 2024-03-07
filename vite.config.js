@@ -1,12 +1,12 @@
 import { defineConfig } from 'vite';
 import { parse } from 'node-html-parser';
-import { sveltekit } from '@sveltejs/kit/vite';
 import { readFileSync, writeFileSync } from 'node:fs';
+import { sveltekit } from '@sveltejs/kit/vite';
 
 /** @return {import('vite').Plugin} Vite plugin. */
 function svg_sprite() {
 	const excluded_attributes = [ 'class', 'height', 'width', 'xmlns' ];
-	const icon_names = [ 'code', 'file-video', 'menu', 'tent', 'wifi-off', 'x' ];
+	const icon_names = [ 'code', 'file-image', 'file-video', 'menu', 'tent', 'wifi-off', 'x' ];
 	const source_dir = 'node_modules/lucide-static/icons';
 	const target_file = 'src/lib/components/svg-sprite.svg';
 

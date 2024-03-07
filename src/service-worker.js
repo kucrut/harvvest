@@ -5,6 +5,14 @@
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
 
+import {
+	PWA_SHARE_READY_ACTION,
+	PWA_SHARE_TARGET_SEARCH_PARAM,
+	PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION,
+	PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME,
+	PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH,
+	PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE,
+} from '$lib/constants';
 import { build, files, version, prerendered } from '$service-worker';
 
 const sw = /** @type {ServiceWorkerGlobalScope} */ ( /** @type {unknown} */ ( self ) );
@@ -72,7 +80,7 @@ const handle_get_requests = async ( url, request ) => {
 };
 
 /**
- * Handle POST request with shared fiel
+ * Handle POST request with shared file
  *
  * @param {FetchEvent} event Fetch event.
  */
@@ -83,15 +91,15 @@ const handle_share = async event => {
 		return;
 	}
 
-	// Wait for the the page (client) to sends this message to tell us
+	// Wait for the the page (client) to send this message to tell us
 	// (service worker) that it's ready to receive the file.
-	await await_client_message( 'share-ready' );
+	await await_client_message( PWA_SHARE_READY_ACTION );
 
 	const data = await event.request.formData();
-	const file = data.get( 'file' );
+	const file = data.get( PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME );
 
 	// Send the file to the client via post message's event.data.
-	client.postMessage( { file, action: 'load-image' } );
+	client.postMessage( { file, action: PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION } );
 };
 
 sw.addEventListener( 'install', event => {
@@ -127,9 +135,14 @@ sw.addEventListener( 'fetch', event => {
 		return;
 	}
 
-	if ( event.request.method === 'POST' && url.pathname === '/' && url.searchParams.has( 'share-target' ) ) {
-		// Redirect so the user can refresh the page without resending data.
-		event.respondWith( Response.redirect( '/?share-target' ) );
+	// Handle file shared to the PWA.
+	if (
+		event.request.method === 'POST' &&
+		url.pathname === PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE &&
+		url.searchParams.has( PWA_SHARE_TARGET_SEARCH_PARAM )
+	) {
+		// Redirect client to the proper URL so it can catch the shared file without resending data.
+		event.respondWith( Response.redirect( PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH ) );
 		event.waitUntil( handle_share( event ) );
 
 		return;
