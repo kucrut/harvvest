@@ -14,15 +14,10 @@
 
 	/** @type {HTMLInputElement} */
 	let input;
-	let preview_src = $state( '' );
+	/** @type {string|undefined} */
+	let preview_src = $state();
 
 	const clear_file = () => ( files = null );
-
-	const clear_preview = () => {
-		if ( preview_src ) {
-			URL.revokeObjectURL( preview_src );
-		}
-	};
 
 	const current_file = $derived.by( () => ( files?.length ? files[ 0 ] : undefined ) );
 
@@ -40,21 +35,6 @@
 		}
 
 		return undefined;
-	} );
-
-	$effect( () => {
-		if ( ! current_file || file_type !== 'image' ) {
-			clear_preview();
-			return;
-		}
-
-		// Only create preview for images smaller than 512kb.
-		if ( current_file.size > 524288 ) {
-			preview_src = '';
-			return;
-		}
-
-		preview_src = URL.createObjectURL( current_file );
 	} );
 
 	$effect( () => {
@@ -81,6 +61,16 @@
 
 			clear_file();
 		}
+	} );
+
+	$effect( () => {
+		preview_src = current_file && file_type === 'image' ? URL.createObjectURL( current_file ) : undefined;
+
+		return () => {
+			if ( preview_src ) {
+				URL.revokeObjectURL( preview_src );
+			}
+		};
 	} );
 </script>
 
