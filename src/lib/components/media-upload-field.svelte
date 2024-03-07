@@ -1,5 +1,5 @@
 <script>
-	import { create_data_uri, generate_file_id } from '$lib/utils.js';
+	import { create_data_uri } from '$lib/utils.js';
 	import pretty_bytes from 'pretty-bytes';
 	import Icon from './icon.svelte';
 
