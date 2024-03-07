@@ -9,6 +9,7 @@ import {
 	PWA_SHARE_READY_ACTION,
 	PWA_SHARE_TARGET_SEARCH_PARAM,
 	PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION,
+	PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME,
 	PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH,
 	PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE,
 } from '$lib/constants';
@@ -95,7 +96,7 @@ const handle_share = async event => {
 	await await_client_message( PWA_SHARE_READY_ACTION );
 
 	const data = await event.request.formData();
-	const file = data.get( 'file' );
+	const file = data.get( PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME );
 
 	// Send the file to the client via post message's event.data.
 	client.postMessage( { file, action: PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION } );

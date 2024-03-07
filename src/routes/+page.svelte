@@ -1,4 +1,5 @@
 <script>
+	import { PWA_SHARE_TARGET_SEARCH_PARAM, PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME } from '$lib/constants.js';
 	import { applyAction, enhance } from '$app/forms';
 	import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 	import { handle_pwa_share } from '$lib/utils.client.js';
@@ -11,7 +12,6 @@
 	import MediaUploadField from '$lib/components/media-upload-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
 	import TextField from '$lib/components/text-field.svelte';
-	import { PWA_SHARE_TARGET_SEARCH_PARAM } from '$lib/constants.js';
 
 	const { data, form } = $props();
 	const max_file_size_formatted = $derived( pretty_bytes( data.max_file_size || 0 ) );
@@ -29,7 +29,7 @@
 	const handle_submit = ( { formElement, formData } ) => {
 		// Re-use file shared to our PWA.
 		if ( files?.length ) {
-			formData.set( 'file', files[ 0 ] );
+			formData.set( PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME, files[ 0 ] );
 		}
 
 		is_submitting = true;

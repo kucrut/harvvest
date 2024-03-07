@@ -1,5 +1,5 @@
+import { PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME, PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH } from '$lib/constants';
 import { env } from '$env/dynamic/private';
-import { PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH } from '$lib/constants';
 
 export function GET() {
 	return new Response(
@@ -46,7 +46,7 @@ export function GET() {
 				params: {
 					files: [
 						{
-							name: 'file',
+							name: PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME,
 							accept: [ 'image/*', 'video/*' ],
 						},
 					],

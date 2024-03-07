@@ -1,3 +1,4 @@
+import { PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME } from '$lib/constants';
 import { create_media, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/public';
 import { fail, redirect } from '@sveltejs/kit';
@@ -68,7 +69,7 @@ export const actions = {
 		}
 
 		const data = await request.formData();
-		const file = data.get( 'file' );
+		const file = data.get( PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME );
 
 		if ( ! ( file instanceof File ) ) {
 			return invalid_value( 'Please provide an image or video to upload.' );
