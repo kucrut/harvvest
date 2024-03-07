@@ -18,6 +18,12 @@
 
 	const clear_file = () => ( files = null );
 
+	const clear_preview = () => {
+		if ( preview_src ) {
+			URL.revokeObjectURL( preview_src );
+		}
+	};
+
 	const current_file = $derived.by( () => ( files?.length ? files[ 0 ] : undefined ) );
 
 	const file_type = $derived.by( () => {
@@ -38,6 +44,7 @@
 
 	$effect( () => {
 		if ( ! current_file || file_type !== 'image' ) {
+			clear_preview();
 			return;
 		}
 
