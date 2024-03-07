@@ -87,8 +87,6 @@
 			clear_file();
 		}
 	} );
-
-	$inspect( preview_src );
 </script>
 
 <div>
