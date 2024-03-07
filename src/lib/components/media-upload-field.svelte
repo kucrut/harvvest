@@ -14,26 +14,58 @@
 	 */
 	let { files, max_file_size, onpreviewerror, onsizeerror, ontypeerror, ...rest } = $props();
 
-	/** @type {'image'|'video'|undefined} */
-	let file_type = $state( undefined );
-	let last_selected_file = $state( '' );
-	let preview_src = $state( '' );
-
 	/** @type {HTMLInputElement} */
 	let input;
+	/** @type {unknown} */
+	let preview_error = $state();
+	let preview_src = $state( '' );
 
 	const clear_file = () => ( files = null );
 
+	const current_file = $derived.by( () => ( files?.length ? files[ 0 ] : undefined ) );
+
+	const file_type = $derived.by( () => {
+		if ( ! current_file ) {
+			return undefined;
+		}
+
+		if ( current_file.type.startsWith( 'image/' ) ) {
+			return 'image';
+		}
+
+		if ( current_file.type.startsWith( 'video/' ) ) {
+			return 'video';
+		}
+
+		return undefined;
+	} );
+
 	$effect( () => {
-		if ( ! files?.length ) {
+		if ( ! current_file || file_type !== 'image' ) {
+			return;
+		}
+
+		( async () => {
+			try {
+				preview_src = await create_data_uri( current_file );
+				preview_error = null;
+			} catch ( error ) {
+				preview_src = '';
+				preview_error = error;
+			}
+		} )();
+	} );
+
+	$effect( () => {
+		if ( ! current_file ) {
 			input.value = '';
 		}
 	} );
 
 	$effect( () => {
-		if ( files?.length && ! [ 'image', 'video' ].includes( files[ 0 ].type.split( '/' )[ 0 ] ) ) {
+		if ( current_file && ! file_type ) {
 			if ( ontypeerror ) {
-				ontypeerror( files[ 0 ] );
+				ontypeerror( current_file );
 			}
 
 			clear_file();
@@ -41,58 +73,22 @@
 	} );
 
 	$effect( () => {
-		if ( ! files?.length ) {
-			file_type = undefined;
-			last_selected_file = '';
-			preview_src = '';
-
-			return;
+		if ( current_file && preview_error && onpreviewerror ) {
+			onpreviewerror( preview_error, current_file );
 		}
-
-		const file = files[ 0 ];
-		const file_id = generate_file_id( file );
-
-		if ( last_selected_file === file_id ) {
-			return;
-		}
-
-		( async () => {
-			try {
-				if ( file.type.startsWith( 'image/' ) ) {
-					preview_src = await create_data_uri( file );
-					file_type = 'image';
-				} else if ( file.type.startsWith( 'video/' ) ) {
-					file_type = 'video';
-				} else {
-					file_type = undefined;
-				}
-			} catch ( error ) {
-				preview_src = '';
-
-				if ( onpreviewerror ) {
-					onpreviewerror( error, file );
-				}
-			} finally {
-				last_selected_file = file_id;
-			}
-		} )();
 	} );
 
 	$effect( () => {
-		if ( ! files?.length ) {
-			return;
-		}
+		if ( current_file && current_file.size > max_file_size ) {
+			if ( onsizeerror ) {
+				onsizeerror( current_file );
+			}
 
-		if ( files[ 0 ].size <= ( max_file_size || 0 ) ) {
-			return;
+			clear_file();
 		}
-
-		if ( onsizeerror ) {
-			onsizeerror( files[ 0 ] );
-		}
-
-		clear_file();
 	} );
+
+	$inspect( preview_src );
 </script>
 
 <div>
@@ -109,7 +105,7 @@
 		type="file"
 	/>
 	<span>
-		{#if preview_src && file_type === 'image'}
+		{#if file_type === 'image' && preview_src}
 			<img alt="" src={preview_src} />
 		{:else if file_type === 'video'}
 			<Icon name="file-video" width="125" height="125" />
