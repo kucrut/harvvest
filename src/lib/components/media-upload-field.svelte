@@ -45,6 +45,13 @@
 			return;
 		}
 
+		// Only create preview for images smaller than 512kb.
+		if ( current_file.size > 524288 ) {
+			preview_src = '';
+			preview_error = null;
+			return;
+		}
+
 		( async () => {
 			try {
 				preview_src = await create_data_uri( current_file );
