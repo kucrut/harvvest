@@ -26,7 +26,7 @@ export function GET() {
 				{
 					form_factor: 'narrow',
 					label: 'Media Upload Screen',
-					sizes: '350x738',
+					sizes: '350x758',
 					src: 'images/ss-upload-mobile.webp',
 					type: 'image/webp',
 				},
