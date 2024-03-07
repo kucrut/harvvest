@@ -1,5 +1,7 @@
 /// <reference lib="dom" />
 
+import { PWA_SHARE_READY_ACTION } from './constants';
+
 /**
  * Copy text to clipboard
  *
@@ -52,6 +54,6 @@ export async function retrieve_pwa_shared_file() {
 
 		// This message is picked up by the service worker -
 		// it's how it knows we're ready to receive the file.
-		navigator.serviceWorker.controller?.postMessage( 'share-ready' );
+		navigator.serviceWorker.controller?.postMessage( PWA_SHARE_READY_ACTION );
 	} );
 }

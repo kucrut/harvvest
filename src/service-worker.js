@@ -5,7 +5,7 @@
 /// <reference lib="esnext" />
 /// <reference lib="webworker" />
 
-import { PWA_SHARE_TARGET_PARAM, PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH } from '$lib/constants';
+import { PWA_SHARE_READY_ACTION, PWA_SHARE_TARGET_PARAM, PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH } from '$lib/constants';
 import { build, files, version, prerendered } from '$service-worker';
 
 const sw = /** @type {ServiceWorkerGlobalScope} */ ( /** @type {unknown} */ ( self ) );
@@ -86,7 +86,7 @@ const handle_share = async event => {
 
 	// Wait for the the page (client) to sends this message to tell us
 	// (service worker) that it's ready to receive the file.
-	await await_client_message( 'share-ready' );
+	await await_client_message( PWA_SHARE_READY_ACTION );
 
 	const data = await event.request.formData();
 	const file = data.get( 'file' );
