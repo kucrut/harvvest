@@ -64,7 +64,7 @@
 		if ( $page.url.searchParams.has( PWA_SHARE_TARGET_SEARCH_PARAM ) ) {
 			( async () => {
 				files = await handle_pwa_share();
-				// Clear `search-target` param.
+				// Clear PWA share target search param.
 				history.replaceState( '', '', PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE );
 			} )();
 		}
