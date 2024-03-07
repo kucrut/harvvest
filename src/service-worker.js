@@ -73,7 +73,7 @@ const handle_get_requests = async ( url, request ) => {
 };
 
 /**
- * Handle POST request with shared fiel
+ * Handle POST request with shared file
  *
  * @param {FetchEvent} event Fetch event.
  */
@@ -84,7 +84,7 @@ const handle_share = async event => {
 		return;
 	}
 
-	// Wait for the the page (client) to sends this message to tell us
+	// Wait for the the page (client) to send this message to tell us
 	// (service worker) that it's ready to receive the file.
 	await await_client_message( PWA_SHARE_READY_ACTION );
 

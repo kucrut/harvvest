@@ -52,8 +52,8 @@ export async function retrieve_pwa_shared_file() {
 
 		navigator.serviceWorker.addEventListener( 'message', onmessage );
 
-		// This message is picked up by the service worker -
-		// it's how it knows we're ready to receive the file.
+		// Send message to the service worker to let it know
+		// that we're ready to receive the shared file.
 		navigator.serviceWorker.controller?.postMessage( PWA_SHARE_READY_ACTION );
 	} );
 }
