@@ -1,7 +1,7 @@
 import { defineConfig } from 'vite';
 import { parse } from 'node-html-parser';
-import { sveltekit } from '@sveltejs/kit/vite';
 import { readFileSync, writeFileSync } from 'node:fs';
+import { sveltekit } from '@sveltejs/kit/vite';
 
 /** @return {import('vite').Plugin} Vite plugin. */
 function svg_sprite() {
