@@ -52,15 +52,7 @@
 			return;
 		}
 
-		( async () => {
-			try {
-				preview_src = await create_data_uri( current_file );
-				preview_error = null;
-			} catch ( error ) {
-				preview_src = '';
-				preview_error = error;
-			}
-		} )();
+		preview_src = URL.createObjectURL( current_file );
 	} );
 
 	$effect( () => {
