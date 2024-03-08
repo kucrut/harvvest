@@ -5,6 +5,11 @@
 <nav>
 	<ul>
 		<li>
+			<a href="/upload">
+				<Icon name="file-up" />Upload
+			</a>
+		</li>
+		<li>
 			<a href="https://gitlab.com/kucrut/photo-harvest">
 				<Icon name="code" /><span>Source Code</span>
 			</a>
