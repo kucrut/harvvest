@@ -18,6 +18,8 @@
 		return $page.data.meta.title ? `${ $page.data.meta?.title } — ${ suffix }` : suffix;
 	} );
 
+	const page_title = $derived( $page.data.meta.title || data.app_name );
+
 	$effect.pre( () => {
 		is_online = navigator.onLine;
 	} );
@@ -51,7 +53,7 @@
 
 <div class="app" class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
-		<h1 class:visually-hidden={$page.data.hide_title}>{$page.data.meta.title}</h1>
+		<h1 class:visually-hidden={$page.data.hide_title}>{page_title}</h1>
 		{#if data.user}
 			<IconButton icon="menu" label="Menu" onclick={() => ( is_sidebar_open = ! is_sidebar_open )} />
 		{/if}
