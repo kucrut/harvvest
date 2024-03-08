@@ -1,7 +1,7 @@
 <script>
 	import { page } from '$app/stores';
-	import { sidebar } from '$lib/components/sidebar.svelte.js';
-	import IconButton from '$lib/components/icon-button.svelte';
+	import { sidebar } from '$lib/runes/sidebar.svelte.js';
+	import IconButton from './icon-button.svelte';
 	import Nav from './nav.svelte';
 	import UserInfo from './user-info.svelte';
 </script>

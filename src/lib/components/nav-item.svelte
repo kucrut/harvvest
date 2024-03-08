@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import { sidebar } from './sidebar.svelte.js';
+	import { sidebar } from '$lib/runes/sidebar.svelte.js';
 	import Icon from './icon.svelte';
 
 	/** @type {{icon: string; href:string; label: string}} */
