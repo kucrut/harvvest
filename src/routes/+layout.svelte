@@ -36,7 +36,7 @@
 </script>
 
 <svelte:head>
-	<title>{$page.data.meta?.title} — {$page.data.app_name}</title>
+	<title>{$page.data.meta?.title} — {data.app_name}</title>
 </svelte:head>
 
 {#if data.user}
