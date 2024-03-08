@@ -1,26 +1,10 @@
 <script>
-	import Icon from '$lib/components/icon.svelte';
+	import NavItem from '$lib/components/nav-item.svelte';
 </script>
 
 <nav>
 	<ul>
-		<li>
-			<a href="/upload">
-				<Icon name="file-up" />Upload
-			</a>
-		</li>
-		<li>
-			<a href="https://gitlab.com/kucrut/photo-harvest">
-				<Icon name="code" /><span>Source Code</span>
-			</a>
-		</li>
+		<NavItem href="/upload" icon="file-up" label="Upload" />
+		<NavItem href="https://gitlab.com/kucrut/photo-harvest" icon="code" label="Source Code" />
 	</ul>
 </nav>
-
-<style>
-	a {
-		display: inline-flex;
-		align-items: center;
-		gap: 0.25rem;
-	}
-</style>
