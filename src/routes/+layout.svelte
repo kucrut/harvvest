@@ -2,6 +2,7 @@
 	import '../app.scss';
 
 	import { page } from '$app/stores';
+	import { sidebar } from '$lib/components/sidebar.svelte.js';
 	import IconButton from '$lib/components/icon-button.svelte';
 	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
@@ -10,7 +11,6 @@
 	const { children, data } = $props();
 
 	let is_online = $state( true );
-	let is_sidebar_open = $state( false );
 
 	const doc_title = $derived.by( () => {
 		const suffix = data.app_name;
@@ -55,17 +55,12 @@
 	<hgroup class="container-fluid">
 		<h1 class:visually-hidden={$page.data.hide_title}>{page_title}</h1>
 		{#if data.user}
-			<IconButton icon="menu" label="Menu" onclick={() => ( is_sidebar_open = ! is_sidebar_open )} />
+			<IconButton icon="menu" label="Menu" onclick={() => sidebar.toggle()} />
 		{/if}
 	</hgroup>
 
 	{#if data.user}
-		<Sidebar
-			close={() => {
-				is_sidebar_open = false;
-			}}
-			is_open={is_sidebar_open}
-		/>
+		<Sidebar />
 	{/if}
 
 	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
