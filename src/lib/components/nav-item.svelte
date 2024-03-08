@@ -14,7 +14,7 @@
 
 <li>
 	<a {href} onclick={handle_click}>
-		<Icon name={icon} />{label}
+		<Icon name={icon} height="20" width="20" />{label}
 	</a>
 </li>
 
