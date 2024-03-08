@@ -2,7 +2,7 @@
 	import '../app.scss';
 
 	import { page } from '$app/stores';
-	import { sidebar } from '$lib/components/sidebar.svelte.js';
+	import { sidebar } from '$lib/runes/sidebar.svelte.js';
 	import IconButton from '$lib/components/icon-button.svelte';
 	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
