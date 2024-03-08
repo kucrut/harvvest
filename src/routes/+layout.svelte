@@ -87,7 +87,7 @@
 			--sidebar-size: 0;
 
 			&.has-sidebar {
-				--sidebar-size: min( 20rem, 100vw );
+				--sidebar-size: 100vw;
 
 				grid-template-columns: var( --sidebar-size ) 1fr;
 			}
