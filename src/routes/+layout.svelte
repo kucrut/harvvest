@@ -12,6 +12,12 @@
 	let is_online = $state( true );
 	let is_sidebar_open = $state( false );
 
+	const doc_title = $derived.by( () => {
+		const suffix = data.app_name;
+
+		return $page.data.meta.title ? `${ $page.data.meta?.title } — ${ suffix }` : suffix;
+	} );
+
 	$effect.pre( () => {
 		is_online = navigator.onLine;
 	} );
@@ -36,7 +42,7 @@
 </script>
 
 <svelte:head>
-	<title>{$page.data.meta?.title} — {data.app_name}</title>
+	<title>{doc_title}</title>
 </svelte:head>
 
 {#if data.user}
