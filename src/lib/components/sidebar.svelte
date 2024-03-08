@@ -1,15 +1,13 @@
 <script>
 	import { page } from '$app/stores';
+	import { sidebar } from '$lib/components/sidebar.svelte.js';
 	import IconButton from '$lib/components/icon-button.svelte';
 	import Nav from './nav.svelte';
 	import UserInfo from './user-info.svelte';
-
-	/** @type {{ close: () => void; is_open?: boolean }} */
-	const { close, is_open = false } = $props();
 </script>
 
-<aside class:is-open={is_open}>
-	<IconButton class="close" icon="x" label="Close sidebar" onclick={close} />
+<aside class:is-open={sidebar.is_open}>
+	<IconButton class="close" icon="x" label="Close sidebar" onclick={() => sidebar.toggle()} />
 
 	<Nav />
 
