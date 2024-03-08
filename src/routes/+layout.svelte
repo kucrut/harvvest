@@ -2,6 +2,7 @@
 	import '../app.scss';
 
 	import { page } from '$app/stores';
+	import { sidebar } from '$lib/components/sidebar.svelte.js';
 	import IconButton from '$lib/components/icon-button.svelte';
 	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
@@ -10,7 +11,14 @@
 	const { children, data } = $props();
 
 	let is_online = $state( true );
-	let is_sidebar_open = $state( false );
+
+	const doc_title = $derived.by( () => {
+		const suffix = data.app_name;
+
+		return $page.data.meta.title ? `${ $page.data.meta?.title } — ${ suffix }` : suffix;
+	} );
+
+	const page_title = $derived( $page.data.meta.title || data.app_name );
 
 	$effect.pre( () => {
 		is_online = navigator.onLine;
@@ -36,7 +44,7 @@
 </script>
 
 <svelte:head>
-	<title>{$page.data.meta?.title} — {$page.data.app_name}</title>
+	<title>{doc_title}</title>
 </svelte:head>
 
 {#if data.user}
@@ -45,19 +53,14 @@
 
 <div class="app" class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
-		<h1 class:visually-hidden={$page.data.hide_title}>{$page.data.meta.title}</h1>
+		<h1 class:visually-hidden={$page.data.hide_title}>{page_title}</h1>
 		{#if data.user}
-			<IconButton icon="menu" label="Menu" onclick={() => ( is_sidebar_open = ! is_sidebar_open )} />
+			<IconButton icon="menu" label="Menu" onclick={() => sidebar.toggle()} />
 		{/if}
 	</hgroup>
 
 	{#if data.user}
-		<Sidebar
-			close={() => {
-				is_sidebar_open = false;
-			}}
-			is_open={is_sidebar_open}
-		/>
+		<Sidebar />
 	{/if}
 
 	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
@@ -79,7 +82,7 @@
 			--sidebar-size: 0;
 
 			&.has-sidebar {
-				--sidebar-size: min( 20rem, 100vw );
+				--sidebar-size: 100vw;
 
 				grid-template-columns: var( --sidebar-size ) 1fr;
 			}
