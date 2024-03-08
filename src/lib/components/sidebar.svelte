@@ -24,8 +24,8 @@
 		z-index: 100;
 		inset: 0;
 		block-size: 100dvh;
-		max-inline-size: unset;
 		inline-size: var( --sidebar-size );
+		max-inline-size: 20rem;
 		padding: var( --pico-spacing );
 		background-color: var( --pico-form-element-background-color );
 		display: grid;
