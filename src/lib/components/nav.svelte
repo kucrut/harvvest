@@ -4,6 +4,7 @@
 
 <nav>
 	<ul>
+		<NavItem href="/" icon="tent" label="Home" />
 		<NavItem href="/upload" icon="file-up" label="Upload" />
 		<NavItem href="https://gitlab.com/kucrut/photo-harvest" icon="code" label="Source Code" />
 	</ul>
