@@ -74,16 +74,14 @@
 
 <style lang="scss">
 	.app {
+		--sidebar-size: 20rem;
+
 		min-block-size: 100dvh;
 		display: grid;
 		grid-template-rows: auto 1fr;
 
 		@media ( min-width: $br-lg ) {
-			--sidebar-size: 0;
-
 			&.has-sidebar {
-				--sidebar-size: 100vw;
-
 				grid-template-columns: var( --sidebar-size ) 1fr;
 			}
 		}
