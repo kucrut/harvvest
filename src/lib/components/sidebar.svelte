@@ -48,7 +48,7 @@
 		background-color: var( --pico-form-element-background-color );
 		display: grid;
 		transform: translate3d( -100%, 0, 0 );
-		transition: transform 0.5s;
+		transition: transform 0.3s;
 		visibility: hidden;
 
 		&.is-open {
