@@ -1,13 +1,17 @@
 <script>
+	import { click_outside, trap_focus } from '@kucrut/svelte-stuff/actions';
 	import { page } from '$app/stores';
 	import { sidebar } from '$lib/runes/sidebar.svelte.js';
-	import { trap_focus } from '@kucrut/svelte-stuff/actions';
 	import IconButton from './icon-button.svelte';
 	import Nav from './nav.svelte';
 	import UserInfo from './user-info.svelte';
 </script>
 
-<aside class:is-open={sidebar.is_open} use:trap_focus={{ active: sidebar.is_open }}>
+<aside
+	class:is-open={sidebar.is_open}
+	use:click_outside={{ active: sidebar.is_open, callback: () => sidebar.toggle() }}
+	use:trap_focus={{ active: sidebar.is_open }}
+>
 	<IconButton class="close" icon="x" label="Close sidebar" onclick={() => sidebar.toggle()} />
 
 	<Nav />
