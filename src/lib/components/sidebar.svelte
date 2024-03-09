@@ -1,5 +1,5 @@
 <script>
-	import { click_outside, trap_focus } from '@kucrut/svelte-stuff/actions';
+	import { click_outside, handle_escape, trap_focus } from '@kucrut/svelte-stuff/actions';
 	import { page } from '$app/stores';
 	import { sidebar } from '$lib/runes/sidebar.svelte.js';
 	import IconButton from './icon-button.svelte';
@@ -10,6 +10,7 @@
 <aside
 	class:is-open={sidebar.is_open}
 	use:click_outside={{ active: sidebar.is_open, callback: () => sidebar.toggle() }}
+	use:handle_escape={{ active: sidebar.is_open, callback: () => sidebar.close() }}
 	use:trap_focus={{ active: sidebar.is_open }}
 >
 	<IconButton class="close" icon="x" label="Close sidebar" onclick={() => sidebar.toggle()} />
