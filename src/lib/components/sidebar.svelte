@@ -8,6 +8,7 @@
 </script>
 
 <aside
+	tabindex="-1"
 	class:is-open={sidebar.is_open}
 	use:click_outside={{ active: sidebar.is_open, callback: () => sidebar.toggle() }}
 	use:handle_escape={{ active: sidebar.is_open, callback: () => sidebar.close() }}
