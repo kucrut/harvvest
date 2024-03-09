@@ -70,6 +70,7 @@
 	</hgroup>
 
 	{#if data.user}
+		<!-- TODO: Get close_at from a constant or something. -->
 		<Sidebar bind:this={sidebar} close_at={1024}>
 			<IconButton class="close" icon="x" label="Close sidebar" onclick={sidebar?.close} />
 			<Nav />
