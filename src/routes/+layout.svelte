@@ -9,6 +9,8 @@
 	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
+	import Nav from '$lib/components/nav.svelte';
+	import UserInfo from '$lib/components/user-info.svelte';
 
 	const { children, data } = $props();
 
@@ -51,10 +53,6 @@
 	} );
 </script>
 
-{#snippet close_sb_button()}
-	<IconButton class="close" icon="x" label="Close sidebar" onclick={sidebar?.close} />
-{/snippet}
-
 <svelte:head>
 	<title>{doc_title}</title>
 </svelte:head>
@@ -72,7 +70,11 @@
 	</hgroup>
 
 	{#if data.user}
-		<Sidebar bind:this={sidebar} close_at={1024} close_button={close_sb_button} />
+		<Sidebar bind:this={sidebar} close_at={1024}>
+			<IconButton class="close" icon="x" label="Close sidebar" onclick={sidebar?.close} />
+			<Nav />
+			<UserInfo user={data.user} />
+		</Sidebar>
 	{/if}
 
 	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
