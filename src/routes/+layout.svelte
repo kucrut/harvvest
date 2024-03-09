@@ -51,6 +51,10 @@
 	} );
 </script>
 
+{#snippet close_sb_button()}
+	<IconButton class="close" icon="x" label="Close sidebar" onclick={sidebar?.close} />
+{/snippet}
+
 <svelte:head>
 	<title>{doc_title}</title>
 </svelte:head>
@@ -68,7 +72,7 @@
 	</hgroup>
 
 	{#if data.user}
-		<Sidebar bind:this={sidebar} close_at={1024} />
+		<Sidebar bind:this={sidebar} close_at={1024} close_button={close_sb_button} />
 	{/if}
 
 	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
