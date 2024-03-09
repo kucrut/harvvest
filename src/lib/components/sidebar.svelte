@@ -36,12 +36,15 @@
 		display: grid;
 		transform: translate3d( -100%, 0, 0 );
 		transition: transform 0.5s;
+		visibility: hidden;
 
 		&.is-open {
 			transform: translateZ( 0 );
+			visibility: visible;
 		}
 
 		@media ( min-width: $br-lg ) {
+			visibility: visible;
 			z-index: initial;
 			transform: unset;
 			grid-row: 1/-1;
