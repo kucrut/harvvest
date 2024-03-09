@@ -5,6 +5,9 @@
 	import Nav from './nav.svelte';
 	import UserInfo from './user-info.svelte';
 
+	/** @type {{close_at?: number}} */
+	const { close_at } = $props();
+
 	let is_open = $state( false );
 
 	export function close() {
@@ -18,7 +21,26 @@
 	export function toggle() {
 		is_open = ! is_open;
 	}
+
+	/**
+	 * Close sidebar when window size is above the large breakpoint
+	 *
+	 * @param {Event} event Event.
+	 */
+	function handle_window_resize( event ) {
+		if (
+			typeof close_at === 'number' &&
+			close_at > 0 &&
+			event.type === 'resize' &&
+			event.target instanceof Window &&
+			event.target.innerWidth > close_at
+		) {
+			close();
+		}
+	}
 </script>
+
+<svelte:window onresize={handle_window_resize} />
 
 <aside
 	tabindex="-1"
