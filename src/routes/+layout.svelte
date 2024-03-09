@@ -3,6 +3,7 @@
 <script>
 	import '../app.scss';
 
+	import { beforeNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
 	import IconButton from '$lib/components/icon-button.svelte';
 	import Main from '$lib/components/main.svelte';
@@ -22,6 +23,10 @@
 	} );
 
 	const page_title = $derived( $page.data.meta.title || data.app_name );
+
+	beforeNavigate( () => {
+		sidebar?.close();
+	} );
 
 	$effect.pre( () => {
 		is_online = navigator.onLine;
