@@ -1,24 +1,33 @@
 <script>
 	import { click_outside, handle_escape, trap_focus } from '@kucrut/svelte-stuff/actions';
 	import { page } from '$app/stores';
-	import { sidebar } from '$lib/runes/sidebar.svelte.js';
 	import IconButton from './icon-button.svelte';
 	import Nav from './nav.svelte';
 	import UserInfo from './user-info.svelte';
 
-	/** @type {{el?: HTMLElement}} */
-	let { el } = $props();
+	let is_open = $state( false );
+
+	export function close() {
+		is_open = false;
+	}
+
+	export function open() {
+		is_open = true;
+	}
+
+	export function toggle() {
+		is_open = ! is_open;
+	}
 </script>
 
 <aside
 	tabindex="-1"
-	bind:this={el}
-	class:is-open={sidebar.is_open}
-	use:click_outside={{ active: sidebar.is_open, callback: () => sidebar.close() }}
-	use:handle_escape={{ active: sidebar.is_open, callback: () => sidebar.close() }}
-	use:trap_focus={{ active: sidebar.is_open }}
+	class:is-open={is_open}
+	use:click_outside={{ active: is_open, callback: close }}
+	use:handle_escape={{ active: is_open, callback: close }}
+	use:trap_focus={{ active: is_open }}
 >
-	<IconButton class="close" icon="x" label="Close sidebar" onclick={() => sidebar.toggle()} />
+	<IconButton class="close" icon="x" label="Close sidebar" onclick={close} />
 
 	<Nav />
 
