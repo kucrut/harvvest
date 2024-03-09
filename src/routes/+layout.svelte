@@ -16,25 +16,6 @@
 	/** @type {Sidebar|undefined} */
 	let sidebar = $state();
 
-	/**
-	 * Close sidebar when window size is above the large breakpoint
-	 *
-	 * @param {Event} event Event.
-	 */
-	function handle_window_resize( event ) {
-		// TODO
-		const large_breakpoint = 1024;
-
-		if (
-			sidebar &&
-			event.type === 'resize' &&
-			event.target instanceof Window &&
-			event.target.innerWidth > large_breakpoint
-		) {
-			sidebar.close();
-		}
-	}
-
 	const doc_title = $derived.by( () => {
 		const suffix = data.app_name;
 
@@ -70,8 +51,6 @@
 	} );
 </script>
 
-<svelte:window onresize={handle_window_resize} />
-
 <svelte:head>
 	<title>{doc_title}</title>
 </svelte:head>
@@ -89,7 +68,7 @@
 	</hgroup>
 
 	{#if data.user}
-		<Sidebar bind:this={sidebar} />
+		<Sidebar bind:this={sidebar} close_at={1024} />
 	{/if}
 
 	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
