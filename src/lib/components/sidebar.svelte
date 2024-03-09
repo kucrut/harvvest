@@ -5,10 +5,14 @@
 	import IconButton from './icon-button.svelte';
 	import Nav from './nav.svelte';
 	import UserInfo from './user-info.svelte';
+
+	/** @type {{el?: HTMLElement}} */
+	let { el } = $props();
 </script>
 
 <aside
 	tabindex="-1"
+	bind:this={el}
 	class:is-open={sidebar.is_open}
 	use:click_outside={{ active: sidebar.is_open, callback: () => sidebar.close() }}
 	use:handle_escape={{ active: sidebar.is_open, callback: () => sidebar.close() }}
