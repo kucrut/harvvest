@@ -1,12 +1,11 @@
 <script>
 	import { click_outside, handle_escape, trap_focus } from '@kucrut/svelte-stuff/actions';
 	import { page } from '$app/stores';
-	import IconButton from './icon-button.svelte';
 	import Nav from './nav.svelte';
 	import UserInfo from './user-info.svelte';
 
-	/** @type {{close_at?: number}} */
-	const { close_at } = $props();
+	/** @type {{close_at?: number; close_button?: import('svelte').Snippet}} */
+	const { close_at, close_button } = $props();
 
 	let is_open = $state( false );
 
@@ -49,7 +48,9 @@
 	use:handle_escape={{ active: is_open, callback: close }}
 	use:trap_focus={{ active: is_open }}
 >
-	<IconButton class="close" icon="x" label="Close sidebar" onclick={close} />
+	{#if close_button}
+		{@render close_button()}
+	{/if}
 
 	<Nav />
 
