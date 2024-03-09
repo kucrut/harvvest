@@ -7,5 +7,6 @@ export const sidebar = {
 		return is_open;
 	},
 
+	close: () => ( is_open = false ),
 	toggle: () => ( is_open = ! is_open ),
 };
