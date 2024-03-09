@@ -1,11 +1,8 @@
 <script>
 	import { click_outside, handle_escape, trap_focus } from '@kucrut/svelte-stuff/actions';
-	import { page } from '$app/stores';
-	import Nav from './nav.svelte';
-	import UserInfo from './user-info.svelte';
 
-	/** @type {{close_at?: number; close_button?: import('svelte').Snippet}} */
-	const { close_at, close_button } = $props();
+	/** @type {{children?: import('svelte').Snippet; close_at?: number; close_button?: import('svelte').Snippet}} */
+	const { children, close_at, close_button } = $props();
 
 	let is_open = $state( false );
 
@@ -52,10 +49,8 @@
 		{@render close_button()}
 	{/if}
 
-	<Nav />
-
-	{#if $page.data.user}
-		<UserInfo user={$page.data.user} />
+	{#if children}
+		{@render children()}
 	{/if}
 </aside>
 
