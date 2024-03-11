@@ -1,16 +1,22 @@
+<svelte:options accessors />
+
 <script>
 	import '../app.scss';
 
+	import { beforeNavigate } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { sidebar } from '$lib/runes/sidebar.svelte.js';
 	import IconButton from '$lib/components/icon-button.svelte';
 	import Main from '$lib/components/main.svelte';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
+	import Nav from '$lib/components/nav.svelte';
+	import UserInfo from '$lib/components/user-info.svelte';
 
 	const { children, data } = $props();
 
 	let is_online = $state( true );
+	/** @type {Sidebar|undefined} */
+	let sidebar = $state();
 
 	const doc_title = $derived.by( () => {
 		const suffix = data.app_name;
@@ -19,6 +25,10 @@
 	} );
 
 	const page_title = $derived( $page.data.meta.title || data.app_name );
+
+	beforeNavigate( () => {
+		sidebar?.close();
+	} );
 
 	$effect.pre( () => {
 		is_online = navigator.onLine;
@@ -55,12 +65,17 @@
 	<hgroup class="container-fluid">
 		<h1 class:visually-hidden={$page.data.hide_title}>{page_title}</h1>
 		{#if data.user}
-			<IconButton icon="menu" label="Menu" onclick={() => sidebar.toggle()} />
+			<IconButton icon="menu" label="Menu" onclick={() => sidebar?.toggle()} />
 		{/if}
 	</hgroup>
 
 	{#if data.user}
-		<Sidebar />
+		<!-- TODO: Get close_at from a constant or something. -->
+		<Sidebar bind:this={sidebar} close_at={1024}>
+			<IconButton class="close" icon="x" label="Close sidebar" onclick={sidebar?.close} />
+			<Nav />
+			<UserInfo user={data.user} />
+		</Sidebar>
 	{/if}
 
 	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
@@ -74,16 +89,14 @@
 
 <style lang="scss">
 	.app {
+		--sidebar-size: 20rem;
+
 		min-block-size: 100dvh;
 		display: grid;
 		grid-template-rows: auto 1fr;
 
 		@media ( min-width: $br-lg ) {
-			--sidebar-size: 0;
-
 			&.has-sidebar {
-				--sidebar-size: 100vw;
-
 				grid-template-columns: var( --sidebar-size ) 1fr;
 			}
 		}

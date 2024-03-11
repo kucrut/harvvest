@@ -1,18 +1,56 @@
 <script>
-	import { page } from '$app/stores';
-	import { sidebar } from '$lib/runes/sidebar.svelte.js';
-	import IconButton from './icon-button.svelte';
-	import Nav from './nav.svelte';
-	import UserInfo from './user-info.svelte';
+	import { click_outside, handle_escape, trap_focus } from '@kucrut/svelte-stuff/actions';
+
+	/** @type {{children?: import('svelte').Snippet; close_at?: number; close_button?: import('svelte').Snippet}} */
+	const { children, close_at, close_button } = $props();
+
+	let is_open = $state( false );
+
+	export function close() {
+		is_open = false;
+	}
+
+	export function open() {
+		is_open = true;
+	}
+
+	export function toggle() {
+		is_open = ! is_open;
+	}
+
+	/**
+	 * Close sidebar when window size is above the large breakpoint
+	 *
+	 * @param {Event} event Event.
+	 */
+	function handle_window_resize( event ) {
+		if (
+			typeof close_at === 'number' &&
+			close_at > 0 &&
+			event.type === 'resize' &&
+			event.target instanceof Window &&
+			event.target.innerWidth > close_at
+		) {
+			close();
+		}
+	}
 </script>
 
-<aside class:is-open={sidebar.is_open}>
-	<IconButton class="close" icon="x" label="Close sidebar" onclick={() => sidebar.toggle()} />
+<svelte:window onresize={handle_window_resize} />
 
-	<Nav />
+<aside
+	tabindex="-1"
+	class:is-open={is_open}
+	use:click_outside={{ active: is_open, callback: close }}
+	use:handle_escape={{ active: is_open, callback: close }}
+	use:trap_focus={{ active: is_open }}
+>
+	{#if close_button}
+		{@render close_button()}
+	{/if}
 
-	{#if $page.data.user}
-		<UserInfo user={$page.data.user} />
+	{#if children}
+		{@render children()}
 	{/if}
 </aside>
 
@@ -28,13 +66,16 @@
 		background-color: var( --pico-form-element-background-color );
 		display: grid;
 		transform: translate3d( -100%, 0, 0 );
-		transition: transform 0.5s;
+		transition: transform 0.3s;
+		visibility: hidden;
 
 		&.is-open {
 			transform: translateZ( 0 );
+			visibility: visible;
 		}
 
 		@media ( min-width: $br-lg ) {
+			visibility: visible;
 			z-index: initial;
 			transform: unset;
 			grid-row: 1/-1;
