@@ -8,6 +8,9 @@ devDependencies:
   '@adonisjs/encryption':
     specifier: ^6.0.1
     version: 6.0.1
+  '@kucrut/svelte-stuff':
+    specifier: ^0.1.0
+    version: 0.1.0(svelte@5.0.0-next.71)
   '@kucrut/wp-api-helpers':
     specifier: ^0.6.0
     version: 0.6.0(zod@3.22.4)
@@ -1728,6 +1731,14 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.4.15
+    dev: true
+
+  /@kucrut/svelte-stuff@0.1.0(svelte@5.0.0-next.71):
+    resolution: {integrity: sha512-d508Vrd2MlF5O+UDRPyLrw8L7bXS9EhDiFFFAy7SUxfNQGlx0foGMw2Y+qUKorhFtGMzXb8RleryyPi7tKJd0g==}
+    peerDependencies:
+      svelte: ^4.2.10
+    dependencies:
+      svelte: 5.0.0-next.71
     dev: true
 
   /@kucrut/wp-api-helpers@0.6.0(zod@3.22.4):
