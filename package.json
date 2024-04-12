@@ -12,7 +12,7 @@
 		"format:fix": "prettier --write .",
 		"lint": "pnpm format:check && pnpm lint:css && pnpm lint:js && pnpm types:check",
 		"lint:css": "stylelint '**/*.html' '**/*.css' '**/*.pcss' '**/*.postcss' '**/*.scss' '**/*.svelte'",
-		"lint:js": "eslint --ext .cjs,.html,.js,.svelte,.ts .",
+		"lint:js": "eslint .",
 		"lint:js:fix": "eslint --fix --ext .cjs,.html,.js,.svelte,.ts .",
 		"types:check": "svelte-kit sync && svelte-check && tsc"
 	},
