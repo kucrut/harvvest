@@ -10,7 +10,7 @@
 	"svelteSortOrder": "options-scripts-markup-styles",
 	"trailingComma": "all",
 	"useTabs": true,
-	"plugins": [ "prettier-plugin-svelte", "eslint-plugin-prettier" ],
+	"plugins": [ "prettier-plugin-svelte" ],
 	"overrides": [
 		{
 			"files": [ "*.yaml", "*.yml" ],

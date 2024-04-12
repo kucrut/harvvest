@@ -41,13 +41,11 @@ export const load = async ( { locals } ) => {
 					terms: tax_terms.map( ( { id, name } ) => ( { id, name } ) ),
 				} );
 			} catch ( err ) {
-				// eslint-disable-next-line no-console
 				console.log( err );
 				continue;
 			}
 		}
 	} catch ( error ) {
-		// eslint-disable-next-line no-console
 		console.log( error );
 	}
 

@@ -1,5 +1,3 @@
-/* eslint-disable jsdoc/no-undefined-types */ // TODO
-
 /// <reference types="@sveltejs/kit" />
 /// <reference no-default-lib="true"/>
 /// <reference lib="esnext" />
