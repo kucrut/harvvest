@@ -13,7 +13,6 @@ export async function copy_to_clipboard( text ) {
 			await navigator.clipboard.writeText( text );
 		}
 	} catch ( err ) {
-		// eslint-disable-next-line no-console
 		console.error( err );
 	}
 }
