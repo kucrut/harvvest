@@ -6,18 +6,18 @@ import globals from 'globals';
 /** @type {import('eslint').Linter.FlatConfig[]} */
 export default [
 	js.configs.recommended,
-	...svelte.configs['flat/recommended'],
+	...svelte.configs[ 'flat/recommended' ],
 	prettier,
-	...svelte.configs['flat/prettier'],
+	...svelte.configs[ 'flat/prettier' ],
 	{
 		languageOptions: {
 			globals: {
 				...globals.browser,
-				...globals.node
-			}
-		}
+				...globals.node,
+			},
+		},
 	},
 	{
-		ignores: ['build/', '.svelte-kit/', 'package/']
-	}
+		ignores: [ 'build/', '.svelte-kit/', 'package/' ],
+	},
 ];
