@@ -6,7 +6,7 @@
 	 *   value?: string;
 	 * } & import("svelte/elements").HTMLInputAttributes & import("svelte/elements").HTMLTextareaAttributes }
 	 */
-	const { label, multiline = false, value = '', ...rest } = $props();
+	const { label, multiline = false, value = $bindable( '' ), ...rest } = $props();
 </script>
 
 <label>

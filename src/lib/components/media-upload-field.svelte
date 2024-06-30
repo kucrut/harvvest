@@ -10,7 +10,7 @@
 	 *   ontypeerror?: (file: File) => void;
 	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type' > }
 	 */
-	let { files, max_file_size, onsizeerror, ontypeerror, ...rest } = $props();
+	let { files = $bindable(), max_file_size, onsizeerror, ontypeerror, ...rest } = $props();
 
 	/** @type {HTMLInputElement} */
 	let input;
