@@ -96,7 +96,7 @@ importers:
         specifier: ^5.0.1
         version: 5.0.1(stylelint@16.6.1(typescript@5.5.2))
       svelte:
-        specifier: ^5.0.0-next.100
+        specifier: 5.0.0-next.167
         version: 5.0.0-next.167
       svelte-check:
         specifier: ^3.6.9
