@@ -5,9 +5,9 @@
 	import { page } from '$app/stores';
 	import IconButton from '$lib/components/icon-button.svelte';
 	import Main from '$lib/components/main.svelte';
+	import Nav from '$lib/components/nav.svelte';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
-	import Nav from '$lib/components/nav.svelte';
 	import UserInfo from '$lib/components/user-info.svelte';
 
 	const { children, data } = $props();
