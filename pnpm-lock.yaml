@@ -54,14 +54,14 @@ importers:
         specifier: ^9.1.0
         version: 9.1.0(eslint@9.6.0)
       eslint-plugin-svelte:
-        specifier: 2.37.0
-        version: 2.37.0(eslint@9.6.0)(svelte@5.0.0-next.167)
+        specifier: 2.41.0
+        version: 2.41.0(eslint@9.6.0)(svelte@5.0.0-next.167)
       globals:
         specifier: ^15.0.0
         version: 15.6.0
       lucide-static:
-        specifier: ^0.368.0
-        version: 0.368.0
+        specifier: ^0.399.0
+        version: 0.399.0
       node-html-parser:
         specifier: ^6.1.13
         version: 6.1.13
@@ -72,8 +72,8 @@ importers:
         specifier: ^1.6.0
         version: 1.7.0
       postcss-load-config:
-        specifier: ^5.0.3
-        version: 5.1.0(postcss@8.4.39)
+        specifier: ^6.0.1
+        version: 6.0.1(postcss@8.4.39)(yaml@2.4.5)
       prettier:
         specifier: npm:wp-prettier@^3.0.3
         version: wp-prettier@3.0.3
@@ -100,7 +100,7 @@ importers:
         version: 5.0.0-next.167
       svelte-check:
         specifier: ^3.6.9
-        version: 3.8.4(postcss-load-config@5.1.0(postcss@8.4.39))(postcss@8.4.39)(sass@1.77.6)(svelte@5.0.0-next.167)
+        version: 3.8.4(postcss-load-config@6.0.1(postcss@8.4.39)(yaml@2.4.5))(postcss@8.4.39)(sass@1.77.6)(svelte@5.0.0-next.167)
       typescript:
         specifier: ^5.4.5
         version: 5.5.2
@@ -868,12 +868,12 @@ packages:
     peerDependencies:
       eslint: '>=7.0.0'
 
-  eslint-plugin-svelte@2.37.0:
-    resolution: {integrity: sha512-H/2Gz7agYHEMEEzRuLYuCmAIdjuBnbhFG9hOK0yCdSBvvJGJMkjo+lR6j67OIvLOavgp4L7zA5LnDKi8WqdPhQ==}
+  eslint-plugin-svelte@2.41.0:
+    resolution: {integrity: sha512-gjU9Q/psxbWG1VNwYbEb0Q6U4W5PBGaDpYmO2zlQ+zlAMVS3Qt0luAK0ACi/tMSwRK6JENiySvMyJbO0YWmXSg==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^7.0.0 || ^8.0.0-0 || ^9.0.0-0
-      svelte: ^3.37.0 || ^4.0.0 || ^5.0.0-next.95
+      svelte: ^3.37.0 || ^4.0.0 || ^5.0.0-next.155
     peerDependenciesMeta:
       svelte:
         optional: true
@@ -1192,11 +1192,11 @@ packages:
     resolution: {integrity: sha512-o+NO+8WrRiQEE4/7nwRJhN1HWpVmJm511pBHUxPLtp0BUISzlBplORYSmTclCnJvQq2tKu/sgl3xVpkc7ZWuQQ==}
     engines: {node: '>=6'}
 
-  known-css-properties@0.30.0:
-    resolution: {integrity: sha512-VSWXYUnsPu9+WYKkfmJyLKtIvaRJi1kXUqVmBACORXZQxT5oZDsoZ2vQP+bQFDnWtpI/4eq3MLoRMjI2fnLzTQ==}
-
   known-css-properties@0.31.0:
     resolution: {integrity: sha512-sBPIUGTNF0czz0mwGGUoKKJC8Q7On1GPbCSFPfyEsfHb2DyBG0Y4QtV+EVWpINSaiGKZblDNuF5AezxSgOhesQ==}
+
+  known-css-properties@0.34.0:
+    resolution: {integrity: sha512-tBECoUqNFbyAY4RrbqsBQqDFpGXAEbdD5QKr8kACx3+rnArmuuR22nKQWKazvp07N9yjTyDZaw/20UIH8tL9DQ==}
 
   levn@0.4.1:
     resolution: {integrity: sha512-+bT2uH4E5LGE7h/n3evcS/sQlJXCpIp6ym8OWJ5eV6+67Dsql/LaaT7qJBAt2rzfoa/5QBGBhxDix1dMt2kQKQ==}
@@ -1230,8 +1230,8 @@ packages:
     resolution: {integrity: sha512-CQl19J/g+Hbjbv4Y3mFNNXFEL/5t/KCg8POCuUqd4rMKjGG+j1ybER83hxV58zL+dFI1PTkt3GNFSHRt+d8qEQ==}
     engines: {node: 14 || >=16.14}
 
-  lucide-static@0.368.0:
-    resolution: {integrity: sha512-XZaWkDMPfNezY8ylkXOH+6KWDkLsjiSnOcxG5OQcvQWQ0WSsSvTRRf5BQ+g4I85zBbxxqedO8KDYkse0/zRTMA==}
+  lucide-static@0.399.0:
+    resolution: {integrity: sha512-RkR/IvJ9PUtRL+3jXmTesvqtQ91imaM2jFv33R7cfr+3dZdOAERQ4tI4QlAAinEglckKfo7wSMR++RTmDveW9g==}
 
   magic-string@0.30.10:
     resolution: {integrity: sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==}
@@ -1388,19 +1388,22 @@ packages:
       ts-node:
         optional: true
 
-  postcss-load-config@5.1.0:
-    resolution: {integrity: sha512-G5AJ+IX0aD0dygOE0yFZQ/huFFMSNneyfp0e3/bT05a8OfPC5FUoZRPfGijUdGOJNMewJiwzcHJXFafFzeKFVA==}
+  postcss-load-config@6.0.1:
+    resolution: {integrity: sha512-oPtTM4oerL+UXmx+93ytZVN82RrlY/wPUV8IeDxFrzIjXOLF1pN+EmKPLbubvKHT2HC20xXsCAH2Z+CKV6Oz/g==}
     engines: {node: '>= 18'}
     peerDependencies:
       jiti: '>=1.21.0'
       postcss: '>=8.0.9'
       tsx: ^4.8.1
+      yaml: ^2.4.2
     peerDependenciesMeta:
       jiti:
         optional: true
       postcss:
         optional: true
       tsx:
+        optional: true
+      yaml:
         optional: true
 
   postcss-media-query-parser@0.2.3:
@@ -2513,15 +2516,14 @@ snapshots:
     dependencies:
       eslint: 9.6.0
 
-  eslint-plugin-svelte@2.37.0(eslint@9.6.0)(svelte@5.0.0-next.167):
+  eslint-plugin-svelte@2.41.0(eslint@9.6.0)(svelte@5.0.0-next.167):
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@9.6.0)
       '@jridgewell/sourcemap-codec': 1.4.15
-      debug: 4.3.5
       eslint: 9.6.0
       eslint-compat-utils: 0.5.1(eslint@9.6.0)
       esutils: 2.0.3
-      known-css-properties: 0.30.0
+      known-css-properties: 0.34.0
       postcss: 8.4.39
       postcss-load-config: 3.1.4(postcss@8.4.39)
       postcss-safe-parser: 6.0.0(postcss@8.4.39)
@@ -2531,7 +2533,6 @@ snapshots:
     optionalDependencies:
       svelte: 5.0.0-next.167
     transitivePeerDependencies:
-      - supports-color
       - ts-node
 
   eslint-scope@7.2.2:
@@ -2855,9 +2856,9 @@ snapshots:
 
   kleur@4.1.5: {}
 
-  known-css-properties@0.30.0: {}
-
   known-css-properties@0.31.0: {}
+
+  known-css-properties@0.34.0: {}
 
   levn@0.4.1:
     dependencies:
@@ -2882,7 +2883,7 @@ snapshots:
 
   lru-cache@10.3.0: {}
 
-  lucide-static@0.368.0: {}
+  lucide-static@0.399.0: {}
 
   magic-string@0.30.10:
     dependencies:
@@ -3013,12 +3014,12 @@ snapshots:
     optionalDependencies:
       postcss: 8.4.39
 
-  postcss-load-config@5.1.0(postcss@8.4.39):
+  postcss-load-config@6.0.1(postcss@8.4.39)(yaml@2.4.5):
     dependencies:
       lilconfig: 3.1.2
-      yaml: 2.4.5
     optionalDependencies:
       postcss: 8.4.39
+      yaml: 2.4.5
 
   postcss-media-query-parser@0.2.3: {}
 
@@ -3295,14 +3296,14 @@ snapshots:
 
   supports-preserve-symlinks-flag@1.0.0: {}
 
-  svelte-check@3.8.4(postcss-load-config@5.1.0(postcss@8.4.39))(postcss@8.4.39)(sass@1.77.6)(svelte@5.0.0-next.167):
+  svelte-check@3.8.4(postcss-load-config@6.0.1(postcss@8.4.39)(yaml@2.4.5))(postcss@8.4.39)(sass@1.77.6)(svelte@5.0.0-next.167):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
       chokidar: 3.6.0
       picocolors: 1.0.1
       sade: 1.8.1
       svelte: 5.0.0-next.167
-      svelte-preprocess: 5.1.4(postcss-load-config@5.1.0(postcss@8.4.39))(postcss@8.4.39)(sass@1.77.6)(svelte@5.0.0-next.167)(typescript@5.5.2)
+      svelte-preprocess: 5.1.4(postcss-load-config@6.0.1(postcss@8.4.39)(yaml@2.4.5))(postcss@8.4.39)(sass@1.77.6)(svelte@5.0.0-next.167)(typescript@5.5.2)
       typescript: 5.5.2
     transitivePeerDependencies:
       - '@babel/core'
@@ -3329,7 +3330,7 @@ snapshots:
     dependencies:
       svelte: 5.0.0-next.167
 
-  svelte-preprocess@5.1.4(postcss-load-config@5.1.0(postcss@8.4.39))(postcss@8.4.39)(sass@1.77.6)(svelte@5.0.0-next.167)(typescript@5.5.2):
+  svelte-preprocess@5.1.4(postcss-load-config@6.0.1(postcss@8.4.39)(yaml@2.4.5))(postcss@8.4.39)(sass@1.77.6)(svelte@5.0.0-next.167)(typescript@5.5.2):
     dependencies:
       '@types/pug': 2.0.10
       detect-indent: 6.1.0
@@ -3339,7 +3340,7 @@ snapshots:
       svelte: 5.0.0-next.167
     optionalDependencies:
       postcss: 8.4.39
-      postcss-load-config: 5.1.0(postcss@8.4.39)
+      postcss-load-config: 6.0.1(postcss@8.4.39)(yaml@2.4.5)
       sass: 1.77.6
       typescript: 5.5.2
 
@@ -3453,7 +3454,8 @@ snapshots:
 
   yaml@1.10.2: {}
 
-  yaml@2.4.5: {}
+  yaml@2.4.5:
+    optional: true
 
   yocto-queue@0.1.0: {}
 
