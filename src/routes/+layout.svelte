@@ -1,5 +1,3 @@
-<svelte:options accessors />
-
 <script>
 	import '../app.scss';
 
