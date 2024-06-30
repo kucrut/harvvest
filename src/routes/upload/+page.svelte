@@ -59,6 +59,8 @@
 		alert = { message, type };
 	};
 
+	// TODO: Get rid of these effects.
+
 	$effect.pre( () => {
 		if ( $page.url.searchParams.has( PWA_SHARE_TARGET_SEARCH_PARAM ) ) {
 			( async () => {
