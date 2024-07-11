@@ -8,9 +8,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"format:check": "prettier --check .",
-		"format:fix": "prettier --write .",
-		"lint": "pnpm format:check && pnpm lint:css && pnpm lint:js && pnpm types:check",
+		"lint": "pnpm lint:css && pnpm lint:js && pnpm types:check",
 		"lint:css": "stylelint '**/*.html' '**/*.css' '**/*.pcss' '**/*.postcss' '**/*.scss' '**/*.svelte'",
 		"lint:js": "eslint .",
 		"types:check": "svelte-kit sync && svelte-check && tsc"
