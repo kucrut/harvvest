@@ -74,9 +74,6 @@ importers:
       postcss-load-config:
         specifier: ^6.0.1
         version: 6.0.1(postcss@8.4.39)(yaml@2.4.5)
-      prettier:
-        specifier: npm:wp-prettier@^3.0.3
-        version: wp-prettier@3.0.3
       prettier-plugin-svelte:
         specifier: ^3.2.3
         version: 3.2.5(svelte@5.0.0-next.167)(wp-prettier@3.0.3)
