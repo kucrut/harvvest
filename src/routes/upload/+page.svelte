@@ -26,7 +26,6 @@
 	/** @type {import('$types').Alert|null} */
 	let alert = $state( null );
 	let is_submitting = $state( false );
-	let title = $state( '' );
 
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement, formData } ) => {
@@ -91,12 +90,7 @@
 		/>
 		<TextField disabled={is_submitting} label="Alternative text" multiline name="alt_text" required />
 		<TextField disabled={is_submitting} label="Caption" name="caption" required />
-		<TextField
-			disabled={is_submitting}
-			label="Title"
-			name="title"
-			bind:value={title}
-		/>
+		<TextField disabled={is_submitting} label="Title" name="title" />
 		<TextField disabled={is_submitting} label="Description" multiline name="description" />
 		{#if data.terms?.length}
 			{#each data.terms as taxonomy ( `${ taxonomy.name }-${ taxonomy.slug }` )}
