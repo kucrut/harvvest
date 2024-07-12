@@ -29,31 +29,43 @@ export class Upload {
 		return undefined;
 	} );
 
-	#is_valid_size = $derived.by( () => this.#file !== undefined && this.#file.size <= this.#config.max_size );
+	#errors = $derived.by( () => {
+		/** @type {Error[]} */
+		const items = [];
 
-	#is_valid_type = $derived.by( () => {
-		return this.#file !== undefined &&
-			this.#config.allowed_types
-				.map( type => type.replace( /\/\*$/, '/' ) )
-				.some( type => {
-					return this.#file?.type === type ||
-						( type.endsWith( '/' ) && this.#file?.type.startsWith( type ) );
-					// TODO: More checks.
-				} );
+		if ( ! this.#file ) {
+			return items;
+		}
+
+		if ( this.#file.size > this.#config.max_size ) {
+			items.push( new Error( 'This file exceeds the maximum upload size.' ) );
+		}
+
+		if ( ! this.#is_type_allowed( this.#file.type ) ) {
+			items.push( new Error( 'This file type is not allowed.' ) );
+		}
+
+		return items;
 	} );
 
-	#errors = $derived.by( () => [
-		! this.#is_valid_size ? new Error( 'This file exceeds the maximum upload size.' ) : null,
-		! this.#is_valid_type ? new Error( 'This file type is not allowed.' ) : null,
-	].filter( i => i instanceof Error ) );
-
-	#is_valid = $derived.by( () => this.#has_file && this.#is_valid_size && this.#is_valid_type );
+	#is_valid = $derived( ! this.#errors?.length );
 
 	/**
 	 * @param {UploadOptions} options Options.
 	 */
 	constructor( options ) {
 		this.#config = options;
+	}
+
+	/** @param {string} file_type */
+	#is_type_allowed( file_type ) {
+		return this.#config.allowed_types
+			.map( type => type.replace( /\/\*$/, '/' ) )
+			.some( type => {
+				return file_type === type ||
+					( type.endsWith( '/' ) && file_type.startsWith( type ) );
+				// TODO: More checks.
+			} );
 	}
 
 	get allowed_types() {
@@ -72,19 +84,11 @@ export class Upload {
 		return this.#has_file;
 	}
 
-	get kind() {
-		return this.#kind;
-	}
-
 	get is_valid() {
 		return this.#is_valid;
 	}
 
-	get is_valid_size() {
-		return this.#is_valid_size;
-	}
-
-	get is_valid_type() {
-		return this.#is_valid_type;
+	get kind() {
+		return this.#kind;
 	}
 }
