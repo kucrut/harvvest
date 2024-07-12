@@ -28,29 +28,9 @@
 	beforeNavigate( () => {
 		sidebar?.close();
 	} );
-
-	$effect.pre( () => {
-		is_online = navigator.onLine;
-	} );
-
-	$effect( () => {
-		const set_offline = () => {
-			is_online = false;
-		};
-
-		const set_online = () => {
-			is_online = true;
-		};
-
-		window.addEventListener( 'offline', set_offline );
-		window.addEventListener( 'online', set_online );
-
-		return () => {
-			window.removeEventListener( 'offline', set_offline );
-			window.removeEventListener( 'online', set_online );
-		};
-	} );
 </script>
+
+<svelte:window bind:online={is_online} />
 
 <svelte:head>
 	<title>{doc_title}</title>
