@@ -184,7 +184,7 @@ export default [
 					'this',
 					// `bind:this` directive.
 					'bind:this',
-					// `id` attribute.
+					// `slot` attribute.
 					'slot',
 					// `--style-props` (Alphabetical order within the same group.)
 					{ match: '/^--/u', sort: 'alphabetical' },
@@ -196,11 +196,11 @@ export default [
 					{ match: '/^class:/u', sort: 'alphabetical' },
 					// other attributes. (Alphabetical order within the same group.)
 					{
-						match: [ '!/:/u', '!/^(?:this|id|name|style|class)$/u', '!/^--/u' ],
+						match: [ '!/:/u', '!/^(?:this|class|style)$/u', '!/^--/u', '!/^on/u' ],
 						sort: 'alphabetical',
 					},
 					// `bind:` directives (other then `bind:this`), and `on:` directives.
-					[ '/^bind:/u', '!bind:this', '/^on:/u' ],
+					[ '/^bind:/u', '!bind:this', '/^on/u' ],
 					// `use:` directives. (Alphabetical order within the same group.)
 					{ match: '/^use:/u', sort: 'alphabetical' },
 					// `transition:` directive.
