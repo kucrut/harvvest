@@ -21,7 +21,7 @@
 
 	const file = $derived.by( () => ( files?.length ? files[ 0 ] : undefined ) );
 
-	const file_type = $derived.by( () => {
+	const kind = $derived.by( () => {
 		if ( ! file ) {
 			return undefined;
 		}
@@ -38,7 +38,7 @@
 	} );
 
 	$effect( () => {
-		preview_src = file && file_type === 'image' ? URL.createObjectURL( file ) : undefined;
+		preview_src = file && kind === 'image' ? URL.createObjectURL( file ) : undefined;
 
 		return () => {
 			if ( preview_src ) {
@@ -62,13 +62,13 @@
 		bind:files
 	/>
 	<span>
-		{#if file_type === 'image'}
+		{#if kind === 'image'}
 			{#if preview_src}
 				<img alt="" src={preview_src} />
 			{:else}
 				<Icon {...icon_props} name="file-image" />
 			{/if}
-		{:else if file_type === 'video'}
+		{:else if kind === 'video'}
 			<Icon {...icon_props} name="file-video" />
 		{/if}
 	</span>
