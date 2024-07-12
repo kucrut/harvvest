@@ -7,7 +7,7 @@
 	import { applyAction, enhance } from '$app/forms';
 	import { handle_pwa_share } from '$lib/utils.client.js';
 	import { page } from '$app/stores';
-	import { remove_file_extension } from '$lib/utils.js';
+	// import { remove_file_extension } from '$lib/utils.js';
 	import Alert from '$lib/components/alert.svelte';
 	import CopyButton from '$lib/components/copy-button.svelte';
 	import Main from '$lib/components/main.svelte';
@@ -25,7 +25,6 @@
 
 	/** @type {import('$types').Alert|null} */
 	let alert = $state( null );
-	let has_title_touched = $state( false );
 	let is_submitting = $state( false );
 	let title = $state( '' );
 
@@ -45,7 +44,6 @@
 			if ( result.type === 'success' ) {
 				formElement.reset();
 				upload.files = null;
-				has_title_touched = false;
 			}
 		};
 	};
@@ -81,12 +79,6 @@
 			set_alert( form.message );
 		}
 	} );
-
-	$effect( () => {
-		if ( ! has_title_touched && upload.file ) {
-			title = remove_file_extension( upload.file.name );
-		}
-	} );
 </script>
 
 <Main>
@@ -103,7 +95,6 @@
 			disabled={is_submitting}
 			label="Title"
 			name="title"
-			onfocus={() => ( has_title_touched = true )}
 			bind:value={title}
 		/>
 		<TextField disabled={is_submitting} label="Description" multiline name="description" />
