@@ -51,9 +51,7 @@ export default [
 			'no-unreachable': 'error',
 			'no-unsafe-negation': 'error',
 			'no-unused-expressions': 'error',
-			'no-unused-vars': [ 'error', {
-				ignoreRestSiblings: true,
-			} ],
+			'no-unused-vars': [ 'error', { ignoreRestSiblings: true } ],
 			'no-useless-computed-key': 'error',
 			'no-useless-constructor': 'error',
 			'no-useless-return': 'error',
@@ -83,9 +81,7 @@ export default [
 			'@stylistic/js/function-paren-newline': [ 'error', 'multiline' ],
 			'@stylistic/js/generator-star-spacing': [ 'error', 'before' ],
 			'@stylistic/js/implicit-arrow-linebreak': [ 'error', 'beside' ],
-			'@stylistic/js/indent': [ 'error', 'tab', {
-				SwitchCase: 1,
-			} ],
+			'@stylistic/js/indent': [ 'error', 'tab', { SwitchCase: 1 } ],
 			'@stylistic/js/jsx-quotes': [ 'error', 'prefer-double' ],
 			'@stylistic/js/key-spacing': 'error',
 			'@stylistic/js/keyword-spacing': 'error',
@@ -100,9 +96,7 @@ export default [
 			} ],
 			'@stylistic/js/multiline-ternary': [ 'error', 'always-multiline' ],
 			'@stylistic/js/new-parens': 'error',
-			'@stylistic/js/newline-per-chained-call': [ 'error', {
-				ignoreChainWithDepth: 3,
-			} ],
+			'@stylistic/js/newline-per-chained-call': [ 'error', { ignoreChainWithDepth: 3 } ],
 			'@stylistic/js/no-confusing-arrow': 'error',
 			'@stylistic/js/no-extra-parens': [ 'error', 'all', {
 				allowParensAfterCommentPattern: '@type',
@@ -140,28 +134,21 @@ export default [
 			} ],
 			'@stylistic/js/space-infix-ops': 'error',
 			'@stylistic/js/space-in-parens': [ 'error', 'always' ],
-			'@stylistic/js/space-unary-ops': [ 'error', {
-				overrides: { '!': true, 'yield': true },
-			} ],
+			'@stylistic/js/space-unary-ops': [ 'error', { overrides: { '!': true, 'yield': true } } ],
 			'@stylistic/js/template-curly-spacing': [ 'error', 'always' ],
 			'@stylistic/js/wrap-iife': 'error',
-
 			'svelte/button-has-type': 'error',
 			'svelte/derived-has-same-inputs-outputs': 'error',
 			'svelte/first-attribute-linebreak': 'error',
 			'svelte/html-closing-bracket-spacing': 'error',
-			'svelte/html-quotes': [ 'error', {
-				prefer: 'double',
-			} ],
+			'svelte/html-quotes': [ 'error', { prefer: 'double' } ],
 			'svelte/html-self-closing': [ 'error', {
 				component: 'always',
 				normal: 'never',
 				svelte: 'always',
 				void: 'always',
 			} ],
-			'svelte/indent': [ 'error', {
-				indent: 'tab',
-			} ],
+			'svelte/indent': [ 'error', { indent: 'tab' } ],
 			'svelte/mustache-spacing': 'error',
 			'svelte/no-dom-manipulating': 'error',
 			'svelte/no-dupe-on-directives': 'error',
@@ -181,9 +168,7 @@ export default [
 			// 'svelte/no-unused-class-name': 'error',
 			'svelte/no-useless-mustaches': 'error',
 			'svelte/no-trailing-spaces': 'error',
-			'svelte/prefer-class-directive': [ 'error', {
-				prefer: 'empty',
-			} ],
+			'svelte/prefer-class-directive': [ 'error', { prefer: 'empty' } ],
 			'svelte/prefer-destructured-store-props': 'error',
 			'svelte/require-each-key': 'error',
 			'svelte/require-event-dispatcher-types': 'error',
@@ -191,13 +176,45 @@ export default [
 			'svelte/require-store-callbacks-use-set-param': 'error',
 			'svelte/require-stores-init': 'error',
 			'svelte/require-store-reactive-access': 'error',
-			'svelte/shorthand-attribute': [ 'error', {
-				prefer: 'always',
+			'svelte/shorthand-attribute': [ 'error', { prefer: 'always' } ],
+			'svelte/shorthand-directive': [ 'error', { prefer: 'always' } ],
+			'svelte/sort-attributes': [ 'error', {
+				order: [
+					// `this` property.
+					'this',
+					// `bind:this` directive.
+					'bind:this',
+					// `id` attribute.
+					'slot',
+					// `--style-props` (Alphabetical order within the same group.)
+					{ match: '/^--/u', sort: 'alphabetical' },
+					// `style` attribute, and `style:` directives.
+					[ 'style', '/^style:/u' ],
+					// `class` attribute.
+					'class',
+					// `class:` directives. (Alphabetical order within the same group.)
+					{ match: '/^class:/u', sort: 'alphabetical' },
+					// other attributes. (Alphabetical order within the same group.)
+					{
+						match: [ '!/:/u', '!/^(?:this|id|name|style|class)$/u', '!/^--/u' ],
+						sort: 'alphabetical',
+					},
+					// `bind:` directives (other then `bind:this`), and `on:` directives.
+					[ '/^bind:/u', '!bind:this', '/^on:/u' ],
+					// `use:` directives. (Alphabetical order within the same group.)
+					{ match: '/^use:/u', sort: 'alphabetical' },
+					// `transition:` directive.
+					{ match: '/^transition:/u', sort: 'alphabetical' },
+					// `in:` directive.
+					{ match: '/^in:/u', sort: 'alphabetical' },
+					// `out:` directive.
+					{ match: '/^out:/u', sort: 'alphabetical' },
+					// `animate:` directive.
+					{ match: '/^animate:/u', sort: 'alphabetical' },
+					// `let:` directives. (Alphabetical order within the same group.)
+					{ match: '/^let:/u', sort: 'alphabetical' },
+				],
 			} ],
-			'svelte/shorthand-directive': [ 'error', {
-				prefer: 'always',
-			} ],
-			// 'svelte/sort-attributes': 'error',
 			'svelte/spaced-html-comment': [ 'error', 'always' ],
 			'svelte/valid-each-key': 'error',
 		},
