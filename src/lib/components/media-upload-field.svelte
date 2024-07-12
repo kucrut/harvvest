@@ -12,8 +12,6 @@
 	 */
 	let { files = $bindable(), max_file_size, onsizeerror, ontypeerror, ...rest } = $props();
 
-	/** @type {HTMLInputElement} */
-	let input;
 	/** @type {string|undefined} */
 	let preview_src = $state();
 
@@ -52,15 +50,7 @@
 	<label for="file">Choose file to upload (max. {pretty_bytes( max_file_size )})</label>
 
 	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-	<input
-		{...rest}
-		bind:this={input}
-		accept="image/*,video/*"
-		id="file"
-		required={! files?.length}
-		type="file"
-		bind:files
-	/>
+	<input {...rest} accept="image/*,video/*" id="file" required={! files?.length} type="file" bind:files />
 	<span>
 		{#if kind === 'image'}
 			{#if preview_src}
