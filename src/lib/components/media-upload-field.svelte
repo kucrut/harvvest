@@ -19,18 +19,18 @@
 
 	const icon_props = { height: 125, width: 125 };
 
-	const current_file = $derived.by( () => ( files?.length ? files[ 0 ] : undefined ) );
+	const file = $derived.by( () => ( files?.length ? files[ 0 ] : undefined ) );
 
 	const file_type = $derived.by( () => {
-		if ( ! current_file ) {
+		if ( ! file ) {
 			return undefined;
 		}
 
-		if ( current_file.type.startsWith( 'image/' ) ) {
+		if ( file.type.startsWith( 'image/' ) ) {
 			return 'image';
 		}
 
-		if ( current_file.type.startsWith( 'video/' ) ) {
+		if ( file.type.startsWith( 'video/' ) ) {
 			return 'video';
 		}
 
@@ -38,7 +38,7 @@
 	} );
 
 	$effect( () => {
-		preview_src = current_file && file_type === 'image' ? URL.createObjectURL( current_file ) : undefined;
+		preview_src = file && file_type === 'image' ? URL.createObjectURL( file ) : undefined;
 
 		return () => {
 			if ( preview_src ) {
