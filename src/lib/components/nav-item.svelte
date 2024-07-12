@@ -8,8 +8,8 @@
 </script>
 
 <li>
-	<a {href} aria-current={url.pathname === href ? 'page' : null}>
-		<Icon name={icon} height="20" width="20" />{label}
+	<a aria-current={url.pathname === href ? 'page' : null} {href}>
+		<Icon height="20" name={icon} width="20" />{label}
 	</a>
 </li>
 

@@ -4,7 +4,7 @@
 </script>
 
 <div>
-	<img alt="User avatar" src={user.avatar_url} width="64" height="64" loading="lazy" />
+	<img alt="User avatar" height="64" loading="lazy" src={user.avatar_url} width="64" />
 	<span>{user.name}</span>
 	<a href={user.wp_url} rel="noopener noreferrer" target="_blank">{user.wp_url}</a>
 	<form action="/logout" method="POST">

@@ -52,14 +52,14 @@
 
 <Main>
 	<div>
-		<Icon name="tent" width="80" height="80" />
+		<Icon height="80" name="tent" width="80" />
 
 		<form method="POST" use:enhance={handle_submit}>
 			{#if data.require_wp_url}
-				<TextField autocomplete="url" required label="WordPress URL" name="url" type="url" />
+				<TextField autocomplete="url" label="WordPress URL" name="url" required type="url" />
 			{/if}
 			{#if data.require_access_key}
-				<TextField autocomplete="on" required label="Access Key" name="access_key" type="text" />
+				<TextField autocomplete="on" label="Access Key" name="access_key" required type="text" />
 			{/if}
 			<button type="submit">Get Authorization</button>
 		</form>

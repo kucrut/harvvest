@@ -39,8 +39,8 @@
 <svelte:window onresize={handle_window_resize} />
 
 <aside
-	tabindex="-1"
 	class:is-open={is_open}
+	tabindex="-1"
 	use:click_outside={{ active: is_open, callback: close }}
 	use:handle_escape={{ active: is_open, callback: close }}
 	use:trap_focus={{ active: is_open }}

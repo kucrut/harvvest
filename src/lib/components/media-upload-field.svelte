@@ -82,12 +82,12 @@
 	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 	<input
 		{...rest}
-		accept="image/*,video/*"
-		bind:files
 		bind:this={input}
+		accept="image/*,video/*"
 		id="file"
 		required={! files?.length}
 		type="file"
+		bind:files
 	/>
 	<span>
 		{#if file_type === 'image'}

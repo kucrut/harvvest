@@ -12,9 +12,9 @@
 <label>
 	<span>{label}</span>
 	{#if multiline}
-		<textarea {value} class="textarea" {...rest}></textarea>
+		<textarea class="textarea" {value} {...rest}></textarea>
 	{:else}
-		<input {value} class="input" {...rest} />
+		<input class="input" {value} {...rest} />
 	{/if}
 </label>
 

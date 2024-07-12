@@ -6,7 +6,7 @@
 </script>
 
 <div>
-	<Icon name="wifi-off" width="100" height="100" />
+	<Icon height="100" name="wifi-off" width="100" />
 	<p>
 		You appear to be offline.<br />
 		You can't use {data.app_name} until you're connected to the internet.

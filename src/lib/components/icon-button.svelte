@@ -13,7 +13,7 @@
 	const { class: cls = '', height, icon, label, width, ...rest } = $props();
 </script>
 
-<button aria-label={label} class={clsx( 'outline', cls )} {...rest}><Icon {height} {width} name={icon} /></button>
+<button class={clsx( 'outline', cls )} aria-label={label} {...rest}><Icon {height} name={icon} {width} /></button>
 
 <style>
 	button {

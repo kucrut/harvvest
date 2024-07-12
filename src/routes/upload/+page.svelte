@@ -89,23 +89,23 @@
 <Main>
 	<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 		<MediaUploadField
-			bind:files
 			disabled={is_submitting}
 			max_file_size={data.max_file_size || 0}
 			name="file"
 			onsizeerror={() => set_alert( `Maximum allowed file size is ${ max_file_size_formatted }.` )}
 			ontypeerror={() => set_alert( 'Only images and videos are allowed.' )}
+			bind:files
 		/>
-		<TextField multiline required disabled={is_submitting} label="Alternative text" name="alt_text" />
-		<TextField required disabled={is_submitting} label="Caption" name="caption" />
+		<TextField disabled={is_submitting} label="Alternative text" multiline name="alt_text" required />
+		<TextField disabled={is_submitting} label="Caption" name="caption" required />
 		<TextField
-			bind:value={title}
 			disabled={is_submitting}
 			label="Title"
 			name="title"
 			onfocus={() => ( has_title_touched = true )}
+			bind:value={title}
 		/>
-		<TextField multiline disabled={is_submitting} label="Description" name="description" />
+		<TextField disabled={is_submitting} label="Description" multiline name="description" />
 		{#if data.terms?.length}
 			{#each data.terms as taxonomy ( `${ taxonomy.name }-${ taxonomy.slug }` )}
 				<TermsField {taxonomy} />
