@@ -19,8 +19,6 @@
 
 	const icon_props = { height: 125, width: 125 };
 
-	const clear_file = () => ( files = null );
-
 	const current_file = $derived.by( () => ( files?.length ? files[ 0 ] : undefined ) );
 
 	const file_type = $derived.by( () => {
@@ -37,32 +35,6 @@
 		}
 
 		return undefined;
-	} );
-
-	$effect( () => {
-		if ( ! current_file ) {
-			input.value = '';
-		}
-	} );
-
-	$effect( () => {
-		if ( current_file && ! file_type ) {
-			if ( ontypeerror ) {
-				ontypeerror( current_file );
-			}
-
-			clear_file();
-		}
-	} );
-
-	$effect( () => {
-		if ( current_file && current_file.size > max_file_size ) {
-			if ( onsizeerror ) {
-				onsizeerror( current_file );
-			}
-
-			clear_file();
-		}
 	} );
 
 	$effect( () => {
