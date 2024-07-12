@@ -44,6 +44,7 @@
 		"stylelint-use-logical-spec": "^5.0.1",
 		"svelte": "5.0.0-next.182",
 		"svelte-check": "^3.6.9",
+		"svelte-eslint-parser": "^0.40.0",
 		"typescript": "^5.5.3",
 		"ua-parser-js": "2.0.0-beta.3",
 		"vite": "^5.3.3",

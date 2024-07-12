@@ -98,6 +98,9 @@ importers:
       svelte-check:
         specifier: ^3.6.9
         version: 3.8.4(postcss-load-config@6.0.1(postcss@8.4.39))(postcss@8.4.39)(sass@1.77.8)(svelte@5.0.0-next.182)
+      svelte-eslint-parser:
+        specifier: ^0.40.0
+        version: 0.40.0(svelte@5.0.0-next.182)
       typescript:
         specifier: ^5.5.3
         version: 5.5.3
