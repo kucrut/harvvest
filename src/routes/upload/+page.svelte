@@ -107,8 +107,7 @@
 		/>
 		<TextField multiline disabled={is_submitting} label="Description" name="description" />
 		{#if data.terms?.length}
-			<!-- eslint-disable-next-line space-in-parens -->
-			{#each data.terms as taxonomy (`${ taxonomy.name }-${ taxonomy.slug }`)}
+			{#each data.terms as taxonomy ( `${ taxonomy.name }-${ taxonomy.slug }` )}
 				<TermsField {taxonomy} />
 			{/each}
 		{/if}

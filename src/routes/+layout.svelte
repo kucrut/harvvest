@@ -10,6 +10,7 @@
 	import Sidebar from '$lib/components/sidebar.svelte';
 	import UserInfo from '$lib/components/user-info.svelte';
 
+	const { data: page_data } = $page;
 	const { children, data } = $props();
 
 	let is_online = $state( true );
@@ -19,10 +20,10 @@
 	const doc_title = $derived.by( () => {
 		const suffix = data.app_name;
 
-		return $page.data.meta.title ? `${ $page.data.meta?.title } — ${ suffix }` : suffix;
+		return page_data.meta.title ? `${ page_data.meta?.title } — ${ suffix }` : suffix;
 	} );
 
-	const page_title = $derived( $page.data.meta.title || data.app_name );
+	const page_title = $derived( page_data.meta.title || data.app_name );
 
 	beforeNavigate( () => {
 		sidebar?.close();
@@ -61,7 +62,7 @@
 
 <div class="app" class:has-sidebar={data.user !== undefined}>
 	<hgroup class="container-fluid">
-		<h1 class:visually-hidden={$page.data.hide_title}>{page_title}</h1>
+		<h1 class:visually-hidden={page_data.hide_title}>{page_title}</h1>
 		{#if data.user}
 			<IconButton icon="menu" label="Menu" onclick={() => sidebar?.toggle()} />
 		{/if}
@@ -76,7 +77,7 @@
 		</Sidebar>
 	{/if}
 
-	{#if ! $page.data.needs_net || ( $page.data.needs_net && is_online )}
+	{#if ! page_data.needs_net || ( page_data.needs_net && is_online )}
 		{@render children()}
 	{:else}
 		<Main center_content>

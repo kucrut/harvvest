@@ -5,7 +5,7 @@
 	const { children, data } = $props();
 </script>
 
-<button onclick={() => copy_to_clipboard( data )}>{@render children()}</button>
+<button type="button" onclick={() => copy_to_clipboard( data )}>{@render children()}</button>
 
 <style>
 	/* TODO: Move this to reusable class? */

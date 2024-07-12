@@ -38,7 +38,7 @@ async function check_session( { event, resolve } ) {
 			session_error =
 				error instanceof Error
 					? `Error: ${ error.message }`
-					: `Error: Unable to validate session. Please check you can access your WordPress site.`;
+					: 'Error: Unable to validate session. Please check you can access your WordPress site.';
 		}
 
 		if ( session_error ) {

@@ -4,7 +4,7 @@
 	 *   label: string;
 	 *   multiline?: boolean;
 	 *   value?: string;
-	 * } & import("svelte/elements").HTMLInputAttributes & import("svelte/elements").HTMLTextareaAttributes }
+	 * } & import('svelte/elements').HTMLInputAttributes & import('svelte/elements').HTMLTextareaAttributes }
 	 */
 	const { label, multiline = false, value = $bindable( '' ), ...rest } = $props();
 </script>

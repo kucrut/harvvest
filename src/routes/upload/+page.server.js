@@ -33,7 +33,13 @@ export const load = async ( { locals } ) => {
 
 		for ( const tax of taxonomies ) {
 			try {
-				const tax_terms = await get_terms( locals.session.api_url, tax.rest_base, auth, 'view', { hide_empty: false } );
+				const tax_terms = await get_terms(
+					locals.session.api_url,
+					tax.rest_base,
+					auth,
+					'view',
+					{ hide_empty: false },
+				);
 
 				terms.push( {
 					name: tax.name,
@@ -41,11 +47,13 @@ export const load = async ( { locals } ) => {
 					terms: tax_terms.map( ( { id, name } ) => ( { id, name } ) ),
 				} );
 			} catch ( err ) {
+				// eslint-disable-next-line no-console
 				console.log( err );
 				continue;
 			}
 		}
 	} catch ( error ) {
+		// eslint-disable-next-line no-console
 		console.log( error );
 	}
 
@@ -96,7 +104,8 @@ export const actions = {
 
 			return {
 				success: true,
-				image_link: result.source_url, // TODO: Maybe return the whole object.
+				// TODO: Maybe return the whole object.
+				image_link: result.source_url,
 			};
 		} catch ( error ) {
 			const message = get_error_message(

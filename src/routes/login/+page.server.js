@@ -150,7 +150,11 @@ export const actions = {
 			} catch ( error ) {
 				return fail( 500, {
 					error: true,
-					message: get_error_message( error, 'Unexpected result from server. Please consult the logs.', true ),
+					message: get_error_message(
+						error,
+						'Unexpected result from server. Please consult the logs.',
+						true,
+					),
 				} );
 			}
 		}

@@ -4,5 +4,6 @@
 </script>
 
 <svg aria-hidden={ah} {height} {role} {width} {...rest}>
+	<!-- eslint-disable-next-line svelte/html-self-closing -->
 	<use href="#icon-{name}" />
 </svg>

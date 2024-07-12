@@ -13,15 +13,19 @@ import {
 } from '$lib/constants';
 import { build, files, version, prerendered } from '$service-worker';
 
+// eslint-disable-next-line @stylistic/js/no-extra-parens
 const sw = /** @type {ServiceWorkerGlobalScope} */ ( /** @type {unknown} */ ( self ) );
 
 // Create a unique cache name for this deployment.
 const CACHE = `cache-${ version }`;
 
 const ASSETS = [
-	...build, // the app itself.
-	...files, // everything in `static`.
-	...prerendered, // prerendered pages.
+	// the app itself.
+	...build,
+	// everything in `static`.
+	...files,
+	// prerendered pages.
+	...prerendered,
 ];
 
 /** @type {Map<string, (() => void)[]>} */

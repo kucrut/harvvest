@@ -22,6 +22,7 @@ export const actions = {
 		try {
 			await delete_app_password( locals.session.api_url, locals.session.auth, 'me', locals.session.auth_uuid );
 		} catch ( error ) {
+			// eslint-disable-next-line no-console
 			console.error( 'Logout action: ', error );
 		} finally {
 			clear_cookies( cookies );
