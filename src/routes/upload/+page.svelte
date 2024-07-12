@@ -6,7 +6,9 @@
 	} from '$lib/constants.js';
 	import { applyAction, enhance } from '$app/forms';
 	import { handle_pwa_share } from '$lib/utils.client.js';
+	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { Upload } from '$lib/runes/upload.svelte.js';
 	// import { remove_file_extension } from '$lib/utils.js';
 	import Alert from '$lib/components/alert.svelte';
 	import CopyButton from '$lib/components/copy-button.svelte';
@@ -14,7 +16,6 @@
 	import MediaUploadField from '$lib/components/media-upload-field.svelte';
 	import TermsField from '$lib/components/terms-field.svelte';
 	import TextField from '$lib/components/text-field.svelte';
-	import { Upload } from '$lib/runes/upload.svelte.js';
 
 	const { data, form } = $props();
 
@@ -59,17 +60,15 @@
 		alert = { message, type };
 	};
 
-	// TODO: Get rid of these effects.
-
-	$effect.pre( () => {
+	onMount( async () => {
 		if ( $page.url.searchParams.has( PWA_SHARE_TARGET_SEARCH_PARAM ) ) {
-			( async () => {
-				upload.files = await handle_pwa_share();
-				// Clear PWA share target search param.
-				history.replaceState( '', '', PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE );
-			} )();
+			upload.files = await handle_pwa_share();
+			// Clear PWA share target search param.
+			history.replaceState( '', '', PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE );
 		}
 	} );
+
+	// TODO: Get rid of these effects.
 
 	$effect( () => {
 		if ( form?.success ) {
