@@ -4,39 +4,19 @@
 
 	/**
 	 * @type {{
-	 *   files: FileList|null;
 	 *   max_file_size: number;
-	 *   onsizeerror?: (file: File) => void;
-	 *   ontypeerror?: (file: File) => void;
+	 *   upload: import('$lib/runes/upload.svelte.js').Upload;
 	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type' > }
 	 */
-	let { files = $bindable(), max_file_size, onsizeerror, ontypeerror, ...rest } = $props();
+	const { max_file_size, upload = $bindable(), ...rest } = $props();
 
 	/** @type {string|undefined} */
 	let preview_src = $state();
 
 	const icon_props = { height: 125, width: 125 };
 
-	const file = $derived.by( () => ( files?.length ? files[ 0 ] : undefined ) );
-
-	const kind = $derived.by( () => {
-		if ( ! file ) {
-			return undefined;
-		}
-
-		if ( file.type.startsWith( 'image/' ) ) {
-			return 'image';
-		}
-
-		if ( file.type.startsWith( 'video/' ) ) {
-			return 'video';
-		}
-
-		return undefined;
-	} );
-
 	$effect( () => {
-		preview_src = file && kind === 'image' ? URL.createObjectURL( file ) : undefined;
+		preview_src = upload.file && upload.kind === 'image' ? URL.createObjectURL( upload.file ) : undefined;
 
 		return () => {
 			if ( preview_src ) {
@@ -50,15 +30,22 @@
 	<label for="file">Choose file to upload (max. {pretty_bytes( max_file_size )})</label>
 
 	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
-	<input {...rest} accept="image/*,video/*" id="file" required={! files?.length} type="file" bind:files />
+	<input
+		{...rest}
+		accept={upload.allowed_types}
+		id="file"
+		required={! upload.files?.length}
+		type="file"
+		bind:files={upload.files}
+	/>
 	<span>
-		{#if kind === 'image'}
+		{#if upload.kind === 'image'}
 			{#if preview_src}
 				<img alt="" src={preview_src} />
 			{:else}
 				<Icon {...icon_props} name="file-image" />
 			{/if}
-		{:else if kind === 'video'}
+		{:else if upload.kind === 'video'}
 			<Icon {...icon_props} name="file-video" />
 		{/if}
 	</span>
