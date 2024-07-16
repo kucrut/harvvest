@@ -1,53 +1,49 @@
 <script>
 	import { applyAction, enhance } from '$app/forms';
-	import Alert from '$lib/components/alert.svelte';
+	import { notifications } from '$lib/runes/notifications.svelte.js';
 	import Icon from '$lib/components/icon.svelte';
 	import Main from '$lib/components/main.svelte';
 	import TextField from '$lib/components/text-field.svelte';
 
 	const { data, form } = $props();
 
-	/** @type {import('$types').Alert|null} */
-	let alert = $state( null );
+	/**
+	 * @param {string} id
+	 * @param {string} message
+	 */
+	function add_notification( id, message ) {
+		notifications.add( {
+			id,
+			message,
+			timeout: 3333,
+			type: 'error',
+		} );
+	}
 
-	/** @type {import('@sveltejs/kit').SubmitFunction}*/
+	if ( data.session_error ) {
+		add_notification( 'session-error', data.session_error );
+	} else if ( data.auth_rejected ) {
+		add_notification( 'auth-rejected', 'Authorization request was rejected. Please try again.' );
+	} else if ( form?.error && form?.message ) {
+		add_notification( 'login-failure', form.message );
+	}
+
+	/** @type {import('@sveltejs/kit').SubmitFunction} */
 	const handle_submit = () => {
+		notifications.clear();
+
 		return async ( { result } ) => {
 			await applyAction( result );
 
-			// @ts-expect-error Special case.
-			if ( ! result.type && result.message ) {
-				alert = {
-					// @ts-expect-error Special case.
-					message: result.message,
-					type: 'error',
-				};
+			if ( result.type === 'failure' && result.data?.message ) {
+				add_notification( 'login-failure', result.data.message );
+			// @ts-expect-error Special case (eg. WP fatal error).
+			} else if ( ! result.type && typeof result.message === 'string' ) {
+				// @ts-expect-error
+				add_notification( 'login-failure', result.message );
 			}
 		};
 	};
-
-	$effect.pre( () => {
-		if ( data.session_error ) {
-			alert = {
-				message: data.session_error,
-				type: 'error',
-			};
-		}
-	} );
-
-	$effect( () => {
-		if ( data.auth_rejected ) {
-			alert = {
-				message: 'Authorization request was rejected. Please try again.',
-				type: 'error',
-			};
-		} else if ( form?.error && form?.message ) {
-			alert = {
-				message: form.message,
-				type: 'error',
-			};
-		}
-	} );
 </script>
 
 <Main>
@@ -65,12 +61,6 @@
 		</form>
 	</div>
 </Main>
-
-{#if alert}
-	<Alert type={alert.type} onexpire={() => ( alert = null )}>
-		<p>{alert.message}</p>
-	</Alert>
-{/if}
 
 <style>
 	div {
