@@ -8,7 +8,7 @@
 	 * } & import('$lib/runes/notifications.svelte').Notification }
 	 */
 	const { notifications, ...item } = $props();
-	const { children, id, message, timeout, type = 'message' } = item;
+	const { children, data, id, message, timeout, type = 'message' } = item;
 
 	/** @type {ReturnType<typeof setTimeout>|undefined} */
 	let timeout_id = $state( undefined );
@@ -44,7 +44,7 @@
 		<p>{message}</p>
 	{/if}
 	{#if children}
-		{@render children()}
+		{@render children( data )}
 	{/if}
 
 	<IconButton class="dismiss" height={20} icon="x" label="Dismiss" width={20} onclick={remove} />
