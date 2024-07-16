@@ -15,15 +15,15 @@
 
 	const icon_props = { height: 125, width: 125 };
 
-	$effect( () => {
-		preview_src = upload.file && upload.kind === 'image' ? URL.createObjectURL( upload.file ) : undefined;
+	function handle_file_change() {
+		if ( preview_src ) {
+			URL.revokeObjectURL( preview_src );
+		}
 
-		return () => {
-			if ( preview_src ) {
-				URL.revokeObjectURL( preview_src );
-			}
-		};
-	} );
+		preview_src = upload.file && upload.kind === 'image'
+			? URL.createObjectURL( upload.file )
+			: undefined;
+	}
 </script>
 
 <div>
@@ -37,6 +37,7 @@
 		required={! upload.files?.length}
 		type="file"
 		bind:files={upload.files}
+		onchange={handle_file_change}
 	/>
 	<span>
 		{#if upload.kind === 'image'}
