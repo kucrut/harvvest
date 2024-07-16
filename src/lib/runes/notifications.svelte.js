@@ -2,7 +2,8 @@
 
 /**
  * @typedef {{
- *   children?: import('svelte').Snippet;
+ *   children?: import('svelte').Snippet<[any]>;
+ *   data?: any;
  *   id: string;
  *   message?: string;
  *   timeout?: number;
