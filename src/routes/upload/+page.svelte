@@ -6,11 +6,11 @@
 	} from '$lib/constants.js';
 	import { applyAction, enhance } from '$app/forms';
 	import { handle_pwa_share } from '$lib/utils.client.js';
+	import { notifications } from '$lib/runes/notifications.svelte.js';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
 	import { Upload } from '$lib/runes/upload.svelte.js';
 	// import { remove_file_extension } from '$lib/utils.js';
-	import Alert from '$lib/components/alert.svelte';
 	import CopyButton from '$lib/components/copy-button.svelte';
 	import Main from '$lib/components/main.svelte';
 	import MediaUploadField from '$lib/components/media-upload-field.svelte';
@@ -24,12 +24,12 @@
 		max_size: data.max_file_size,
 	} );
 
-	/** @type {import('$types').Alert|null} */
-	let alert = $state( null );
 	let is_submitting = $state( false );
 
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement, formData } ) => {
+		notifications.clear();
+
 		// Re-use file shared to our PWA.
 		if ( upload.file ) {
 			formData.set( PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME, upload.file );
@@ -44,21 +44,25 @@
 			if ( result.type === 'success' ) {
 				formElement.reset();
 				upload.files = null;
+				notifications.add( {
+					children: info,
+					id: 'upload-success',
+					message: 'File was successfully uploaded.',
+					type: 'success',
+					data: form?.image_link,
+				} );
+			} else if ( result.type === 'failure' ) {
+				notifications.add( {
+					id: 'upload-error',
+					message: result.data?.message,
+					type: 'error',
+				} );
 			}
 		};
 	};
 
 	// TODO: Handle size & type errors.
-
-	/**
-	 * Set alert
-	 *
-	 * @param {string} message Alert message.
-	 * @param {import('$types').Alert['type']} type Alert type.
-	 */
-	const set_alert = ( message, type = 'error' ) => {
-		alert = { message, type };
-	};
+	// TODO: Handle notifications without JS.
 
 	onMount( async () => {
 		if ( $page.url.searchParams.has( PWA_SHARE_TARGET_SEARCH_PARAM ) ) {
@@ -67,17 +71,14 @@
 			history.replaceState( '', '', PWA_SHARE_TARGET_UPLOAD_MEDIA_ROUTE );
 		}
 	} );
-
-	// TODO: Get rid of these effects.
-
-	$effect( () => {
-		if ( form?.success ) {
-			set_alert( 'File was successfully uploaded.', 'success' );
-		} else if ( form?.error && form?.message ) {
-			set_alert( form.message );
-		}
-	} );
 </script>
+
+{#snippet info( image_link )}
+	<div>
+		<a class="button" href={image_link}>View</a>
+		<CopyButton data={image_link}>Copy URL</CopyButton>
+	</div>
+{/snippet}
 
 <Main>
 	<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
@@ -101,20 +102,3 @@
 		</button>
 	</form>
 </Main>
-
-{#if alert}
-	<Alert
-		persisent={form?.success && form?.image_link ? true : false}
-		timeout={form?.success && form?.image_link ? 0 : undefined}
-		type={alert.type}
-		onexpire={() => ( alert = null )}
-	>
-		<p>{alert.message}</p>
-		{#if form?.success && form?.image_link}
-			<div>
-				<a class="button" href={form.image_link}>View</a>
-				<CopyButton data={form.image_link}>Copy URL</CopyButton>
-			</div>
-		{/if}
-	</Alert>
-{/if}
