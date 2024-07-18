@@ -78,7 +78,6 @@ export function get_session( cookies ) {
  */
 export function get_session_cookie_options() {
 	return {
-		domain: env.ORIGIN ? new URL( env.ORIGIN ).hostname : undefined,
 		httpOnly: true,
 		maxAge: 60 * 60 * 24 * 7,
 		path: '/',
