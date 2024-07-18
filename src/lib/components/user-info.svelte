@@ -7,9 +7,7 @@
 	<img alt="User avatar" height="64" loading="lazy" src={user.avatar_url} width="64" />
 	<span>{user.name}</span>
 	<a href={user.wp_url} rel="noopener noreferrer" target="_blank">{user.wp_url}</a>
-	<form action="/logout" method="POST">
-		<button type="submit">Log Out</button>
-	</form>
+	<a class="logout" data-sveltekit-reload href="/logout" role="button">Log Out</a>
 </div>
 
 <style>
@@ -27,7 +25,7 @@
 		border-radius: var( --pico-border-radius );
 	}
 
-	form {
+	.logout {
 		margin-block-start: var( --pico-spacing );
 		grid-column: 1/3;
 	}
