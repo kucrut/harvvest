@@ -59,6 +59,8 @@ export async function load( { locals } ) {
 
 	return {
 		terms,
+		// TODO: Get this from config or something.
+		allowed_types: [ 'image/*', 'video/*' ],
 		max_file_size: get_max_file_size(),
 		needs_net: true,
 		meta: {
