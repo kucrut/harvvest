@@ -7,7 +7,23 @@ import { ZodError } from 'zod';
 import svg_sprite from '$lib/components/svg-sprite.svg?raw';
 
 /** @type {import('@sveltejs/kit').Handle} */
-async function check_session( { event, resolve } ) {
+function set_wp_api_fetcher( { event, resolve } ) {
+	set_fetch( event.fetch );
+
+	return resolve( event );
+}
+
+/** @type {import('@sveltejs/kit').Handle} */
+function transform_html( { event, resolve } ) {
+	return resolve( event, {
+		transformPageChunk: ( { html } ) => {
+			return html.replace( '%svg_sprite%', `<div class="svg-sprite">${ svg_sprite }</div>` );
+		},
+	} );
+}
+
+/** @type {import('@sveltejs/kit').Handle} */
+async function validate_session( { event, resolve } ) {
 	try {
 		const session = get_session( event.cookies );
 
@@ -38,23 +54,7 @@ async function check_session( { event, resolve } ) {
 	return resolve( event );
 }
 
-/** @type {import('@sveltejs/kit').Handle} */
-function set_wp_api_fetcher( { event, resolve } ) {
-	set_fetch( event.fetch );
-
-	return resolve( event );
-}
-
-/** @type {import('@sveltejs/kit').Handle} */
-function transform_html( { event, resolve } ) {
-	return resolve( event, {
-		transformPageChunk: ( { html } ) => {
-			return html.replace( '%svg_sprite%', `<div class="svg-sprite">${ svg_sprite }</div>` );
-		},
-	} );
-}
-
-export const handle = sequence( set_wp_api_fetcher, check_session, transform_html );
+export const handle = sequence( set_wp_api_fetcher, validate_session, transform_html );
 
 /** @type {import('@sveltejs/kit').HandleFetch} */
 export async function handleFetch( { request, fetch } ) {
