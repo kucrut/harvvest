@@ -13,6 +13,8 @@ export class Upload {
 
 	#has_file = $derived( this.#file !== undefined );
 
+	#has_invalid_size = $derived.by( () => this.#file && this.#file.size > this.#config.max_size );
+
 	#has_invalid_type = $derived.by( () => {
 		if ( ! this.#file ) {
 			return false;
@@ -62,6 +64,10 @@ export class Upload {
 
 	get has_file() {
 		return this.#has_file;
+	}
+
+	get has_invalid_size() {
+		return this.#has_invalid_size;
 	}
 
 	get has_invalid_type() {
