@@ -115,7 +115,7 @@
 	<form enctype="multipart/form-data" method="POST" use:enhance={handle_submit}>
 		<MediaUploadField
 			disabled={is_submitting}
-			max_file_size={data.max_file_size || 0}
+			max_file_size={data.max_file_size}
 			name="file"
 			{upload}
 			onchange={handle_file_change}

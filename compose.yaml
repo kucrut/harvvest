@@ -22,7 +22,7 @@ services:
       - ALLOWED_FILE_TYPES=${ALLOWED_FILE_TYPES:?}
       - APP_SECRET=${APP_SECRET:?}
       - BODY_SIZE_LIMIT=${BODY_SIZE_LIMIT:?}
-      - PUBLIC_MAX_FILE_SIZE=${PUBLIC_MAX_FILE_SIZE:?}
+      - MAX_FILE_SIZE=${MAX_FILE_SIZE:?}
       # Optional.
       - ACCESS_KEYS
       - ORIGIN

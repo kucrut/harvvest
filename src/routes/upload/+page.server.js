@@ -1,13 +1,13 @@
 import { PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME } from '$lib/constants';
 import { create_media, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
-import { env } from '$env/dynamic/public';
+import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
 import { get_allowed_filetypes } from '$lib/utils.server';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import pretty_bytes from 'pretty-bytes';
 
 function get_max_file_size() {
-	return +( env.PUBLIC_MAX_FILE_SIZE ?? '512' );
+	return +( env.MAX_FILE_SIZE ?? '512' );
 }
 
 /**
