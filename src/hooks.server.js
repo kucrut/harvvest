@@ -8,9 +8,6 @@ import svg_sprite from '$lib/components/svg-sprite.svg?raw';
 
 /** @type {import('@sveltejs/kit').Handle} */
 async function check_session( { event, resolve } ) {
-	/** @type {string|undefined} */
-	let session_error;
-
 	try {
 		const session = get_session( event.cookies );
 
@@ -21,23 +18,22 @@ async function check_session( { event, resolve } ) {
 	} catch ( error ) {
 		// JSON error.
 		if ( error instanceof SyntaxError ) {
-			session_error = 'Error: Invalid cookie.';
+			event.locals.session_error = 'Error: Invalid cookie.';
 		} else if ( error instanceof WP_REST_Error ) {
-			session_error = error.data.status === 401
+			event.locals.session_error = error.data.status === 401
 				? 'Your previous authorization has been revoked.'
 				: `Error: ${ error.message } (${ error.code })`;
 		} else if ( error instanceof ZodError ) {
-			session_error = error.message;
+			event.locals.session_error = error.message;
 		} else if ( error instanceof Error ) {
-			session_error = `Error: ${ error.message }`;
+			event.locals.session_error = `Error: ${ error.message }`;
 		} else {
-			session_error = 'Error: Unable to validate session. Please check that your WordPress site is accessible.';
+			event.locals.session_error =
+				'Error: Unable to validate session. Please check that your WordPress site is accessible.';
 		}
 
 		delete_session_cookies( event.cookies );
 	}
-
-	event.locals.session_error = session_error;
 
 	return resolve( event );
 }
