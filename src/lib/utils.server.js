@@ -74,12 +74,14 @@ export function get_session_from_cookie( cookies ) {
 /**
  * Get session cookie options
  *
+ * @param {number=} maxAge Max age.
+ *
  * @return {import('cookie').CookieSerializeOptions & {path: string}} Cookie options.
  */
-export function get_session_cookie_options() {
+export function get_session_cookie_options( maxAge ) {
 	return {
+		maxAge,
 		httpOnly: true,
-		maxAge: 60 * 60 * 24 * 7,
 		path: '/',
 		sameSite: 'lax',
 		secure: process.env.NODE_ENV === 'production',
@@ -98,7 +100,7 @@ export function set_session_cookie( cookies, data ) {
 		auth: new Encryption( { secret: env.APP_SECRET } ).encrypt( data.auth ),
 	} );
 
-	cookies.set( SESSION_COOKIE_NAME, session, get_session_cookie_options() );
+	cookies.set( SESSION_COOKIE_NAME, session, get_session_cookie_options( 60 * 60 * 24 * 7 ) );
 }
 
 /**
