@@ -2,6 +2,7 @@ import { PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME } from '$lib/constants';
 import { create_media, get_taxonomies, get_terms } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/public';
 import { fail, redirect } from '@sveltejs/kit';
+import { get_allowed_filetypes } from '$lib/utils.server';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import pretty_bytes from 'pretty-bytes';
 
@@ -59,8 +60,7 @@ export async function load( { locals } ) {
 
 	return {
 		terms,
-		// TODO: Get this from config or something.
-		allowed_types: [ 'image/*', 'video/*' ],
+		allowed_types: get_allowed_filetypes(),
 		max_file_size: get_max_file_size(),
 		needs_net: true,
 		meta: {

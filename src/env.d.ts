@@ -2,6 +2,7 @@
 
 interface ImportMetaEnv {
 	readonly ACCESS_KEYS: string;
+	readonly ALLOWED_FILE_TYPES: string;
 	readonly APP_NAME: string;
 	readonly APP_SECRET: string;
 	readonly PUBLIC_MAX_FILE_SIZE: string;

@@ -59,6 +59,17 @@ export function generate_client_id( user_agent ) {
 }
 
 /**
+ * Get allowed file types.
+ *
+ * @return {string[]} Array of allowed file types.
+ */
+export function get_allowed_filetypes() {
+	const types = env.ALLOWED_FILE_TYPES.split( ',' ).map( type => type.trim() ).filter( type => type !== '' );
+
+	return types.length ? types : [ 'image/*' ];
+}
+
+/**
  * Get session from cookie
  *
  * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
