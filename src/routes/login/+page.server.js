@@ -1,21 +1,11 @@
 import { APP_NAME } from '$env/static/private';
-import { create_basic_auth_string, get_error_message } from '@kucrut/wp-api-helpers/utils';
-import {
-	discover,
-	get_app_password_auth_endpoint,
-	get_current_app_password,
-	get_single_user,
-} from '@kucrut/wp-api-helpers';
+import { AUTH_ROUTE, COOKIE_SESSION_ERROR } from '$lib/constants';
+import { discover, get_app_password_auth_endpoint } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
-import {
-	generate_client_id,
-	get_session_cookie_options,
-	get_wp_auth_endpoint_from_env,
-	set_session_cookies,
-} from '$lib/utils.server.js';
+import { generate_client_id, get_wp_auth_endpoint_from_env } from '$lib/utils.server.js';
+import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { is_valid_http_url } from '$lib/utils';
-import { AUTH_ROUTE } from '$lib/constants';
 
 function get_access_keys() {
 	if ( ! env.ACCESS_KEYS ) {
@@ -47,68 +37,23 @@ function is_access_key_valid( key ) {
 	return keys.includes( key );
 }
 
-/**
- * Handle WP application password authorization flow
- *
- * @param {URL} url URL object.
- * @return {Promise<import('$lib/schema').Session|undefined>};
- */
-async function handle_wp_auth( url ) {
-	const password = url.searchParams.get( 'password' );
-	const username = url.searchParams.get( 'user_login' );
-	const wp_url = url.searchParams.get( 'site_url' );
-
-	if ( ! password || ! wp_url || ! username ) {
-		return;
-	}
-
-	const api_url = await discover( wp_url );
-	const auth = create_basic_auth_string( username, password );
-	const { avatar_urls, name } = await get_single_user( 'me', api_url, auth );
-	const { app_id, uuid } = await get_current_app_password( api_url, auth );
-
-	const avatar_size = Object.keys( avatar_urls )
-		.map( s => Number( s ) )
-		.sort( ( a, b ) => b - a )[ 0 ]
-		.toString();
-
-	return {
-		api_url,
-		app_id,
-		name,
-		wp_url,
-		auth,
-		auth_uuid: uuid,
-		avatar_url: avatar_urls[ avatar_size ],
-	};
-}
-
 /** @type {import('./$types').PageServerLoad} */
-export async function load( { cookies, locals, url } ) {
+export async function load( { cookies, locals } ) {
 	// Redirect to homepage as we already have a valid session.
 	if ( locals.session ) {
 		// TODO: Check if we have file to upload from PWA.
 		redirect( 302, '/' );
 	}
 
-	/** @type {import('$lib/schema').Session|undefined} */
-	let new_session;
+	const session_error = cookies.get( COOKIE_SESSION_ERROR );
 
-	try {
-		new_session = await handle_wp_auth( url );
-	} catch {
-		// This could be caused by manually setting URL params, so let's clean it up.
-		redirect( 302, '/login' );
-	}
-
-	if ( new_session ) {
-		set_session_cookies( cookies, new_session );
-		redirect( 302, '/' );
+	if ( session_error ) {
+		cookies.delete( COOKIE_SESSION_ERROR, { path: '/login' } );
 	}
 
 	return {
-		session_error: locals.session_error,
-		auth_rejected: url.searchParams.get( 'success' ) === 'false',
+		session_error,
+		// auth_rejected: url.searchParams.get( 'success' ) === 'false',
 		hide_title: true,
 		needs_net: true,
 		require_access_key: get_access_keys().length > 0,
