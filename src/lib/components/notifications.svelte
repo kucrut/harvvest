@@ -11,14 +11,18 @@
 	{/if}
 </div>
 
-<style>
+<style lang="scss">
 	div {
 		position: fixed;
 		inset-block-end: var( --pico-spacing );
 		inline-size: calc( 100dvw - ( var( --pico-spacing ) * 2 ) );
 		inset-inline: var( --pico-spacing );
 		display: grid;
-		align-items: center;
+		justify-items: center;
 		gap: var( --pico-spacing );
+
+		@media ( min-width: $br-lg ) {
+			justify-items: end;
+		}
 	}
 </style>
