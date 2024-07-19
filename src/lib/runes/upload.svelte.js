@@ -29,27 +29,6 @@ export class Upload {
 		return undefined;
 	} );
 
-	#errors = $derived.by( () => {
-		/** @type {Error[]} */
-		const items = [];
-
-		if ( ! this.#file ) {
-			return items;
-		}
-
-		if ( this.#file.size > this.#config.max_size ) {
-			items.push( new Error( 'This file exceeds the maximum upload size.' ) );
-		}
-
-		if ( ! this.#is_type_allowed( this.#file.type ) ) {
-			items.push( new Error( 'This file type is not allowed.' ) );
-		}
-
-		return items;
-	} );
-
-	#is_valid = $derived( ! this.#errors?.length );
-
 	/**
 	 * @param {UploadOptions} options Options.
 	 */
@@ -72,20 +51,12 @@ export class Upload {
 		return this.#config.allowed_types.join( ',' );
 	}
 
-	get errors() {
-		return this.#errors;
-	}
-
 	get file() {
 		return this.#file;
 	}
 
 	get has_file() {
 		return this.#has_file;
-	}
-
-	get is_valid() {
-		return this.#is_valid;
 	}
 
 	get kind() {
