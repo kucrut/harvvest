@@ -56,7 +56,7 @@
 	}
 
 	/** @type {import('./$types').SubmitFunction} */
-	function handle_submit( { cancel, formElement, formData } ) {
+	function handle_submit( { cancel, formData, formElement } ) {
 		if ( errors_count ) {
 			cancel();
 			return;
