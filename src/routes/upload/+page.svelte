@@ -20,6 +20,7 @@
 	const { data, form } = $props();
 
 	const upload = new Upload( {
+		// TODO: Get this from config or something.
 		allowed_types: [ 'image/*', 'video/*' ],
 		max_size: data.max_file_size,
 	} );
