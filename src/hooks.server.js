@@ -13,40 +13,37 @@ import svg_sprite from '$lib/components/svg-sprite.svg?raw';
 
 /** @type {import('@sveltejs/kit').Handle} */
 async function check_session( { event, resolve } ) {
+	/** @type {string|undefined} */
+	let session_error;
+
 	try {
 		const session = get_session( event.cookies );
 
-		if ( ! session ) {
-			return await resolve( event );
+		if ( session ) {
+			await get_current_app_password( session.api_url, session.auth );
+			event.locals.session = session;
 		}
-
-		await get_current_app_password( session.api_url, session.auth );
-		event.locals.session = session;
 	} catch ( error ) {
-		let session_error = '';
-
 		// The cookie is messed up.
 		if ( error instanceof ZodError ) {
 			delete_session_cookies( event.cookies );
 		} else if ( error instanceof WP_REST_Error ) {
-			session_error =
-				error.data.status === 401
-					? 'Your previous authorization has been revoked.'
-					: `Error: ${ error.message } (${ error.code })`;
+			session_error = error.data.status === 401
+				? 'Your previous authorization has been revoked.'
+				: `Error: ${ error.message } (${ error.code })`;
 			delete_session_cookies( event.cookies );
 		} else {
-			session_error =
-				error instanceof Error
-					? `Error: ${ error.message }`
-					: 'Error: Unable to validate session. Please check you can access your WordPress site.';
-		}
-
-		if ( session_error ) {
-			event.cookies.set( 'session_error', session_error, get_session_cookie_options() );
+			session_error = error instanceof Error
+				? `Error: ${ error.message }`
+				: 'Error: Unable to validate session. Please check that your WordPress site is accessible.';
 		}
 	}
 
-	return await resolve( event );
+	if ( session_error ) {
+		event.cookies.set( 'session_error', session_error, get_session_cookie_options() );
+	}
+
+	return resolve( event );
 }
 
 /** @type {import('@sveltejs/kit').Handle} */
