@@ -13,6 +13,22 @@ export class Upload {
 
 	#has_file = $derived( this.#file !== undefined );
 
+	#has_invalid_type = $derived.by( () => {
+		if ( ! this.#file ) {
+			return false;
+		}
+
+		const type_allowed = this.#config.allowed_types
+			.map( type => type.replace( /\/\*$/, '/' ) )
+			.some( type => {
+				return this.#file?.type === type ||
+					( type.endsWith( '/' ) && this.#file?.type.startsWith( type ) );
+				// TODO: More checks.
+			} );
+
+		return ! type_allowed;
+	} );
+
 	#kind = $derived.by( () => {
 		if ( ! this.#file ) {
 			return undefined;
@@ -36,17 +52,6 @@ export class Upload {
 		this.#config = options;
 	}
 
-	/** @param {string} file_type */
-	#is_type_allowed( file_type ) {
-		return this.#config.allowed_types
-			.map( type => type.replace( /\/\*$/, '/' ) )
-			.some( type => {
-				return file_type === type ||
-					( type.endsWith( '/' ) && file_type.startsWith( type ) );
-				// TODO: More checks.
-			} );
-	}
-
 	get allowed_types() {
 		return this.#config.allowed_types.join( ',' );
 	}
@@ -57,6 +62,10 @@ export class Upload {
 
 	get has_file() {
 		return this.#has_file;
+	}
+
+	get has_invalid_type() {
+		return this.#has_invalid_type;
 	}
 
 	get kind() {
