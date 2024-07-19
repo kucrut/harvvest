@@ -22,8 +22,6 @@
 
 	if ( data.session_error ) {
 		add_notification( 'session-error', data.session_error );
-	} else if ( data.auth_rejected ) {
-		add_notification( 'auth-rejected', 'Authorization request was rejected. Please try again.' );
 	} else if ( form?.error && form?.message ) {
 		add_notification( 'login-failure', form.message );
 	}

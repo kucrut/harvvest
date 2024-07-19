@@ -53,7 +53,6 @@ export async function load( { cookies, locals } ) {
 
 	return {
 		session_error,
-		// auth_rejected: url.searchParams.get( 'success' ) === 'false',
 		hide_title: true,
 		needs_net: true,
 		require_access_key: get_access_keys().length > 0,
