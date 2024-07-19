@@ -49,13 +49,13 @@ export function generate_client_id( user_agent ) {
 }
 
 /**
- * Get session
+ * Get session from cookie
  *
  * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  * @throws {typeof import('zod').ZodError} Zod error.
  * @return {import('./schema').Session|undefined} Session object.
  */
-export function get_session( cookies ) {
+export function get_session_from_cookie( cookies ) {
 	const raw = cookies.get( SESSION_COOKIE_NAME );
 
 	if ( ! raw ) {

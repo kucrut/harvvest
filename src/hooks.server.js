@@ -1,7 +1,7 @@
 import { AUTH_ROUTE, COOKIE_SESSION_ERROR } from '$lib/constants';
 import {
 	delete_session_cookies,
-	get_session,
+	get_session_from_cookie,
 	get_wp_auth_endpoint_from_env,
 	set_session_cookie,
 } from '$lib/utils.server.js';
@@ -116,7 +116,7 @@ async function catch_auth( { event, resolve } ) {
 /** @type {import('@sveltejs/kit').Handle} */
 async function validate_session( { event, resolve } ) {
 	try {
-		const session = get_session( event.cookies );
+		const session = get_session_from_cookie( event.cookies );
 
 		if ( session ) {
 			await get_current_app_password( session.api_url, session.auth );
