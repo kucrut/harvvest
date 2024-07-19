@@ -8,14 +8,15 @@
 	 *   upload: import('$lib/runes/upload.svelte.js').Upload;
 	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type' > }
 	 */
-	const { max_file_size, upload = $bindable(), ...rest } = $props();
+	const { max_file_size, onchange, upload = $bindable(), ...rest } = $props();
 
 	/** @type {string|undefined} */
 	let preview_src = $state();
 
 	const icon_props = { height: 125, width: 125 };
 
-	function handle_file_change() {
+	/** @type {import('svelte/elements').ChangeEventHandler<HTMLInputElement>} */
+	function handle_file_change( event ) {
 		if ( preview_src ) {
 			URL.revokeObjectURL( preview_src );
 		}
@@ -23,6 +24,10 @@
 		preview_src = upload.file && upload.kind === 'image'
 			? URL.createObjectURL( upload.file )
 			: undefined;
+
+		if ( onchange ) {
+			onchange( event );
+		}
 	}
 </script>
 
