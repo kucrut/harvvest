@@ -29,6 +29,14 @@
 	function handle_file_change() {
 		notifications.clear();
 
+		if ( upload.has_invalid_size ) {
+			notifications.add( {
+				id: 'upload-error-size',
+				message: 'This file exceeds the maximum upload size.',
+				type: 'error',
+			} );
+		}
+
 		if ( upload.has_invalid_type ) {
 			notifications.add( {
 				id: 'upload-error-type',
@@ -72,9 +80,6 @@
 			}
 		};
 	};
-
-	// TODO: Handle size error.
-	// TODO: Handle notifications without JS.
 
 	onMount( async () => {
 		if ( $page.url.searchParams.has( PWA_SHARE_TARGET_SEARCH_PARAM ) ) {
