@@ -13,8 +13,7 @@
 
 	/** @type {HTMLInputElement} */
 	let input;
-	/** @type {string|undefined} */
-	let preview_src = $state();
+	let preview_src = $state( '' );
 
 	const icon_props = { height: 125, width: 125 };
 
@@ -26,7 +25,7 @@
 
 		preview_src = upload.file && upload.kind === 'image'
 			? URL.createObjectURL( upload.file )
-			: undefined;
+			: '';
 
 		if ( onchange ) {
 			onchange( event );
