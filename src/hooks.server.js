@@ -1,6 +1,7 @@
 import { AUTH_ROUTE, COOKIE_SESSION_ERROR } from '$lib/constants';
+import { create_basic_auth_string, set_fetch, WP_REST_Error } from '@kucrut/wp-api-helpers/utils';
 import {
-	delete_session_cookies,
+	delete_session_cookie,
 	get_session_from_cookie,
 	get_wp_auth_endpoint_from_env,
 	set_session_cookie,
@@ -9,7 +10,6 @@ import { discover, get_current_app_password, get_single_user } from '@kucrut/wp-
 import { env } from '$env/dynamic/private';
 import { redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
-import { create_basic_auth_string, set_fetch, WP_REST_Error } from '@kucrut/wp-api-helpers/utils';
 import { ZodError } from 'zod';
 import svg_sprite from '$lib/components/svg-sprite.svg?raw';
 
@@ -144,7 +144,7 @@ async function validate_session( { event, resolve } ) {
 			);
 		}
 
-		delete_session_cookies( event.cookies );
+		delete_session_cookie( event.cookies );
 	}
 
 	return resolve( event );

@@ -12,15 +12,15 @@ const SESSION_COOKIE_NAME = 'session';
  * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  */
 export function clear_cookies( cookies ) {
-	delete_session_cookies( cookies );
+	delete_session_cookie( cookies );
 }
 
 /**
- * Delete session cookies
+ * Delete session cookie
  *
  * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  */
-export function delete_session_cookies( cookies ) {
+export function delete_session_cookie( cookies ) {
 	cookies.delete( SESSION_COOKIE_NAME, get_session_cookie_options() );
 }
 
