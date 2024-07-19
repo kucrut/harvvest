@@ -51,17 +51,14 @@
 </aside>
 
 <style lang="scss">
-	/** TODO: FIXME **/
 	aside {
-		position: fixed;
-		inset-block-end: 0;
+		position: relative;
 		block-size: fit-content;
-		inline-size: calc( 100dvw - ( var( --pico-spacing ) * 2 ) );
 		display: flex;
 		flex-direction: column;
 		gap: var( --pico-spacing );
-		margin: var( --pico-spacing );
-		padding: var( --pico-spacing );
+		padding-block: var( --pico-spacing );
+		padding-inline: var( --pico-spacing ) calc( var( --pico-spacing ) * 2.5 );
 		background-color: var( --pico-form-element-background-color );
 		border: var( --pico-border-width ) solid var( --pico-muted-border-color );
 		border-radius: var( --pico-border-radius );
@@ -72,11 +69,9 @@
 		}
 
 		:global( .dismiss ) {
-			--distance: 0.35rem;
-
 			position: absolute;
-			inset-block-start: var( --distance );
-			inset-inline-end: var( --distance );
+			inset-block-start: calc( var( --pico-spacing ) * 1.2 );
+			inset-inline-end: calc( var( --pico-spacing ) / 2 );
 		}
 
 		@media ( min-width: $br-lg ) {

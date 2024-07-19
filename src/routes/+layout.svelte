@@ -2,15 +2,14 @@
 	import '../app.scss';
 
 	import { beforeNavigate } from '$app/navigation';
-	import { notifications } from '$lib/runes/notifications.svelte.js';
 	import { page } from '$app/stores';
 	import IconButton from '$lib/components/icon-button.svelte';
 	import Main from '$lib/components/main.svelte';
 	import Nav from '$lib/components/nav.svelte';
+	import Notifications from '$lib/components/notifications.svelte';
 	import Offline from '$lib/components/offline.svelte';
 	import Sidebar from '$lib/components/sidebar.svelte';
 	import UserInfo from '$lib/components/user-info.svelte';
-	import Notification from '$lib/components/notification.svelte';
 
 	const { data: page_data } = $page;
 	const { children, data } = $props();
@@ -67,13 +66,7 @@
 		</Main>
 	{/if}
 
-	{#if notifications.items.length}
-		<!-- TODO: Wrap? -->
-		{#each notifications.items as item ( item.id )}
-			<Notification {...item} {notifications} />
-		{/each}
-	{/if}
-
+	<Notifications />
 </div>
 
 <style lang="scss">
