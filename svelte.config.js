@@ -26,7 +26,7 @@ const config = {
 		},
 	},
 
-	preprocess: [ vitePreprocess( {} ) ],
+	preprocess: [ vitePreprocess( { script: false, style: true } ) ],
 };
 
 export default config;
