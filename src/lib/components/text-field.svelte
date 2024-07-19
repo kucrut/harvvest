@@ -6,15 +6,15 @@
 	 *   value?: string;
 	 * } & import('svelte/elements').HTMLInputAttributes & import('svelte/elements').HTMLTextareaAttributes }
 	 */
-	const { label, multiline = false, value = $bindable( '' ), ...rest } = $props();
+	let { label, multiline = false, value = $bindable( '' ), ...rest } = $props();
 </script>
 
 <label>
 	<span>{label}</span>
 	{#if multiline}
-		<textarea class="textarea" {value} {...rest}></textarea>
+		<textarea class="textarea" bind:value {...rest}></textarea>
 	{:else}
-		<input class="input" {value} {...rest} />
+		<input class="input" bind:value {...rest} />
 	{/if}
 </label>
 
