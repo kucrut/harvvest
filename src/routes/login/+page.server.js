@@ -15,6 +15,7 @@ import {
 	set_session_cookies,
 } from '$lib/utils.server.js';
 import { is_valid_http_url } from '$lib/utils';
+import { AUTH_ROUTE } from '$lib/constants';
 
 function get_access_keys() {
 	if ( ! env.ACCESS_KEYS ) {
@@ -159,13 +160,15 @@ export const actions = {
 
 		const app_id = crypto.randomUUID();
 		const auth_url = new URL( endpoint );
+		const success_url = new URL( request.url );
+		success_url.pathname = AUTH_ROUTE;
 
+		auth_url.searchParams.append( 'success_url', success_url.toString() );
 		auth_url.searchParams.append( 'app_id', app_id );
 		auth_url.searchParams.append(
 			'app_name',
 			`${ APP_NAME } - ${ generate_client_id( request.headers.get( 'user-agent' ) ) }`,
 		);
-		auth_url.searchParams.append( 'success_url', request.url );
 
 		redirect( 303, auth_url );
 	},
