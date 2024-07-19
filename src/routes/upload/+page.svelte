@@ -25,10 +25,12 @@
 		max_size: data.max_file_size,
 	} );
 
+	let errors_count = $state( 0 );
 	let is_submitting = $state( false );
 	let title = $state( '' );
 
 	function handle_file_change() {
+		errors_count = 0;
 		notifications.clear();
 
 		if ( upload.file && ! title ) {
@@ -36,6 +38,7 @@
 		}
 
 		if ( upload.has_invalid_size ) {
+			errors_count++;
 			notifications.add( {
 				id: 'upload-error-size',
 				message: 'This file exceeds the maximum upload size.',
@@ -44,6 +47,7 @@
 		}
 
 		if ( upload.has_invalid_type ) {
+			errors_count++;
 			notifications.add( {
 				id: 'upload-error-type',
 				message: 'Sorry, you are not allowed to upload this file type.',
@@ -53,7 +57,12 @@
 	}
 
 	/** @type {import('./$types').SubmitFunction} */
-	function handle_submit( { formElement, formData } ) {
+	function handle_submit( { cancel, formElement, formData } ) {
+		if ( errors_count ) {
+			cancel();
+			return;
+		}
+
 		notifications.clear();
 
 		// Re-use file shared to our PWA.
