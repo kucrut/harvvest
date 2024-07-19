@@ -1,3 +1,5 @@
+export const AUTH_ROUTE = '/auth';
+
 export const PWA_SHARE_READY_ACTION = 'share-ready';
 export const PWA_SHARE_TARGET_SEARCH_PARAM = 'share';
 

@@ -1,6 +1,8 @@
+import { AUTH_ROUTE } from '$lib/constants';
 import { delete_session_cookies, get_session, get_wp_auth_endpoint_from_env } from '$lib/utils.server.js';
 import { env } from '$env/dynamic/private';
 import { get_current_app_password } from '@kucrut/wp-api-helpers';
+import { redirect } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { set_fetch, WP_REST_Error } from '@kucrut/wp-api-helpers/utils';
 import { ZodError } from 'zod';
@@ -20,6 +22,20 @@ function transform_html( { event, resolve } ) {
 			return html.replace( '%svg_sprite%', `<div class="svg-sprite">${ svg_sprite }</div>` );
 		},
 	} );
+}
+
+/** @type {import('@sveltejs/kit').Handle} */
+async function catch_auth( { event, resolve } ) {
+	if ( event.url.pathname !== AUTH_ROUTE ) {
+		return resolve( event );
+	}
+
+	if ( event.url.searchParams.get( 'success' ) === 'false' ) {
+		event.locals.session_error = 'Authentication request was rejected.';
+		redirect( 302, '/login' );
+	}
+
+	redirect( 302, '/' );
 }
 
 /** @type {import('@sveltejs/kit').Handle} */
@@ -54,7 +70,7 @@ async function validate_session( { event, resolve } ) {
 	return resolve( event );
 }
 
-export const handle = sequence( set_wp_api_fetcher, validate_session, transform_html );
+export const handle = sequence( set_wp_api_fetcher, catch_auth, validate_session, transform_html );
 
 /** @type {import('@sveltejs/kit').HandleFetch} */
 export async function handleFetch( { request, fetch } ) {
