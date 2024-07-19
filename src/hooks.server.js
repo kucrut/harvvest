@@ -27,6 +27,7 @@ async function check_session( { event, resolve } ) {
 		// The cookie is messed up.
 		if ( error instanceof ZodError ) {
 			delete_session_cookies( event.cookies );
+			session_error = error.message;
 		} else if ( error instanceof WP_REST_Error ) {
 			session_error = error.data.status === 401
 				? 'Your previous authorization has been revoked.'
@@ -39,9 +40,7 @@ async function check_session( { event, resolve } ) {
 		}
 	}
 
-	if ( session_error ) {
-		event.cookies.set( 'session_error', session_error, get_session_cookie_options() );
-	}
+	event.locals.session_error = session_error;
 
 	return resolve( event );
 }
