@@ -83,7 +83,7 @@ async function handle_wp_auth( url ) {
 }
 
 /** @type {import('./$types').PageServerLoad} */
-export const load = async ( { cookies, locals, url } ) => {
+export async function load( { cookies, locals, url } ) {
 	// Redirect to homepage as we already have a valid session.
 	if ( locals.session ) {
 		// TODO: Check if we have file to upload from PWA.
@@ -122,7 +122,7 @@ export const load = async ( { cookies, locals, url } ) => {
 			title: 'Log In',
 		},
 	};
-};
+}
 
 /** @type {import('./$types').Actions} */
 export const actions = {

@@ -19,7 +19,7 @@ function invalid_value( message ) {
 }
 
 /** @type {import('./$types').PageServerLoad} */
-export const load = async ( { locals } ) => {
+export async function load( { locals } ) {
 	if ( ! locals.session ) {
 		redirect( 302, '/login' );
 	}
@@ -65,7 +65,7 @@ export const load = async ( { locals } ) => {
 			title: 'Upload Media',
 		},
 	};
-};
+}
 
 /** @type {import('./$types').Actions} */
 export const actions = {

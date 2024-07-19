@@ -1,7 +1,7 @@
 import { APP_NAME } from '$env/static/private';
 
 /** @type {import('./$types').LayoutServerLoad} */
-export const load = async ( { locals } ) => {
+export function load( { locals } ) {
 	const data = {
 		app_name: APP_NAME,
 	};
@@ -18,4 +18,4 @@ export const load = async ( { locals } ) => {
 			wp_url: locals.session.wp_url,
 		},
 	};
-};
+}
