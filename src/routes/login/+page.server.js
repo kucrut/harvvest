@@ -106,7 +106,10 @@ export const load = async ( { cookies, locals, url } ) => {
 	}
 
 	const session_error = cookies.get( 'session_error' );
-	cookies.delete( 'session_error', get_session_cookie_options() );
+
+	if ( session_error ) {
+		cookies.delete( 'session_error', get_session_cookie_options() );
+	}
 
 	return {
 		session_error,
