@@ -20,15 +20,21 @@ export class Upload {
 			return false;
 		}
 
-		const type_allowed = this.#config.allowed_types
-			.map( type => type.replace( /\/\*$/, '/' ) )
-			.some( type => {
-				return this.#file?.type === type ||
-					( type.endsWith( '/' ) && this.#file?.type.startsWith( type ) );
+		const file = this.#file;
+
+		const is_type_allowed = this.#config.allowed_types
+			// Convert `image/*` to `image/` for easy parsing.
+			.map( allowed_type => allowed_type.replace( /\/\*$/, '/' ) )
+			.some( allowed_type => {
+				return file.type === allowed_type ||
+					// Example: image/
+					( allowed_type.endsWith( '/' ) && file.type.startsWith( allowed_type ) ) ||
+					// Example: pdf
+					( ! allowed_type.includes( '/' ) && file.type.endsWith( allowed_type ) );
 				// TODO: More checks.
 			} );
 
-		return ! type_allowed;
+		return ! is_type_allowed;
 	} );
 
 	#kind = $derived.by( () => {
