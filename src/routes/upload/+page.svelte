@@ -46,7 +46,7 @@
 		if ( upload.has_invalid_type ) {
 			notifications.add( {
 				id: 'upload-error-type',
-				message: 'This file type is not allowed.',
+				message: 'Sorry, you are not allowed to upload this file type.',
 				type: 'error',
 			} );
 		}
