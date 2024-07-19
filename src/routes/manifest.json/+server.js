@@ -1,5 +1,5 @@
+import { APP_NAME } from '$env/static/private';
 import { PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME, PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH } from '$lib/constants';
-import { env } from '$env/dynamic/private';
 import { get_allowed_filetypes } from '$lib/utils.server';
 
 export function GET() {
@@ -8,8 +8,8 @@ export function GET() {
 			background_color: 'rgb(251, 252, 252)',
 			display: 'fullscreen',
 			id: '/',
-			name: env.APP_NAME,
-			short_name: env.APP_NAME,
+			name: APP_NAME,
+			short_name: APP_NAME,
 			start_url: '/',
 			theme_color: 'rgb(251, 252, 252)',
 			icons: [
