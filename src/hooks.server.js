@@ -1,9 +1,4 @@
-import {
-	delete_session_cookies,
-	get_session,
-	get_session_cookie_options,
-	get_wp_auth_endpoint_from_env,
-} from '$lib/utils.server.js';
+import { delete_session_cookies, get_session, get_wp_auth_endpoint_from_env } from '$lib/utils.server.js';
 import { env } from '$env/dynamic/private';
 import { get_current_app_password } from '@kucrut/wp-api-helpers';
 import { sequence } from '@sveltejs/kit/hooks';
