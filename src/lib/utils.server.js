@@ -4,6 +4,7 @@ import { is_valid_http_url } from './utils';
 import { session_schema } from './schema';
 import { UAParser } from 'ua-parser-js';
 
+const ERROR_COOKIE_NAME = 'error';
 const SESSION_COOKIE_NAME = 'session';
 
 /**
@@ -16,12 +17,21 @@ export function clear_cookies( cookies ) {
 }
 
 /**
+ * Delete error cookie
+ *
+ * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
+ */
+export function delete_error_cookie( cookies ) {
+	cookies.delete( ERROR_COOKIE_NAME, get_cookie_options() );
+}
+
+/**
  * Delete session cookie
  *
  * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
  */
 export function delete_session_cookie( cookies ) {
-	cookies.delete( SESSION_COOKIE_NAME, get_session_cookie_options() );
+	cookies.delete( SESSION_COOKIE_NAME, get_cookie_options() );
 }
 
 /**
@@ -72,13 +82,23 @@ export function get_session_from_cookie( cookies ) {
 }
 
 /**
- * Get session cookie options
+ * Get session from cookie
+ *
+ * @param {import('@sveltejs/kit').Cookies} cookies Coooooookiiiiieeees.
+ * @return {ReturnType<import('@sveltejs/kit').Cookies['get']>} Cookie value.
+ */
+export function get_error_from_cookie( cookies ) {
+	return cookies.get( ERROR_COOKIE_NAME );
+}
+
+/**
+ * Get cookie options
  *
  * @param {number=} maxAge Max age.
  *
  * @return {import('cookie').CookieSerializeOptions & {path: string}} Cookie options.
  */
-export function get_session_cookie_options( maxAge ) {
+export function get_cookie_options( maxAge ) {
 	return {
 		maxAge,
 		httpOnly: true,
@@ -86,6 +106,16 @@ export function get_session_cookie_options( maxAge ) {
 		sameSite: 'lax',
 		secure: process.env.NODE_ENV === 'production',
 	};
+}
+
+/**
+ * Set error cookie
+ *
+ * @param {import('@sveltejs/kit').Cookies} cookies Coooookiiiies.
+ * @param {string} message Error message.
+ */
+export function set_error_cookie( cookies, message ) {
+	cookies.set( ERROR_COOKIE_NAME, message, get_cookie_options() );
 }
 
 /**
@@ -100,7 +130,7 @@ export function set_session_cookie( cookies, data ) {
 		auth: new Encryption( { secret: env.APP_SECRET } ).encrypt( data.auth ),
 	} );
 
-	cookies.set( SESSION_COOKIE_NAME, session, get_session_cookie_options( 60 * 60 * 24 * 7 ) );
+	cookies.set( SESSION_COOKIE_NAME, session, get_cookie_options( 60 * 60 * 24 * 7 ) );
 }
 
 /**

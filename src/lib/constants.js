@@ -1,5 +1,3 @@
-export const COOKIE_SESSION_ERROR = 'session-error';
-
 export const AUTH_ROUTE = '/auth';
 
 export const PWA_SHARE_READY_ACTION = 'share-ready';

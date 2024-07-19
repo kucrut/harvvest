@@ -1,9 +1,14 @@
 import { APP_NAME } from '$env/static/private';
-import { AUTH_ROUTE, COOKIE_SESSION_ERROR } from '$lib/constants';
+import { AUTH_ROUTE } from '$lib/constants';
+import {
+	delete_error_cookie,
+	generate_client_id,
+	get_error_from_cookie,
+	get_wp_auth_endpoint_from_env,
+} from '$lib/utils.server.js';
 import { discover, get_app_password_auth_endpoint } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
-import { generate_client_id, get_wp_auth_endpoint_from_env } from '$lib/utils.server.js';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { is_valid_http_url } from '$lib/utils';
 
@@ -45,10 +50,10 @@ export async function load( { cookies, locals } ) {
 		redirect( 302, '/' );
 	}
 
-	const session_error = cookies.get( COOKIE_SESSION_ERROR );
+	const session_error = get_error_from_cookie( cookies );
 
 	if ( session_error ) {
-		cookies.delete( COOKIE_SESSION_ERROR, { path: '/login' } );
+		delete_error_cookie( cookies );
 	}
 
 	return {

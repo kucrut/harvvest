@@ -1,9 +1,10 @@
-import { AUTH_ROUTE, COOKIE_SESSION_ERROR } from '$lib/constants';
+import { AUTH_ROUTE } from '$lib/constants';
 import { create_basic_auth_string, set_fetch, WP_REST_Error } from '@kucrut/wp-api-helpers/utils';
 import {
 	delete_session_cookie,
 	get_session_from_cookie,
 	get_wp_auth_endpoint_from_env,
+	set_error_cookie,
 	set_session_cookie,
 } from '$lib/utils.server.js';
 import { discover, get_current_app_password, get_single_user } from '@kucrut/wp-api-helpers';
@@ -18,19 +19,6 @@ function set_wp_api_fetcher( { event, resolve } ) {
 	set_fetch( event.fetch );
 
 	return resolve( event );
-}
-
-/**
- * Store error in cookies
- *
- * @param {import('@sveltejs/kit').Cookies} cookies Cooooookiiiiiiees.
- * @param {string} message Error message.
- */
-function store_error( cookies, message ) {
-	cookies.set( COOKIE_SESSION_ERROR, message, {
-		httpOnly: true,
-		path: '/login',
-	} );
 }
 
 /** @type {import('@sveltejs/kit').Handle} */
@@ -50,7 +38,7 @@ async function catch_auth( { event, resolve } ) {
 
 	// The existence of `success` param _always_ indicate failure, no matter the value.
 	if ( event.url.searchParams.has( 'success' ) ) {
-		store_error( event.cookies, 'Authentication request was rejected.' );
+		set_error_cookie( event.cookies, 'Authentication request was rejected.' );
 		redirect( 302, '/login' );
 	}
 
@@ -66,7 +54,7 @@ async function catch_auth( { event, resolve } ) {
 
 	// Missing one or more required params.
 	if ( params_found.length < param_keys.length ) {
-		store_error( event.cookies, 'Invalid authentication result.' );
+		set_error_cookie( event.cookies, 'Invalid authentication result.' );
 		redirect( 302, '/login' );
 	}
 
@@ -76,7 +64,7 @@ async function catch_auth( { event, resolve } ) {
 
 	// One or more params are empty.
 	if ( ! password || ! wp_url || ! username ) {
-		store_error( event.cookies, 'Invalid authentication result.' );
+		set_error_cookie( event.cookies, 'Invalid authentication result.' );
 		redirect( 302, '/login' );
 	}
 
@@ -104,7 +92,7 @@ async function catch_auth( { event, resolve } ) {
 			avatar_url: avatar_urls[ avatar_size ],
 		} );
 	} catch ( error ) {
-		store_error(
+		set_error_cookie(
 			event.cookies,
 			error instanceof Error ? error.message : 'Invalid authentication result.',
 		);
@@ -125,20 +113,20 @@ async function validate_session( { event, resolve } ) {
 	} catch ( error ) {
 		// JSON error.
 		if ( error instanceof SyntaxError ) {
-			store_error( event.cookies, 'Error: Invalid session cookie.' );
+			set_error_cookie( event.cookies, 'Error: Invalid session cookie.' );
 		} else if ( error instanceof WP_REST_Error ) {
-			store_error(
+			set_error_cookie(
 				event.cookies,
 				error.data.status === 401
 					? 'Your previous authorization has been revoked.'
 					: `Error: ${ error.message } (${ error.code })`,
 			);
 		} else if ( error instanceof ZodError ) {
-			store_error( event.cookies, error.message );
+			set_error_cookie( event.cookies, error.message );
 		} else if ( error instanceof Error ) {
-			store_error( event.cookies, `Error: ${ error.message }` );
+			set_error_cookie( event.cookies, `Error: ${ error.message }` );
 		} else {
-			store_error(
+			set_error_cookie(
 				event.cookies,
 				'Error: Unable to validate session. Please check that your WordPress site is accessible.',
 			);
