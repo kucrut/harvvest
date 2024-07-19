@@ -48,7 +48,7 @@
 	}
 
 	/** @type {import('./$types').SubmitFunction} */
-	const handle_submit = ( { formElement, formData } ) => {
+	function handle_submit( { formElement, formData } ) {
 		notifications.clear();
 
 		// Re-use file shared to our PWA.
@@ -80,7 +80,7 @@
 				} );
 			}
 		};
-	};
+	}
 
 	onMount( async () => {
 		if ( $page.url.searchParams.has( PWA_SHARE_TARGET_SEARCH_PARAM ) ) {
