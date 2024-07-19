@@ -9,8 +9,8 @@
 	import { notifications } from '$lib/runes/notifications.svelte.js';
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+	import { remove_file_extension } from '$lib/utils.js';
 	import { Upload } from '$lib/runes/upload.svelte.js';
-	// import { remove_file_extension } from '$lib/utils.js';
 	import CopyButton from '$lib/components/copy-button.svelte';
 	import Main from '$lib/components/main.svelte';
 	import MediaUploadField from '$lib/components/media-upload-field.svelte';
@@ -26,9 +26,14 @@
 	} );
 
 	let is_submitting = $state( false );
+	let title = $state( '' );
 
 	function handle_file_change() {
 		notifications.clear();
+
+		if ( upload.file && ! title ) {
+			title = remove_file_extension( upload.file.name );
+		}
 
 		if ( upload.has_invalid_size ) {
 			notifications.add( {
@@ -109,7 +114,7 @@
 		/>
 		<TextField disabled={is_submitting} label="Alternative text" multiline name="alt_text" required />
 		<TextField disabled={is_submitting} label="Caption" name="caption" required />
-		<TextField disabled={is_submitting} label="Title" name="title" />
+		<TextField disabled={is_submitting} label="Title" name="title" bind:value={title} />
 		<TextField disabled={is_submitting} label="Description" multiline name="description" />
 		{#if data.terms?.length}
 			{#each data.terms as taxonomy ( `${ taxonomy.name }-${ taxonomy.slug }` )}
