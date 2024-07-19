@@ -105,14 +105,8 @@ export async function load( { cookies, locals, url } ) {
 		redirect( 302, '/' );
 	}
 
-	const session_error = cookies.get( 'session_error' );
-
-	if ( session_error ) {
-		cookies.delete( 'session_error', get_session_cookie_options() );
-	}
-
 	return {
-		session_error,
+		session_error: locals.session_error,
 		auth_rejected: url.searchParams.get( 'success' ) === 'false',
 		hide_title: true,
 		needs_net: true,
