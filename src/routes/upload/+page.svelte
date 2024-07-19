@@ -26,6 +26,18 @@
 
 	let is_submitting = $state( false );
 
+	function handle_file_change() {
+		notifications.clear();
+
+		if ( upload.has_invalid_type ) {
+			notifications.add( {
+				id: 'upload-error-type',
+				message: 'This file type is not allowed.',
+				type: 'error',
+			} );
+		}
+	}
+
 	/** @type {import('./$types').SubmitFunction} */
 	const handle_submit = ( { formElement, formData } ) => {
 		notifications.clear();
@@ -61,7 +73,7 @@
 		};
 	};
 
-	// TODO: Handle size & type errors.
+	// TODO: Handle size error.
 	// TODO: Handle notifications without JS.
 
 	onMount( async () => {
@@ -87,6 +99,7 @@
 			max_file_size={data.max_file_size || 0}
 			name="file"
 			{upload}
+			onchange={handle_file_change}
 		/>
 		<TextField disabled={is_submitting} label="Alternative text" multiline name="alt_text" required />
 		<TextField disabled={is_submitting} label="Caption" name="caption" required />
