@@ -19,20 +19,22 @@ async function check_session( { event, resolve } ) {
 			event.locals.session = session;
 		}
 	} catch ( error ) {
-		// The cookie is messed up.
-		if ( error instanceof ZodError ) {
-			delete_session_cookies( event.cookies );
-			session_error = error.message;
+		// JSON error.
+		if ( error instanceof SyntaxError ) {
+			session_error = 'Error: Invalid cookie.';
 		} else if ( error instanceof WP_REST_Error ) {
 			session_error = error.data.status === 401
 				? 'Your previous authorization has been revoked.'
 				: `Error: ${ error.message } (${ error.code })`;
-			delete_session_cookies( event.cookies );
+		} else if ( error instanceof ZodError ) {
+			session_error = error.message;
+		} else if ( error instanceof Error ) {
+			session_error = `Error: ${ error.message }`;
 		} else {
-			session_error = error instanceof Error
-				? `Error: ${ error.message }`
-				: 'Error: Unable to validate session. Please check that your WordPress site is accessible.';
+			session_error = 'Error: Unable to validate session. Please check that your WordPress site is accessible.';
 		}
+
+		delete_session_cookies( event.cookies );
 	}
 
 	event.locals.session_error = session_error;
