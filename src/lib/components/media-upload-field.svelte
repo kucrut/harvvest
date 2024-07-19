@@ -1,4 +1,5 @@
 <script>
+	import { onMount } from 'svelte';
 	import pretty_bytes from 'pretty-bytes';
 	import Icon from './icon.svelte';
 
@@ -10,6 +11,8 @@
 	 */
 	const { max_file_size, onchange, upload = $bindable(), ...rest } = $props();
 
+	/** @type {HTMLInputElement} */
+	let input;
 	/** @type {string|undefined} */
 	let preview_src = $state();
 
@@ -29,6 +32,14 @@
 			onchange( event );
 		}
 	}
+
+	onMount( () => {
+		// On refresh, browsers tend to keep the previous file input value
+		// so let's re-use it.
+		if ( input.value && input.files?.length && ! upload.file ) {
+			input.dispatchEvent( new Event( 'change', { 'bubbles': true } ) );
+		}
+	} );
 </script>
 
 <div>
@@ -37,6 +48,7 @@
 	<!-- NOTE: A hack on the required attribute is needed so that we can re-use the file shared to our PWA. -->
 	<input
 		{...rest}
+		bind:this={input}
 		accept={upload.allowed_types}
 		id="file"
 		required={! upload.files?.length}
