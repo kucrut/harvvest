@@ -87,12 +87,12 @@ export function get_session_cookie_options() {
 }
 
 /**
- * Set session cookies
+ * Set session cookie
  *
  * @param {import('@sveltejs/kit').Cookies} cookies Cookies.
  * @param {import('./schema').Session} data Session data.
  */
-export function set_session_cookies( cookies, data ) {
+export function set_session_cookie( cookies, data ) {
 	const session = JSON.stringify( {
 		...data,
 		auth: new Encryption( { secret: env.APP_SECRET } ).encrypt( data.auth ),

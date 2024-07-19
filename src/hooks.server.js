@@ -3,7 +3,7 @@ import {
 	delete_session_cookies,
 	get_session,
 	get_wp_auth_endpoint_from_env,
-	set_session_cookies,
+	set_session_cookie,
 } from '$lib/utils.server.js';
 import { discover, get_current_app_password, get_single_user } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
@@ -94,7 +94,7 @@ async function catch_auth( { event, resolve } ) {
 			.toString();
 
 		has_auth = true;
-		set_session_cookies( event.cookies, {
+		set_session_cookie( event.cookies, {
 			api_url,
 			app_id,
 			name,
