@@ -15,8 +15,8 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1(@stylistic/eslint-plugin-js@2.3.0(eslint@9.7.0))(eslint-plugin-svelte@2.42.0(eslint@9.7.0)(svelte@5.0.0-next.185))(eslint@9.7.0)(svelte-eslint-parser@0.40.0(svelte@5.0.0-next.185))(svelte@5.0.0-next.185)
       '@kucrut/svelte-stuff':
-        specifier: ^0.1.0
-        version: 0.1.0(svelte@5.0.0-next.185)
+        specifier: ^0.1.1
+        version: 0.1.1(svelte@5.0.0-next.185)
       '@kucrut/wp-api-helpers':
         specifier: ^0.6.1
         version: 0.6.1(zod@3.23.8)
@@ -372,10 +372,10 @@ packages:
       svelte-eslint-parser:
         optional: true
 
-  '@kucrut/svelte-stuff@0.1.0':
-    resolution: {integrity: sha512-d508Vrd2MlF5O+UDRPyLrw8L7bXS9EhDiFFFAy7SUxfNQGlx0foGMw2Y+qUKorhFtGMzXb8RleryyPi7tKJd0g==}
+  '@kucrut/svelte-stuff@0.1.1':
+    resolution: {integrity: sha512-xWt1yTM+nqEzrfuEB8XMQwvYzScHC/fyjy7yuZFBoj31qDCeFoDHVOSg0mKodOkVqdrOdxDZJt9wpjKurQKtzw==}
     peerDependencies:
-      svelte: ^4.2.10
+      svelte: ^5.0.0-next.192
 
   '@kucrut/wp-api-helpers@0.6.1':
     resolution: {integrity: sha512-d5d6vMt7w1dfa4GcRspFhEKibx1FkeD/HSdGMChWHo24I4qWOt+rkxQXcsoEDOQH28C0EvMBb44sLylW12irlQ==}
@@ -2038,7 +2038,7 @@ snapshots:
       svelte: 5.0.0-next.185
       svelte-eslint-parser: 0.40.0(svelte@5.0.0-next.185)
 
-  '@kucrut/svelte-stuff@0.1.0(svelte@5.0.0-next.185)':
+  '@kucrut/svelte-stuff@0.1.1(svelte@5.0.0-next.185)':
     dependencies:
       svelte: 5.0.0-next.185
 
