@@ -1,5 +1,6 @@
 import configs from '@kucrut/eslint-config';
 import globals from 'globals';
+import json from 'eslint-plugin-json';
 import svelte_parser from 'svelte-eslint-parser';
 import svelte_plugin from 'eslint-plugin-svelte';
 import ts_parser from '@typescript-eslint/parser';
@@ -10,6 +11,17 @@ export default [
 			globals: {
 				...globals.browser,
 			},
+		},
+	},
+	{
+		files: [ '**/*.json' ],
+		...json.configs.recommended,
+	},
+	{
+		files: [ '.vscode/settings.json', '.zed/settings.json' ],
+		...json.configs.recommended,
+		rules: {
+			'json/*': [ 'error', 'allowComments' ],
 		},
 	},
 	{
