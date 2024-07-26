@@ -9,7 +9,16 @@ export default [
 		languageOptions: {
 			globals: {
 				...globals.browser,
+			},
+		},
+	},
+	{
+		files: [ '**/*server.js', 'svelte.config.js' ],
+		languageOptions: {
+			globals: {
+				...globals.browser,
 				...globals.node,
+
 			},
 		},
 	},
