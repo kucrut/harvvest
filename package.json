@@ -15,7 +15,7 @@
 	},
 	"devDependencies": {
 		"@adonisjs/encryption": "^6.0.1",
-		"@kucrut/eslint-config": "^0.1.1",
+		"@kucrut/eslint-config": "^0.1.2",
 		"@kucrut/svelte-stuff": "^0.1.1",
 		"@kucrut/wp-api-helpers": "^0.6.1",
 		"@picocss/pico": "^2.0.6",

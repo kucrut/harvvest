@@ -12,7 +12,7 @@ importers:
         specifier: ^6.0.1
         version: 6.0.2
       '@kucrut/eslint-config':
-        specifier: ^0.1.1
+        specifier: ^0.1.2
         version: 0.1.2(@stylistic/eslint-plugin-js@2.3.0(eslint@9.7.0))(eslint-plugin-svelte@2.42.0(eslint@9.7.0)(svelte@5.0.0-next.185))(eslint@9.7.0)(svelte-eslint-parser@0.40.0(svelte@5.0.0-next.185))(svelte@5.0.0-next.185)
       '@kucrut/svelte-stuff':
         specifier: ^0.1.1
