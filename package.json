@@ -46,6 +46,7 @@
 		"svelte-check": "^3.6.9",
 		"svelte-eslint-parser": "0.40.0",
 		"typescript": "^5.5.3",
+		"typescript-eslint": "8.0.0-alpha.54",
 		"ua-parser-js": "2.0.0-beta.3",
 		"vite": "^5.3.4",
 		"zod": "^3.22.4"
