@@ -2,7 +2,7 @@ import configs from '@kucrut/eslint-config';
 import globals from 'globals';
 import svelte_parser from 'svelte-eslint-parser';
 import svelte_plugin from 'eslint-plugin-svelte';
-import ts from 'typescript-eslint';
+import ts_parser from '@typescript-eslint/parser';
 
 export default [
 	{
@@ -13,9 +13,17 @@ export default [
 			},
 		},
 	},
-	...ts.config( ...ts.configs.strict ),
 	...configs.js,
 	...svelte_plugin.configs[ 'flat/recommended' ],
+	{
+		files: [ '**/*.ts', '*.ts' ],
+		languageOptions: {
+			parser: ts_parser,
+		},
+		rules: {
+			'no-unused-vars': 'off',
+		},
+	},
 	{
 		files: [
 			'*.svelte.js',
