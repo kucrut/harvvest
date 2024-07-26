@@ -1,4 +1,4 @@
-export type HandleResponse< T > = ( data: unknown ) => Promise< T >;
+export type HandleResponse<T> = ( data: unknown ) => Promise<T>;
 
 export interface Term_Option {
 	id: number;

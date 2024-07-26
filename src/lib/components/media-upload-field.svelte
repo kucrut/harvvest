@@ -7,7 +7,7 @@
 	 * @type {{
 	 *   max_file_size: number;
 	 *   upload: import('$lib/runes/upload.svelte.js').Upload;
-	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type' > }
+	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type'> }
 	 */
 	const { max_file_size, onchange, upload = $bindable(), ...rest } = $props();
 
