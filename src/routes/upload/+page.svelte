@@ -104,7 +104,7 @@
 	} );
 </script>
 
-{#snippet info( image_link )}
+{#snippet info( /** @type {string} */ image_link )}
 	<div>
 		<a class="button" href={image_link}>View</a>
 		<CopyButton data={image_link}>Copy URL</CopyButton>
