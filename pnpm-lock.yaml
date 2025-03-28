@@ -38,9 +38,6 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^5.0.3
         version: 5.0.3(svelte@5.25.3)(vite@6.2.3(@types/node@22.13.14)(sass-embedded@1.86.0))
-      '@types/cookie':
-        specifier: ^1.0.0
-        version: 1.0.0
       '@types/eslint':
         specifier: ^9.6.0
         version: 9.6.1
@@ -649,10 +646,6 @@ packages:
   '@types/cookie@0.6.0':
     resolution: {integrity: sha512-4Kh9a6B2bQciAhf7FSuMRRkUWecJgJu9nPnx3yzpsfXX/c50REIqpHY4C82bXP90qrLtXtkDxTZosYO3UpOwlA==}
 
-  '@types/cookie@1.0.0':
-    resolution: {integrity: sha512-mGFXbkDQJ6kAXByHS7QAggRXgols0mAdP4MuXgloGY1tXokvzaFFM4SMqWvf7AH0oafI7zlFJwoGWzmhDqTZ9w==}
-    deprecated: This is a stub types definition. cookie provides its own type definitions, so you do not need this installed.
-
   '@types/eslint@9.6.1':
     resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
 
@@ -855,10 +848,6 @@ packages:
   cookie@0.6.0:
     resolution: {integrity: sha512-U71cyTamuh1CRNCfpGY6to28lxvNwPG4Guz/EVjgf3Jmzv0vlDp1atT9eS5dDjMYHucpHbWns6Lwf3BKz6svdw==}
     engines: {node: '>= 0.6'}
-
-  cookie@1.0.2:
-    resolution: {integrity: sha512-9Kr/j4O16ISv8zBBhJoi4bXOYNTkFLOqSL3UDB0njXxCXNezjeyVrJyGOWtgfs/q2km1gwBcfH8q1yEGoMYunA==}
-    engines: {node: '>=18'}
 
   cosmiconfig@9.0.0:
     resolution: {integrity: sha512-itvL5h8RETACmOTFc4UfIyB2RfEHi71Ax6E/PivVxq9NseKbOWpeyHEOIbmAw1rs8Ak0VursQNww7lf7YtUwzg==}
@@ -2486,10 +2475,6 @@ snapshots:
 
   '@types/cookie@0.6.0': {}
 
-  '@types/cookie@1.0.0':
-    dependencies:
-      cookie: 1.0.2
-
   '@types/eslint@9.6.1':
     dependencies:
       '@types/estree': 1.0.7
@@ -2694,8 +2679,6 @@ snapshots:
   concat-map@0.0.1: {}
 
   cookie@0.6.0: {}
-
-  cookie@1.0.2: {}
 
   cosmiconfig@9.0.0(typescript@5.8.2):
     dependencies:
