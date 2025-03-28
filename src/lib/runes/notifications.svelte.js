@@ -13,7 +13,7 @@
 
 export class Notifications {
 	/** @type {Readonly<Notification[]>} */
-	#items = $state.frozen( [] );
+	#items = $state.raw( [] );
 
 	get items() {
 		return this.#items;
