@@ -53,9 +53,6 @@ importers:
       autoprefixer:
         specifier: ^10.4.19
         version: 10.4.21(postcss@8.5.3)
-      clsx:
-        specifier: ^2.1.0
-        version: 2.1.1
       eslint:
         specifier: ^9.8.0
         version: 9.23.0
