@@ -1,4 +1,6 @@
 import { defineConfig } from 'vite';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { parse } from 'node-html-parser';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { sveltekit } from '@sveltejs/kit/vite';
@@ -74,7 +76,7 @@ export default defineConfig( {
 	css: {
 		preprocessorOptions: {
 			scss: {
-				additionalData: '@use "src/variables.scss" as *;',
+				additionalData: `@use "${ join( dirname( fileURLToPath( import.meta.url ) ), 'src/variables.scss' ) }" as *;`,
 			},
 		},
 	},
