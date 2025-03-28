@@ -1,5 +1,4 @@
 <script>
-	import clsx from 'clsx/lite';
 	import Icon from './icon.svelte';
 
 	/**
@@ -13,7 +12,7 @@
 	const { class: cls = '', height, icon, label, width, ...rest } = $props();
 </script>
 
-<button class={clsx( 'outline', cls )} aria-label={label} {...rest}><Icon {height} name={icon} {width} /></button>
+<button class={[ 'outline', cls ]} aria-label={label} {...rest}><Icon {height} name={icon} {width} /></button>
 
 <style>
 	button {
