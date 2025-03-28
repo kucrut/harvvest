@@ -107,7 +107,7 @@ export function get_error_from_cookie( cookies ) {
  *
  * @param {number=} maxAge Max age.
  *
- * @return {import('cookie').CookieSerializeOptions & {path: string}} Cookie options.
+ * @return {Parameters<import('@sveltejs/kit').Cookies['set']>[2]} Cookie options.
  */
 export function get_cookie_options( maxAge ) {
 	return {
