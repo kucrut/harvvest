@@ -1,7 +1,7 @@
 import { redirect } from '@sveltejs/kit';
+import type { PageServerLoad } from './$types';
 
-/** @type {import('./$types').PageServerLoad} */
-export function load( { locals } ) {
+export const load = ( ( { locals } ) => {
 	if ( ! locals.session ) {
 		redirect( 302, '/login' );
 	}
@@ -12,4 +12,4 @@ export function load( { locals } ) {
 			title: '',
 		},
 	};
-}
+} ) satisfies PageServerLoad;
