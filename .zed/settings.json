@@ -1,0 +1,53 @@
+{
+	"tab_size": 4,
+	"use_on_type_format": false,
+	"code_actions_on_format": {
+		"source.fixAll.eslint": true,
+		"source.fixAll.stylelint": true,
+	},
+	"file_types": {
+		"JSONC": [
+			".zed/settings.json",
+			".vscode/settings.json"
+		]
+	},
+	"formatter": [],
+	"languages": {
+		"CSS": {
+			"formatter": [
+				{
+					"code_action": "source.fixAll.stylelint"
+				}
+			],
+			"language_servers": [
+				"stylelint-lsp",
+				"!vscode-css-language-server"
+			],
+		}
+	},
+	"prettier": {
+		"allowed": false
+	},
+	"lsp": {
+		"css-variables": {
+			"settings": {
+				"cssVariables": {
+					"lookupFiles": ["**/*.css", "**/*.svelte"],
+				}
+			}
+		},
+		"stylelint-lsp": {
+			"settings": {
+				"stylelint": {
+					"configFile": "stylelint.config.js",
+					"validate": [
+						"css",
+						"html",
+						"postcss",
+						"svelte"
+					]
+				}
+			}
+		}
+	}
+}
