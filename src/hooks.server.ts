@@ -9,29 +9,26 @@ import {
 } from '$lib/utils.server.js';
 import { discover, get_current_app_password, get_single_user } from '@kucrut/wp-api-helpers';
 import { env } from '$env/dynamic/private';
-import { redirect } from '@sveltejs/kit';
+import { redirect, type Handle, type HandleFetch } from '@sveltejs/kit';
 import { sequence } from '@sveltejs/kit/hooks';
 import { ZodError } from 'zod';
 import svg_sprite from '$lib/components/svg-sprite.svg?raw';
 
-/** @type {import('@sveltejs/kit').Handle} */
-function set_wp_api_fetcher( { event, resolve } ) {
+const set_wp_api_fetcher: Handle = ( { event, resolve } ) => {
 	set_fetch( event.fetch );
 
 	return resolve( event );
-}
+};
 
-/** @type {import('@sveltejs/kit').Handle} */
-function transform_html( { event, resolve } ) {
+const transform_html: Handle = ( { event, resolve } ) => {
 	return resolve( event, {
 		transformPageChunk: ( { html } ) => {
 			return html.replace( '%svg_sprite%', `<div class="svg-sprite">${ svg_sprite }</div>` );
 		},
 	} );
-}
+};
 
-/** @type {import('@sveltejs/kit').Handle} */
-async function catch_auth( { event, resolve } ) {
+const catch_auth: Handle = async ( { event, resolve } ) => {
 	if ( event.url.pathname !== AUTH_ROUTE || event.url.search === '' ) {
 		return resolve( event );
 	}
@@ -99,10 +96,9 @@ async function catch_auth( { event, resolve } ) {
 	}
 
 	redirect( 302, has_auth ? '/' : '/login' );
-}
+};
 
-/** @type {import('@sveltejs/kit').Handle} */
-async function validate_session( { event, resolve } ) {
+const validate_session: Handle = async ( { event, resolve } ) => {
 	try {
 		const session = get_session_from_cookie( event.cookies );
 
@@ -136,12 +132,16 @@ async function validate_session( { event, resolve } ) {
 	}
 
 	return resolve( event );
-}
+};
 
-export const handle = sequence( set_wp_api_fetcher, catch_auth, validate_session, transform_html );
+export const handle = sequence(
+	set_wp_api_fetcher,
+	catch_auth,
+	validate_session,
+	transform_html,
+);
 
-/** @type {import('@sveltejs/kit').HandleFetch} */
-export async function handleFetch( { request, fetch } ) {
+export const handleFetch: HandleFetch = ( { request, fetch } ) => {
 	if ( ! env.WP_INTERNAL_URL ) {
 		return fetch( request );
 	}
@@ -157,4 +157,4 @@ export async function handleFetch( { request, fetch } ) {
 	return request.url.startsWith( wp_url.origin )
 		? fetch( new Request( request.url.replace( wp_url.origin, env.WP_INTERNAL_URL ), request ) )
 		: fetch( request );
-}
+};
