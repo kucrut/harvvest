@@ -1,19 +1,18 @@
-<script>
-	import clsx from 'clsx/lite';
+<script lang="ts">
+	import type { HTMLButtonAttributes } from 'svelte/elements';
 	import Icon from './icon.svelte';
 
-	/**
-	 * @type {{
-	 *   height?: number;
-	 *   icon: string;
-	 *   label: string
-	 *   width?: number;
-	 * } & import('svelte/elements').HTMLAttributes<HTMLButtonElement> }
-	 */
-	const { class: cls = '', height, icon, label, width, ...rest } = $props();
+	interface Props extends HTMLButtonAttributes {
+		height?: number;
+		icon: string;
+		label: string
+		width?: number;
+	}
+
+	const { class: cls, height, icon, label, width, ...rest }: Props = $props();
 </script>
 
-<button class={clsx( 'outline', cls )} aria-label={label} {...rest}><Icon {height} name={icon} {width} /></button>
+<button class={[ 'outline', cls ]} aria-label={label} {...rest}><Icon {height} name={icon} {width} /></button>
 
 <style>
 	button {
