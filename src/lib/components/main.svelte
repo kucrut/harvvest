@@ -1,6 +1,12 @@
-<script>
-	/** @type {{center_content?: boolean; children: import('svelte').Snippet}} */
-	const { center_content = false, children } = $props();
+<script lang="ts">
+	import type { Snippet } from 'svelte';
+
+	interface Props {
+		center_content?: boolean;
+		children: Snippet
+	}
+
+	const { center_content = false, children }: Props = $props();
 </script>
 
 <main class="container-fluid" class:centered={center_content} id="content">
