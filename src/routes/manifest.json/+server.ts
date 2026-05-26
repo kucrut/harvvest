@@ -2,6 +2,11 @@ import { APP_NAME } from '$env/static/private';
 import { PWA_SHARE_TARGET_UPLOAD_MEDIA_PARAM_NAME, PWA_SHARE_TARGET_UPLOAD_MEDIA_PATH } from '$lib/constants';
 import { get_allowed_filetypes } from '$lib/utils.server';
 
+/**
+ * GET requests handler
+ *
+ * @returns Response.
+ */
 export function GET() {
 	return new Response(
 		JSON.stringify( {
