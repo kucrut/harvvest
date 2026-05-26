@@ -1,25 +1,23 @@
-<script>
+<script lang="ts">
 	import { onDestroy, onMount } from 'svelte';
 	import IconButton from './icon-button.svelte';
+	import type { Notification, Notifications } from '$lib/runes/notifications.svelte';
 
-	/**
-	 * @type {{
-	 *   notifications: import('$lib/runes/notifications.svelte').Notifications
-	 * } & import('$lib/runes/notifications.svelte').Notification }
-	 */
-	const { notifications, ...item } = $props();
-	const { children, data, id, message, timeout, type = 'message' } = item;
+	interface Props extends Notification {
+		notifications: Notifications;
+	}
 
-	/** @type {ReturnType<typeof setTimeout>|undefined} */
-	let timeout_id = $state( undefined );
+	const { notifications, ...item }: Props = $props();
+
+	let timeout_id = $state<number | undefined>( undefined );
 
 	export function remove() {
-		notifications.remove( id );
+		notifications.remove( item.id );
 	}
 
 	function start_expiring() {
-		if ( timeout ) {
-			timeout_id = setTimeout( remove, timeout );
+		if ( item.timeout ) {
+			timeout_id = window.setTimeout( remove, item.timeout );
 		}
 	}
 
@@ -34,17 +32,17 @@
 </script>
 
 <aside
-	class={type}
+	class={item.type}
 	onmouseenter={stop_expiring}
 	onmouseleave={start_expiring}
 	onpointerenter={stop_expiring}
 	onpointerleave={start_expiring}
 >
-	{#if message}
-		<p>{message}</p>
+	{#if item.message}
+		<p>{item.message}</p>
 	{/if}
-	{#if children}
-		{@render children( data )}
+	{#if item.children}
+		{@render item.children( item.data )}
 	{/if}
 
 	<IconButton class="dismiss" height={20} icon="x" label="Dismiss" width={20} onclick={remove} />
@@ -64,11 +62,11 @@
 		border-radius: var( --pico-border-radius );
 		text-wrap: balance;
 
-		& > :global( * ) {
+		& > :global(*) {
 			margin-block-end: unset;
 		}
 
-		:global( .dismiss ) {
+		:global(.dismiss) {
 			position: absolute;
 			inset-block-start: calc( var( --pico-spacing ) * 1.2 );
 			inset-inline-end: calc( var( --pico-spacing ) / 2 );
