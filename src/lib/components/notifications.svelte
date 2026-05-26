@@ -4,11 +4,9 @@
 </script>
 
 <div aria-live="assertive">
-	{#if notifications.items.length}
-		{#each notifications.items as item ( item.id )}
-			<Notification {...item} {notifications} />
-		{/each}
-	{/if}
+	{#each notifications.items as item ( item.id )}
+		<Notification {...item} {notifications} />
+	{/each}
 </div>
 
 <style lang="scss">
