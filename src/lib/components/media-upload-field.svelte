@@ -1,24 +1,23 @@
-<script>
+<script lang="ts">
+	import type { ChangeEventHandler, HTMLInputAttributes } from 'svelte/elements';
+	import type { Upload } from '$lib/runes/upload.svelte.js';
 	import { onMount } from 'svelte';
 	import pretty_bytes from 'pretty-bytes';
 	import Icon from './icon.svelte';
 
-	/**
-	 * @type {{
-	 *   max_file_size: number;
-	 *   upload: import('$lib/runes/upload.svelte.js').Upload;
-	 * } & Omit<import('svelte/elements').HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type'> }
-	 */
-	const { max_file_size, onchange, upload = $bindable(), ...rest } = $props();
+	interface Props extends Omit<HTMLInputAttributes, 'accept' | 'class' | 'multiple' | 'required' | 'type'> {
+		max_file_size: number;
+		upload: Upload;
+	}
 
-	/** @type {HTMLInputElement} */
-	let input;
+	const { max_file_size, onchange, upload = $bindable(), ...rest }: Props = $props();
+
+	let input: HTMLInputElement;
 	let preview_src = $state( '' );
 
 	const icon_props = { height: 125, width: 125 };
 
-	/** @type {import('svelte/elements').ChangeEventHandler<HTMLInputElement>} */
-	function handle_file_change( event ) {
+	const handle_file_change: ChangeEventHandler<HTMLInputElement> = event => {
 		if ( preview_src ) {
 			URL.revokeObjectURL( preview_src );
 		}
@@ -30,7 +29,7 @@
 		if ( onchange ) {
 			onchange( event );
 		}
-	}
+	};
 
 	onMount( () => {
 		// On refresh, browsers tend to keep the previous file input value
@@ -78,7 +77,7 @@
 		appearance: none;
 	}
 
-	span:not( :empty ) {
+	span:not(:empty) {
 		block-size: 125px;
 		overflow: clip;
 		margin-block-end: var( --pico-spacing );
@@ -87,7 +86,7 @@
 		align-items: center;
 		justify-content: center;
 
-		& :global( svg ) {
+		& :global(svg) {
 			color: var( --pico-form-element-border-color );
 		}
 	}
