@@ -77,8 +77,9 @@ export const load = ( ( { cookies, locals } ) => {
 export const actions = {
 	default: async ( { request } ) => {
 		const data = await request.formData();
+		const key = data.get( 'access_key' );
 
-		if ( ! is_access_key_valid( data.get( 'access_key' ) ) ) {
+		if ( ! is_access_key_valid( typeof key === 'string' ? key : '' ) ) {
 			return fail( 400, {
 				error: true,
 				message: 'Please provide a valid access key.',
