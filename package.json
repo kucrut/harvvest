@@ -15,6 +15,9 @@
 	},
 	"devDependencies": {
 		"@adonisjs/encryption": "^6.0.1",
+		"@eslint/json": "^1.2.0",
+		"@eslint/markdown": "^8.0.2",
+		"@html-eslint/eslint-plugin": "^0.61.0",
 		"@kucrut/eslint-config": "^0.5.1",
 		"@kucrut/svelte-stuff": "^0.1.2",
 		"@kucrut/wp-api-helpers": "^0.6.1",
@@ -31,6 +34,7 @@
 		"autoprefixer": "^10.5.0",
 		"clsx": "^2.1.0",
 		"eslint": "^10.4.0",
+		"eslint-plugin-jsdoc": "^63.0.0",
 		"eslint-plugin-json": "^4.0.1",
 		"eslint-plugin-svelte": "3.17.1",
 		"globals": "^17.6.0",
@@ -49,6 +53,7 @@
 		"svelte-check": "^4.4.8",
 		"svelte-eslint-parser": "1.6.1",
 		"typescript": "^6.0.3",
+		"typescript-eslint": "^8.59.4",
 		"ua-parser-js": "2.0.10",
 		"vite": "^8.0.14",
 		"zod": "^4.4.3"
