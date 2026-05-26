@@ -1,8 +1,13 @@
-<script>
+<script lang="ts">
 	import { copy_to_clipboard } from '$lib/utils.client';
+	import type { Snippet } from 'svelte';
 
-	/** @type {{ children: import('svelte').Snippet; data: string }} */
-	const { children, data } = $props();
+	interface Props {
+		children: Snippet;
+		data: string;
+	}
+
+	const { children, data }: Props = $props();
 </script>
 
 <button type="button" onclick={() => copy_to_clipboard( data )}>{@render children()}</button>
