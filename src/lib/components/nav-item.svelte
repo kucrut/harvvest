@@ -1,14 +1,19 @@
-<script>
-	import { page } from '$app/stores';
+<script lang="ts">
+	import { page } from '$app/state';
 	import Icon from './icon.svelte';
 
-	const { url } = $page;
-	/** @type {{icon: string; href:string; label: string}} */
-	const { icon, href, label } = $props();
+	interface Props {
+		href: string;
+		icon: string;
+		label: string
+	}
+
+	const { icon, href, label }: Props = $props();
 </script>
 
 <li>
-	<a aria-current={url.pathname === href ? 'page' : null} {href}>
+	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+	<a aria-current={page.url.pathname === href ? 'page' : null} {href}>
 		<Icon height="20" name={icon} width="20" />{label}
 	</a>
 </li>
