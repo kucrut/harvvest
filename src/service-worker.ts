@@ -13,8 +13,7 @@ import {
 } from '$lib/constants';
 import { build, files, version, prerendered } from '$service-worker';
 
-// eslint-disable-next-line @stylistic/js/no-extra-parens
-const sw = /** @type {ServiceWorkerGlobalScope} */ ( /** @type {unknown} */ ( self ) );
+const self = globalThis.self as unknown as ServiceWorkerGlobalScope;
 
 // Create a unique cache name for this deployment.
 const CACHE = `cache-${ version }`;
@@ -28,12 +27,9 @@ const ASSETS = [
 	...prerendered,
 ];
 
-/** @type {Map<string, (() => void)[]>} */
 const messages_map = new Map();
 
-/** @param {string} action */
-const await_client_message = action => {
-	/** @type {Promise<void>} */
+const await_client_message = ( action: string ) => {
 	const item = new Promise( resolve => {
 		if ( ! messages_map.has( action ) ) {
 			messages_map.set( action, [] );
@@ -48,10 +44,12 @@ const await_client_message = action => {
 /**
  * Handle GET requests
  *
- * @param {URL} url Request URL object.
- * @param {Request} request Request object.
+ * @param url Request URL object.
+ * @param request Request object.
+ *
+ * @returns Response object.
  */
-const handle_get_requests = async ( url, request ) => {
+const handle_get_requests = async ( url: URL, request: Request ) => {
 	const cache = await caches.open( CACHE );
 
 	if ( ASSETS.includes( url.pathname ) ) {
@@ -84,10 +82,10 @@ const handle_get_requests = async ( url, request ) => {
 /**
  * Handle POST request with shared file
  *
- * @param {FetchEvent} event Fetch event.
+ * @param event Fetch event.
  */
-const handle_share = async event => {
-	const client = await sw.clients.get( event.resultingClientId );
+const handle_share = async ( event: FetchEvent ) => {
+	const client = await self.clients.get( event.resultingClientId );
 
 	if ( ! client ) {
 		return;
@@ -104,32 +102,34 @@ const handle_share = async event => {
 	client.postMessage( { file, action: PWA_SHARE_TARGET_UPLOAD_MEDIA_ACTION } );
 };
 
-sw.addEventListener( 'install', event => {
-	sw.skipWaiting();
+self.addEventListener( 'install', event => {
+	self.skipWaiting();
 
 	// Create a new cache and add all files to it.
-	async function add_files_to_cache() {
+
+	const add_files_to_cache = async () => {
 		const cache = await caches.open( CACHE );
 		await cache.addAll( ASSETS );
-	}
+	};
 
 	event.waitUntil( add_files_to_cache() );
 } );
 
-sw.addEventListener( 'activate', event => {
+self.addEventListener( 'activate', event => {
 	// Remove previous cached data from disk.
-	async function delete_old_caches() {
+
+	const delete_old_caches = async () => {
 		for ( const key of await caches.keys() ) {
 			if ( key !== CACHE ) {
 				await caches.delete( key );
 			}
 		}
-	}
+	};
 
 	event.waitUntil( delete_old_caches() );
 } );
 
-sw.addEventListener( 'fetch', event => {
+self.addEventListener( 'fetch', event => {
 	const url = new URL( event.request.url );
 
 	// Don't care about other-origin URLs.
@@ -155,7 +155,7 @@ sw.addEventListener( 'fetch', event => {
 	}
 } );
 
-sw.addEventListener( 'message', event => {
+self.addEventListener( 'message', event => {
 	const resolvers = messages_map.get( event.data );
 
 	if ( ! resolvers ) {
