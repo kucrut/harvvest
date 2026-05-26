@@ -11,8 +11,14 @@ import { env } from '$env/dynamic/private';
 import { fail, redirect } from '@sveltejs/kit';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import { is_valid_http_url } from '$lib/utils';
+import type { PageServerLoad } from './$types';
 
-function get_access_keys() {
+/**
+ * Get access keys
+ *
+ * @returns Array of access keys.
+ */
+function get_access_keys(): string[] {
 	if ( ! env.ACCESS_KEYS ) {
 		return [];
 	}
@@ -25,10 +31,11 @@ function get_access_keys() {
 /**
  * Check if access key is valid
  *
- * @param {ReturnType<FormData['get']>} key Access key.
- * @return {boolean} Whether the provided access key is valid.
+ * @param key Access key.
+ *
+ * @returns Whether the provided access key is valid.
  */
-function is_access_key_valid( key ) {
+function is_access_key_valid( key: string ): boolean {
 	const keys = get_access_keys();
 
 	if ( ! keys.length ) {
@@ -42,8 +49,7 @@ function is_access_key_valid( key ) {
 	return keys.includes( key );
 }
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load( { cookies, locals } ) {
+export const load = ( ( { cookies, locals } ) => {
 	// Redirect to homepage as we already have a valid session.
 	if ( locals.session ) {
 		// TODO: Check if we have file to upload from PWA.
@@ -66,9 +72,8 @@ export async function load( { cookies, locals } ) {
 			title: 'Log In',
 		},
 	};
-}
+} ) satisfies PageServerLoad;
 
-/** @type {import('./$types').Actions} */
 export const actions = {
 	default: async ( { request } ) => {
 		const data = await request.formData();
