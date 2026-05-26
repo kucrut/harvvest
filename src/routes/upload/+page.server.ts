@@ -5,32 +5,44 @@ import { fail, redirect } from '@sveltejs/kit';
 import { get_allowed_filetypes } from '$lib/utils.server';
 import { get_error_message } from '@kucrut/wp-api-helpers/utils';
 import pretty_bytes from 'pretty-bytes';
+import type { PageServerLoad } from './$types.js';
 
-function get_max_file_size() {
+/**
+ * Get max file size
+ *
+ * @returns Max file size.
+ */
+function get_max_file_size(): number {
 	return +( env.MAX_FILE_SIZE ?? '512' );
 }
 
 /**
  * Bail because of invalid field value
  *
- * @param {string} message Error message.
+ * @todo FIXME.
+ *
+ * @param message Error message.
+ * @returns FAIL.
  */
-function invalid_value( message ) {
+function invalid_value( message: string ) {
 	return fail( 400, { error: true, message } );
 }
 
-/** @type {import('./$types').PageServerLoad} */
-export async function load( { locals } ) {
+export const load = ( async ( { locals } ) => {
 	if ( ! locals.session ) {
 		redirect( 302, '/login' );
 	}
 
 	const auth = locals.session.auth;
-	/** @type {import('$types').Taxonomy_Terms_Option[]} */
 	const terms = [];
 
 	try {
-		const taxonomies = await get_taxonomies( locals.session.api_url, auth, 'view', { type: 'attachment' } );
+		const taxonomies = await get_taxonomies(
+			locals.session.api_url,
+			auth,
+			'view',
+			{ type: 'attachment' },
+		);
 
 		for ( const tax of taxonomies ) {
 			try {
@@ -67,9 +79,8 @@ export async function load( { locals } ) {
 			title: 'Upload Media',
 		},
 	};
-}
+} ) satisfies PageServerLoad;
 
-/** @type {import('./$types').Actions} */
 export const actions = {
 	default: async ( { locals, request } ) => {
 		if ( ! locals.session ) {
