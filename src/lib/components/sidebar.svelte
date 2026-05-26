@@ -1,8 +1,14 @@
-<script>
+<script lang="ts">
 	import { click_outside, handle_escape, trap_focus } from '@kucrut/svelte-stuff/actions';
+	import type { Snippet } from 'svelte';
 
-	/** @type {{children?: import('svelte').Snippet; close_at?: number; close_button?: import('svelte').Snippet}} */
-	const { children, close_at, close_button } = $props();
+	interface Props {
+		children?: Snippet;
+		close_at?: number;
+		close_button?: Snippet;
+	}
+
+	const { children, close_at, close_button }: Props = $props();
 
 	let is_open = $state( false );
 
@@ -21,9 +27,13 @@
 	/**
 	 * Close sidebar when window size is above the large breakpoint
 	 *
-	 * @param {Event} event Event.
+	 * @param event Event.
 	 */
-	function handle_window_resize( event ) {
+	function handle_window_resize(
+		event: UIEvent & {
+			currentTarget: EventTarget & Window;
+		},
+	) {
 		if (
 			typeof close_at === 'number' &&
 			close_at > 0 &&
@@ -81,7 +91,7 @@
 			grid-row: 1/-1;
 		}
 
-		> :global( .close ) {
+		> :global(.close) {
 			position: absolute;
 			inset-block-start: var( --pico-spacing );
 			inset-inline-end: var( --pico-spacing );
