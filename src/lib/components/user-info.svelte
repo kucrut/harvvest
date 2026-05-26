@@ -1,13 +1,16 @@
-<script>
-	/** @type {{ user: import('$lib/schema.js').User }} */
-	const { user } = $props();
+<script lang="ts">
+	import type { User } from '$lib/schema.js';
+	import { resolve } from '$app/paths';
+
+	const { user }: { user: User } = $props();
 </script>
 
 <div>
 	<img alt="User avatar" height="64" loading="lazy" src={user.avatar_url} width="64" />
 	<span>{user.name}</span>
+	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 	<a href={user.wp_url} rel="noopener noreferrer" target="_blank">{user.wp_url}</a>
-	<a class="logout" data-sveltekit-reload href="/logout" role="button">Log Out</a>
+	<a class="logout" data-sveltekit-reload href={resolve( '/logout' )} role="button">Log Out</a>
 </div>
 
 <style>
